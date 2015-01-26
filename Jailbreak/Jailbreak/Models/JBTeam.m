@@ -10,6 +10,47 @@
 
 @implementation JBTeam
 
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    
+    if (self)
+    {
+        self.ID = [aDecoder decodeIntegerForKey:@"ID"];
+        self.number = [aDecoder decodeIntegerForKey:@"number"];
+        self.name = [aDecoder decodeObjectForKey:@"name"];
+        self.membersNames = [aDecoder decodeObjectForKey:@"membersNames"];
+        self.avatarURL = [aDecoder decodeObjectForKey:@"avatarURL"];
+        self.tagLine = [aDecoder decodeObjectForKey:@"tagLine"];
+        self.startLatitude = [aDecoder decodeDoubleForKey:@"startLatitude"];
+        self.startLongitude = [aDecoder decodeDoubleForKey:@"startLongitude"];
+        self.currentLatitude = [aDecoder decodeDoubleForKey:@"currentLatitude"];
+        self.currentLongitude = [aDecoder decodeDoubleForKey:@"currentLongitude"];
+        self.university = [aDecoder decodeIntegerForKey:@"university"];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeInteger:self.ID forKey:@"ID"];
+    [aCoder encodeInteger:self.number forKey:@"number"];
+    [aCoder encodeObject:self.name forKey:@"name"];
+    [aCoder encodeObject:self.membersNames forKey:@"membersNames"];
+    [aCoder encodeObject:self.avatarURL forKey:@"avatarURL"];
+    [aCoder encodeObject:self.tagLine forKey:@"tagLine"];
+    [aCoder encodeDouble:self.startLatitude forKey:@"startLatitude"];
+    [aCoder encodeDouble:self.startLongitude forKey:@"startLongitude"];
+    [aCoder encodeDouble:self.currentLatitude forKey:@"currentLatitude"];
+    [aCoder encodeDouble:self.currentLongitude forKey:@"currentLongitude"];
+    [aCoder encodeInteger:self.university forKey:@"university"];
+}
+
+#pragma mark - NSObject
+
 - (instancetype)initWithJSON:(NSDictionary *)json
 {
     self = [super init];

@@ -23,7 +23,7 @@ typedef NS_ENUM(NSUInteger, University)
     ITC
 };
 
-@interface JBTeam : NSObject
+@interface JBTeam : NSObject <NSCoding>
 
 @property (nonatomic, assign) NSUInteger ID;
 @property (nonatomic, assign) NSUInteger number;

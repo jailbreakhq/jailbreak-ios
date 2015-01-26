@@ -17,6 +17,8 @@
 		E41448E81A76968D002EB3AB /* JBTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = E41448E71A76968D002EB3AB /* JBTeam.m */; };
 		E41448EA1A7698F5002EB3AB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41448E91A7698F5002EB3AB /* CoreLocation.framework */; };
 		E41448ED1A76A78F002EB3AB /* JBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E41448EC1A76A78F002EB3AB /* JBUser.m */; };
+		E41448F01A76DE04002EB3AB /* JBBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E41448EF1A76DE04002EB3AB /* JBBaseViewController.m */; };
+		E41448F61A76E0DA002EB3AB /* JBBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E41448F51A76E0DA002EB3AB /* JBBaseTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,10 @@
 		E41448E91A7698F5002EB3AB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E41448EB1A76A78F002EB3AB /* JBUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBUser.h; sourceTree = "<group>"; };
 		E41448EC1A76A78F002EB3AB /* JBUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBUser.m; sourceTree = "<group>"; };
+		E41448EE1A76DE04002EB3AB /* JBBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBBaseViewController.h; sourceTree = "<group>"; };
+		E41448EF1A76DE04002EB3AB /* JBBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBBaseViewController.m; sourceTree = "<group>"; };
+		E41448F41A76E0DA002EB3AB /* JBBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBBaseTableViewController.h; sourceTree = "<group>"; };
+		E41448F51A76E0DA002EB3AB /* JBBaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBBaseTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +160,10 @@
 		E41448E31A769551002EB3AB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E41448EE1A76DE04002EB3AB /* JBBaseViewController.h */,
+				E41448EF1A76DE04002EB3AB /* JBBaseViewController.m */,
+				E41448F41A76E0DA002EB3AB /* JBBaseTableViewController.h */,
+				E41448F51A76E0DA002EB3AB /* JBBaseTableViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -312,9 +322,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E41448C31A768EAF002EB3AB /* JBAppDelegate.m in Sources */,
+				E41448F01A76DE04002EB3AB /* JBBaseViewController.m in Sources */,
 				E41448C01A768EAF002EB3AB /* main.m in Sources */,
 				E41448ED1A76A78F002EB3AB /* JBUser.m in Sources */,
 				E41448E81A76968D002EB3AB /* JBTeam.m in Sources */,
+				E41448F61A76E0DA002EB3AB /* JBBaseTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

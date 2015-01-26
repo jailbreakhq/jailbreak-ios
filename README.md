@@ -8,6 +8,9 @@ Development
 
 - [**AFNetworking**](http://github.com/AFNetworking/AFNetworking)
 - [**SDWebImage**](https://github.com/rs/SDWebImage)
+- [**SIAlertView**](https://github.com/Sumi-Interactive/SIAlertView)
+- [**SVPullToRefresh**](https://github.com/samvermette/SVPullToRefresh)
+- [**JTSImageViewController**](https://github.com/jaredsinclair/JTSImageViewController)
 
 ###Installing Dependencies
 

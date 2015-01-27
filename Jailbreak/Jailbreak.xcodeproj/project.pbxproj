@@ -19,6 +19,8 @@
 		E41448ED1A76A78F002EB3AB /* JBUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E41448EC1A76A78F002EB3AB /* JBUser.m */; };
 		E41448F01A76DE04002EB3AB /* JBBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E41448EF1A76DE04002EB3AB /* JBBaseViewController.m */; };
 		E41448F61A76E0DA002EB3AB /* JBBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E41448F51A76E0DA002EB3AB /* JBBaseTableViewController.m */; };
+		E41448F91A76E787002EB3AB /* JBFeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E41448F81A76E787002EB3AB /* JBFeedTableViewController.m */; };
+		E48FD5841A77220C00FFA94B /* UIImage+FXBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = E48FD5831A77220C00FFA94B /* UIImage+FXBlur.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,10 @@
 		E41448EF1A76DE04002EB3AB /* JBBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBBaseViewController.m; sourceTree = "<group>"; };
 		E41448F41A76E0DA002EB3AB /* JBBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBBaseTableViewController.h; sourceTree = "<group>"; };
 		E41448F51A76E0DA002EB3AB /* JBBaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBBaseTableViewController.m; sourceTree = "<group>"; };
+		E41448F71A76E787002EB3AB /* JBFeedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBFeedTableViewController.h; sourceTree = "<group>"; };
+		E41448F81A76E787002EB3AB /* JBFeedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBFeedTableViewController.m; sourceTree = "<group>"; };
+		E48FD5821A77220C00FFA94B /* UIImage+FXBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FXBlur.h"; sourceTree = "<group>"; };
+		E48FD5831A77220C00FFA94B /* UIImage+FXBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FXBlur.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +124,7 @@
 		E41448BC1A768EAF002EB3AB /* Jailbreak */ = {
 			isa = PBXGroup;
 			children = (
+				E48FD5811A77220000FFA94B /* Categories */,
 				E41448E31A769551002EB3AB /* Controllers */,
 				E41448CA1A768EAF002EB3AB /* Images.xcassets */,
 				E41448C11A768EAF002EB3AB /* JBAppDelegate.h */,
@@ -160,10 +167,12 @@
 		E41448E31A769551002EB3AB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E41448EE1A76DE04002EB3AB /* JBBaseViewController.h */,
-				E41448EF1A76DE04002EB3AB /* JBBaseViewController.m */,
 				E41448F41A76E0DA002EB3AB /* JBBaseTableViewController.h */,
 				E41448F51A76E0DA002EB3AB /* JBBaseTableViewController.m */,
+				E41448EE1A76DE04002EB3AB /* JBBaseViewController.h */,
+				E41448EF1A76DE04002EB3AB /* JBBaseViewController.m */,
+				E41448F71A76E787002EB3AB /* JBFeedTableViewController.h */,
+				E41448F81A76E787002EB3AB /* JBFeedTableViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -184,6 +193,15 @@
 			children = (
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		E48FD5811A77220000FFA94B /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				E48FD5821A77220C00FFA94B /* UIImage+FXBlur.h */,
+				E48FD5831A77220C00FFA94B /* UIImage+FXBlur.m */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,7 +339,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E41448F91A76E787002EB3AB /* JBFeedTableViewController.m in Sources */,
 				E41448C31A768EAF002EB3AB /* JBAppDelegate.m in Sources */,
+				E48FD5841A77220C00FFA94B /* UIImage+FXBlur.m in Sources */,
 				E41448F01A76DE04002EB3AB /* JBBaseViewController.m in Sources */,
 				E41448C01A768EAF002EB3AB /* main.m in Sources */,
 				E41448ED1A76A78F002EB3AB /* JBUser.m in Sources */,

@@ -22,6 +22,7 @@
 		E41448F91A76E787002EB3AB /* JBFeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E41448F81A76E787002EB3AB /* JBFeedTableViewController.m */; };
 		E45700691A794C2300A36ACD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45700681A794C2300A36ACD /* QuartzCore.framework */; };
 		E457006C1A7959AC00A36ACD /* JBCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = E457006B1A7959AC00A36ACD /* JBCheckin.m */; };
+		E457006F1A795D8B00A36ACD /* JBAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E457006E1A795D8B00A36ACD /* JBAPIManager.m */; };
 		E48FD5841A77220C00FFA94B /* UIImage+FXBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = E48FD5831A77220C00FFA94B /* UIImage+FXBlur.m */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,8 @@
 		E45700681A794C2300A36ACD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E457006A1A7959AC00A36ACD /* JBCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCheckin.h; sourceTree = "<group>"; };
 		E457006B1A7959AC00A36ACD /* JBCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCheckin.m; sourceTree = "<group>"; };
+		E457006D1A795D8B00A36ACD /* JBAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAPIManager.h; sourceTree = "<group>"; };
+		E457006E1A795D8B00A36ACD /* JBAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAPIManager.m; sourceTree = "<group>"; };
 		E48FD5821A77220C00FFA94B /* UIImage+FXBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FXBlur.h"; sourceTree = "<group>"; };
 		E48FD5831A77220C00FFA94B /* UIImage+FXBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FXBlur.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,6 +134,8 @@
 		E41448BC1A768EAF002EB3AB /* Jailbreak */ = {
 			isa = PBXGroup;
 			children = (
+				E457006D1A795D8B00A36ACD /* JBAPIManager.h */,
+				E457006E1A795D8B00A36ACD /* JBAPIManager.m */,
 				E48FD5811A77220000FFA94B /* Categories */,
 				E41448E31A769551002EB3AB /* Controllers */,
 				E41448CA1A768EAF002EB3AB /* Images.xcassets */,
@@ -354,6 +359,7 @@
 				E48FD5841A77220C00FFA94B /* UIImage+FXBlur.m in Sources */,
 				E41448F01A76DE04002EB3AB /* JBBaseViewController.m in Sources */,
 				E41448C01A768EAF002EB3AB /* main.m in Sources */,
+				E457006F1A795D8B00A36ACD /* JBAPIManager.m in Sources */,
 				E41448ED1A76A78F002EB3AB /* JBUser.m in Sources */,
 				E41448E81A76968D002EB3AB /* JBTeam.m in Sources */,
 				E41448F61A76E0DA002EB3AB /* JBBaseTableViewController.m in Sources */,

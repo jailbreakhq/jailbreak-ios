@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import "JBChallenge.h"
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
@@ -36,6 +37,16 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, assign) CLLocationDegrees currentLatitude;
 @property (nonatomic, assign) CLLocationDegrees currentLongitude;
 @property (nonatomic, assign) University university;
+@property (nonatomic, strong) NSString *teamDescription;
+#warning These should be doubles right Kevin?
+@property (nonatomic, assign) NSUInteger amountRaisedOnline;
+@property (nonatomic, assign) NSUInteger amountRaisedOffline;
+@property (nonatomic, assign) CLLocationDistance distanceToX;
+@property (nonatomic, assign) NSUInteger countries;
+@property (nonatomic, assign) NSUInteger transports;
+@property (nonatomic, strong) NSURL *donationsURL;
+@property (nonatomic, strong) NSArray *challenges; // of type JBChallenge
+
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
 

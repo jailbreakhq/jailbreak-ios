@@ -11,6 +11,8 @@ Development
 - [**SIAlertView**](https://github.com/Sumi-Interactive/SIAlertView)
 - [**SVPullToRefresh**](https://github.com/samvermette/SVPullToRefresh)
 - [**JTSImageViewController**](https://github.com/jaredsinclair/JTSImageViewController)
+- [**Stripe**](https://github.com/stripe/stripe-ios)
+- [**PaymentKit**](https://github.com/stripe/PaymentKit)
 
 ###Installing Dependencies
 

@@ -38,7 +38,6 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, assign) CLLocationDegrees currentLongitude;
 @property (nonatomic, assign) University university;
 @property (nonatomic, strong) NSString *teamDescription;
-#warning These should be doubles right Kevin?
 @property (nonatomic, assign) NSUInteger amountRaisedOnline;
 @property (nonatomic, assign) NSUInteger amountRaisedOffline;
 @property (nonatomic, assign) CLLocationDistance distanceToX;

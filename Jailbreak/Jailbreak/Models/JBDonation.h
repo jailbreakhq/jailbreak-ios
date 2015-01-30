@@ -18,7 +18,6 @@ typedef NS_ENUM(NSUInteger, DonationType)
 
 @property (nonatomic, assign) NSUInteger ID;
 @property (nonatomic, assign) NSUInteger teamID;
-#warning again, should be double right?!
 @property (nonatomic, assign) NSUInteger amount;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) NSUInteger time;

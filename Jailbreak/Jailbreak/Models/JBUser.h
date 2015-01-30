@@ -26,15 +26,13 @@ typedef NS_ENUM(NSUInteger, Gender)
 @interface JBUser : NSObject
 
 @property (nonatomic, assign) NSUInteger ID;
-#warning Vague
 @property (nonatomic, assign) NSInteger timeCreated;
 @property (nonatomic, assign) UserLevel userLevel;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *firstName;
 @property (nonatomic, strong) NSString *lastName;
 @property (nonatomic, assign) Gender gender;
-#warning Vague
-@property (nonatomic, assign) NSInteger timezone;
+@property (nonatomic, assign) NSInteger timezone; // +/- GMT
 @property (nonatomic, strong) NSString *locale;
 @property (nonatomic, strong) NSString *facebookLink;
 @property (nonatomic, strong) NSURL *apiTokensURL;

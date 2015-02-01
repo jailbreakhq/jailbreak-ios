@@ -10,7 +10,7 @@
 
 typedef NS_ENUM(NSUInteger, DonationType)
 {
-    Offline,
+    Offline = 0,
     Online,
 };
 

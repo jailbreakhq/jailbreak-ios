@@ -9,7 +9,7 @@
 #import "JBAPIManager.h"
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
-#define BASE_URL @"https://http://jailbreak-api-qa.herokuapp.com/"
+#define BASE_URL @"http://private-anon-5ab11e309-jailbreakapi.apiary-mock.com/"
 
 #define SuccessBlockWithJSONOperation                           \
     ^(AFHTTPRequestOperation *operation, id responseObject) {   \
@@ -45,6 +45,19 @@
     }
     
     return self;
+}
+
+#pragma mark - Teams
+
+
+- (void)getAllTeamsWithSuccess:(HTTPRequestSuccess)success
+                       failure:(HTTPRequestFailure)failure
+{
+    [self GET:[NSString stringWithFormat:@"teams"]
+   parameters:nil
+      success:SuccessBlockWithJSONOperation
+      failure:FailureBlockWithJSONOperation];
+
 }
 
 @end

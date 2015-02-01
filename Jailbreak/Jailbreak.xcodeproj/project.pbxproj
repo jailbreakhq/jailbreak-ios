@@ -26,6 +26,7 @@
 		E457006F1A795D8B00A36ACD /* JBAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E457006E1A795D8B00A36ACD /* JBAPIManager.m */; };
 		E46A92731A79CA2A002EF3A3 /* JBChallenge.m in Sources */ = {isa = PBXBuildFile; fileRef = E46A92721A79CA2A002EF3A3 /* JBChallenge.m */; };
 		E46A92761A79CC2D002EF3A3 /* JBDonation.m in Sources */ = {isa = PBXBuildFile; fileRef = E46A92751A79CC2D002EF3A3 /* JBDonation.m */; };
+		E47C422F1A7EA03300141416 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E47C422E1A7EA03300141416 /* TestViewController.m */; };
 		E48FD5841A77220C00FFA94B /* UIImage+FXBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = E48FD5831A77220C00FFA94B /* UIImage+FXBlur.m */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +77,8 @@
 		E46A92721A79CA2A002EF3A3 /* JBChallenge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBChallenge.m; sourceTree = "<group>"; };
 		E46A92741A79CC2D002EF3A3 /* JBDonation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBDonation.h; sourceTree = "<group>"; };
 		E46A92751A79CC2D002EF3A3 /* JBDonation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBDonation.m; sourceTree = "<group>"; };
+		E47C422D1A7EA03300141416 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		E47C422E1A7EA03300141416 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		E48FD5821A77220C00FFA94B /* UIImage+FXBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FXBlur.h"; sourceTree = "<group>"; };
 		E48FD5831A77220C00FFA94B /* UIImage+FXBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FXBlur.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -188,6 +191,8 @@
 		E41448E31A769551002EB3AB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E47C422D1A7EA03300141416 /* TestViewController.h */,
+				E47C422E1A7EA03300141416 /* TestViewController.m */,
 				E41448F41A76E0DA002EB3AB /* JBBaseTableViewController.h */,
 				E41448F51A76E0DA002EB3AB /* JBBaseTableViewController.m */,
 				E41448EE1A76DE04002EB3AB /* JBBaseViewController.h */,
@@ -370,6 +375,7 @@
 			files = (
 				E457006C1A7959AC00A36ACD /* JBCheckin.m in Sources */,
 				E41448F91A76E787002EB3AB /* JBFeedTableViewController.m in Sources */,
+				E47C422F1A7EA03300141416 /* TestViewController.m in Sources */,
 				E41448C31A768EAF002EB3AB /* JBAppDelegate.m in Sources */,
 				E46A92761A79CC2D002EF3A3 /* JBDonation.m in Sources */,
 				E48FD5841A77220C00FFA94B /* UIImage+FXBlur.m in Sources */,

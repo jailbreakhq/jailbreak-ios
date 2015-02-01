@@ -8,6 +8,12 @@
 
 #import "JBTeam.h"
 
+@interface JBTeam ()
+
+- (University)getUniversityFromString:(NSString *)string;
+
+@end
+
 @implementation JBTeam
 
 #pragma mark - NSCoding
@@ -77,7 +83,7 @@
         self.tagLine = json[@"tagLine"];
         self.currentLatitude = [json[@"currentLat"] doubleValue];
         self.currentLongitude = [json[@"currentLon"] doubleValue];
-        self.university = (University)[json[@"university"] unsignedIntegerValue];
+        self.university = [self getUniversityFromString:json[@"university"]];
         self.teamDescription = json[@"description"];
         self.amountRaisedOnline = [json[@"amountRaisedOnline"] unsignedIntegerValue];
         self.amountRaisedOffline = [json[@"amountRaisedOffline"] unsignedIntegerValue];
@@ -89,6 +95,17 @@
     }
     
     return self;
+}
+
+#pragma mark - Private Methods
+
+- (University)getUniversityFromString:(NSString *)string
+{
+    NSDictionary *lookup = @{@"tcd": @0, @"ucd": @1, @"ucc": @2, @"nuig": @3,
+                             @"nuim": @4, @"cit": @5, @"nci": @6, @"gmit": @7,
+                             @"itt": @8, @"itc": @9};
+    
+    return (University)lookup[string.lowercaseString];
 }
 
 @end

@@ -8,6 +8,12 @@
 
 #import "JBDonation.h"
 
+@interface JBDonation ()
+
+- (DonationType)getDonationTypeFromString:(NSString *)string;
+
+@end
+
 @implementation JBDonation
 
 #pragma mark - NSCoding
@@ -56,6 +62,15 @@
     }
     
     return self;
+}
+
+#pragma mark - Private Methods
+
+- (DonationType)getDonationTypeFromString:(NSString *)string
+{
+    NSDictionary *lookup = @{@"offline": @0, @"online": @1};
+    
+    return (DonationType)lookup[string.lowercaseString];
 }
 
 @end

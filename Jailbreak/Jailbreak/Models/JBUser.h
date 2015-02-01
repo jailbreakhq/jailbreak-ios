@@ -10,7 +10,7 @@
 
 typedef NS_ENUM(NSUInteger, Gender)
 {
-    Male,
+    Male = 0,
     Female,
     Other,
 };

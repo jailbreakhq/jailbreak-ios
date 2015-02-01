@@ -8,6 +8,12 @@
 
 #import "JBUser.h"
 
+@interface JBUser ()
+
+- (Gender)getGenderFromString:(NSString *)string;
+
+@end
+
 @implementation JBUser
 
 #pragma mark - NSCoding
@@ -60,7 +66,7 @@
         self.email = json[@"email"];
         self.firstName = json[@"firstName"];
         self.lastName = json[@"lastName"];
-        self.gender = (Gender)[json[@"gender"] unsignedIntegerValue];
+        self.gender = [self getGenderFromString:json[@"gender"]];
         self.timezone = [json[@"timezone"] integerValue];
         self.locale = json[@"locale"];
         self.facebookLink = json[@"facebookLink"];
@@ -68,6 +74,15 @@
     }
     
     return self;
+}
+
+#pragma mark - Private Methods
+
+- (Gender)getGenderFromString:(NSString *)string
+{
+    NSDictionary *lookup = @{@"male": @0, @"female": @1, @"other": @2};
+    
+    return (Gender)lookup[string.lowercaseString];
 }
 
 @end

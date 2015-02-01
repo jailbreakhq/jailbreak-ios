@@ -8,14 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, UserLevel)
-{
-    SuperAdmin,
-    Admin,
-    Tracker,
-    Normal,
-};
-
 typedef NS_ENUM(NSUInteger, Gender)
 {
     Male,
@@ -27,16 +19,14 @@ typedef NS_ENUM(NSUInteger, Gender)
 
 @property (nonatomic, assign) NSUInteger ID;
 @property (nonatomic, assign) NSInteger timeCreated;
-@property (nonatomic, assign) UserLevel userLevel;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *firstName;
 @property (nonatomic, strong) NSString *lastName;
 @property (nonatomic, assign) Gender gender;
-@property (nonatomic, assign) NSInteger timezone; // +/- GMT
+@property (nonatomic, assign) NSInteger timezone; // +/- 12 UTC
 @property (nonatomic, strong) NSString *locale;
 @property (nonatomic, strong) NSString *facebookLink;
 @property (nonatomic, strong) NSURL *apiTokensURL;
-@property (nonatomic, strong) NSString *href;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
 

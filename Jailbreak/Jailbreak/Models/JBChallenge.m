@@ -48,11 +48,11 @@
     if (self)
     {
         self.ID = [json[@"id"] unsignedIntegerValue];
-        self.teamID = [json[@"team_id"] unsignedIntegerValue];
+        self.teamID = [json[@"teamId"] unsignedIntegerValue];
         self.name = json[@"name"];
         self.completed = [json[@"completed"] boolValue];
         self.type = (ChallengeType)[json[@"type"] unsignedIntegerValue];
-        self.completedTime = [json[@"completed_time"] unsignedIntegerValue];
+        self.completedTime = [json[@"completedTime"] unsignedIntegerValue];
     }
     
     return self;

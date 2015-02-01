@@ -24,8 +24,6 @@
         self.membersNames = [aDecoder decodeObjectForKey:@"membersNames"];
         self.avatarURL = [aDecoder decodeObjectForKey:@"avatarURL"];
         self.tagLine = [aDecoder decodeObjectForKey:@"tagLine"];
-        self.startLatitude = [aDecoder decodeDoubleForKey:@"startLatitude"];
-        self.startLongitude = [aDecoder decodeDoubleForKey:@"startLongitude"];
         self.currentLatitude = [aDecoder decodeDoubleForKey:@"currentLatitude"];
         self.currentLongitude = [aDecoder decodeDoubleForKey:@"currentLongitude"];
         self.university = [aDecoder decodeIntegerForKey:@"university"];
@@ -50,8 +48,6 @@
     [aCoder encodeObject:self.membersNames forKey:@"membersNames"];
     [aCoder encodeObject:self.avatarURL forKey:@"avatarURL"];
     [aCoder encodeObject:self.tagLine forKey:@"tagLine"];
-    [aCoder encodeDouble:self.startLatitude forKey:@"startLatitude"];
-    [aCoder encodeDouble:self.startLongitude forKey:@"startLongitude"];
     [aCoder encodeDouble:self.currentLatitude forKey:@"currentLatitude"];
     [aCoder encodeDouble:self.currentLongitude forKey:@"currentLongitude"];
     [aCoder encodeInteger:self.university forKey:@"university"];
@@ -74,24 +70,22 @@
     if (self)
     {
         self.ID = [json[@"id"] unsignedIntegerValue];
-        self.number = [json[@"team_number"] unsignedIntegerValue];
-        self.name = json[@"team_name"];
+        self.number = [json[@"teamNumber"] unsignedIntegerValue];
+        self.name = json[@"teamName"];
         self.membersNames = json[@"names"];
         self.avatarURL = [NSURL URLWithString:json[@"avatar"]];
-        self.tagLine = json[@"tag_line"];
-        self.startLatitude = [json[@"start_lat"] doubleValue];
-        self.startLongitude = [json[@"start_lon"] doubleValue];
-        self.currentLatitude = [json[@"current_lat"] doubleValue];
-        self.currentLongitude = [json[@"current_lon"] doubleValue];
+        self.tagLine = json[@"tagLine"];
+        self.currentLatitude = [json[@"currentLat"] doubleValue];
+        self.currentLongitude = [json[@"currentLon"] doubleValue];
         self.university = (University)[json[@"university"] unsignedIntegerValue];
         self.teamDescription = json[@"description"];
-        self.amountRaisedOnline = [json[@"amount_raised_online"] unsignedIntegerValue];
-        self.amountRaisedOffline = [json[@"amount_raised_offline"] unsignedIntegerValue];
-        self.distanceToX = [json[@"distance_to_x"] doubleValue];
+        self.amountRaisedOnline = [json[@"amountRaisedOnline"] unsignedIntegerValue];
+        self.amountRaisedOffline = [json[@"amountRaisedOffline"] unsignedIntegerValue];
+        self.distanceToX = [json[@"distanceToX"] doubleValue];
         self.countries = [json[@"countries"] unsignedIntegerValue];
         self.transports = [json[@"transports"] unsignedIntegerValue];
-        self.donationsURL = [NSURL URLWithString:json[@"donations_url"]];
-#warning Incomplete implementation
+        self.donationsURL = [NSURL URLWithString:json[@"donationsUrl"]];
+#warning Incomplete Challenge implementation
     }
     
     return self;

@@ -48,7 +48,7 @@
     if (self)
     {
         self.ID = [json[@"id"] unsignedIntegerValue];
-        self.teamID = [json[@"team_id"] unsignedIntegerValue];
+        self.teamID = [json[@"teamId"] unsignedIntegerValue];
         self.amount = [json[@"amount"] unsignedIntegerValue];
         self.name = json[@"name"];
         self.time = [json[@"time"] unsignedIntegerValue];

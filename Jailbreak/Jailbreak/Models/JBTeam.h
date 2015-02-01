@@ -32,8 +32,6 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, strong) NSString *membersNames;
 @property (nonatomic, strong) NSURL *avatarURL;
 @property (nonatomic, strong) NSString *tagLine;
-@property (nonatomic, assign) CLLocationDegrees startLatitude;
-@property (nonatomic, assign) CLLocationDegrees startLongitude;
 @property (nonatomic, assign) CLLocationDegrees currentLatitude;
 @property (nonatomic, assign) CLLocationDegrees currentLongitude;
 @property (nonatomic, assign) University university;

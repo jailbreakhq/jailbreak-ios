@@ -55,15 +55,16 @@
     
     if (self)
     {
-        self.startTime = [json[@"start_time"] unsignedIntegerValue];
-        self.amountRaised = [json[@"amount_raised"] unsignedIntegerValue];
-        self.winningTeamID = [json[@"winner_team_id"] unsignedIntegerValue];
+        self.startTime = [json[@"startTime"] unsignedIntegerValue];
+        self.amountRaised = [json[@"amountRaised"] unsignedIntegerValue];
+        self.winningTeamID = [json[@"winnerTeamId"] unsignedIntegerValue];
         self.tfmLive = [json[@"tfm_live"] boolValue];
-        self.finalLocationLatitude = [json[@"final_location_lat"] doubleValue];
-        self.finalLocationLongitude = [json[@"final_location_lon"] doubleValue];
-        self.teamsURL = [NSURL URLWithString:json[@"teams_url"]];
-        self.authenticateURL = [NSURL URLWithString:json[@"athentication_url"]];
-        self.usersURL = [NSURL URLWithString:json[@"users_url"]];
+        self.finalLocationLatitude = [json[@"finalLocationLat"] doubleValue];
+        self.finalLocationLongitude = [json[@"finalLocationLon"] doubleValue];
+        self.teamsURL = [NSURL URLWithString:json[@"teamsUrl"]];
+        self.facebookTokensURL = [NSURL URLWithString:json[@"facebookTokensUrl"]];
+        self.authenticateURL = [NSURL URLWithString:json[@"authenticateUrl"]];
+        self.usersURL = [NSURL URLWithString:json[@"usersUrl"]];
     }
     
     return self;

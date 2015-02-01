@@ -55,7 +55,7 @@
         self.latitude = [json[@"lat"] doubleValue];
         self.longitude = [json[@"lon"] doubleValue];
         self.time = [json[@"time"] unsignedIntegerValue];
-        self.teamID = [json[@"team_id"] unsignedIntegerValue];
+        self.teamID = [json[@"teamId"] unsignedIntegerValue];
     }
     
     return self;

@@ -58,7 +58,7 @@
         self.amount = [json[@"amount"] unsignedIntegerValue];
         self.name = json[@"name"];
         self.time = [json[@"time"] unsignedIntegerValue];
-        self.type = (DonationType)[json[@"type"] unsignedIntegerValue];
+        self.type = [self getDonationTypeFromString:json[@"type"]];
     }
     
     return self;

@@ -13,4 +13,7 @@
 - (void)handleApplicationDidEnterBackgroundNotification;
 - (void)handleApplicationDidBecomeActiveNotification;
 
+- (id)loadFromArchiveObjectWithKey:(NSString *)key;
+- (void)saveToArchiveObject:(id)object withKey:(NSString *)key;
+
 @end

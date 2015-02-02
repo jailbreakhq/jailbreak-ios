@@ -47,9 +47,6 @@
     return self;
 }
 
-#pragma mark - Teams
-
-
 - (void)getAllTeamsWithSuccess:(HTTPRequestSuccess)success
                        failure:(HTTPRequestFailure)failure
 {
@@ -58,6 +55,26 @@
       success:SuccessBlockWithJSONOperation
       failure:FailureBlockWithJSONOperation];
 
+}
+
+- (void)getCheckinsForTeamWithId:(NSUInteger)teamId
+                         success:(HTTPRequestSuccess)success
+                         failure:(HTTPRequestFailure)failure
+{
+    [self GET:[NSString stringWithFormat:@"teams/%lu/checkins", (unsigned long)teamId]
+   parameters:nil
+      success:SuccessBlockWithJSONOperation
+      failure:FailureBlockWithJSONOperation];
+}
+
+- (void)getAllDonationsWithParameters:(NSDictionary *)parameters
+                              success:(HTTPRequestSuccess)success
+                              failure:(HTTPRequestFailure)failure
+{
+    [self GET:@"donations"
+   parameters:parameters
+      success:SuccessBlockWithJSONOperation
+      failure:FailureBlockWithJSONOperation];
 }
 
 @end

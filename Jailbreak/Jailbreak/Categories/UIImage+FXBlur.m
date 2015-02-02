@@ -60,7 +60,8 @@
                                              CGImageGetBitmapInfo(imageRef));
     
     //apply tint
-    if (tintColor) {
+    if (tintColor)
+    {
         CGContextSaveGState(ctx);
         CGContextSetFillColorWithColor(ctx, tintColor.CGColor);
         CGContextFillRect(ctx, CGRectMake(0, 0, buffer1.width, buffer1.height));

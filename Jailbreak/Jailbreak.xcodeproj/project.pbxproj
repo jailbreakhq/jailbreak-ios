@@ -24,6 +24,10 @@
 		E45700691A794C2300A36ACD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45700681A794C2300A36ACD /* QuartzCore.framework */; };
 		E457006C1A7959AC00A36ACD /* JBCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = E457006B1A7959AC00A36ACD /* JBCheckin.m */; };
 		E457006F1A795D8B00A36ACD /* JBAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E457006E1A795D8B00A36ACD /* JBAPIManager.m */; };
+		E45E01151A8004300034CA28 /* JBCircularImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E45E01141A8004300034CA28 /* JBCircularImageView.m */; };
+		E45E01181A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E45E01171A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.m */; };
+		E45E01201A802E0D0034CA28 /* CERoundProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = E45E011D1A802E0D0034CA28 /* CERoundProgressView.m */; };
+		E45E01211A802E0D0034CA28 /* CERoundProgressLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E45E011F1A802E0D0034CA28 /* CERoundProgressLayer.m */; };
 		E46A92731A79CA2A002EF3A3 /* JBChallenge.m in Sources */ = {isa = PBXBuildFile; fileRef = E46A92721A79CA2A002EF3A3 /* JBChallenge.m */; };
 		E46A92761A79CC2D002EF3A3 /* JBDonation.m in Sources */ = {isa = PBXBuildFile; fileRef = E46A92751A79CC2D002EF3A3 /* JBDonation.m */; };
 		E47C422F1A7EA03300141416 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E47C422E1A7EA03300141416 /* TestViewController.m */; };
@@ -73,6 +77,14 @@
 		E457006B1A7959AC00A36ACD /* JBCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCheckin.m; sourceTree = "<group>"; };
 		E457006D1A795D8B00A36ACD /* JBAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAPIManager.h; sourceTree = "<group>"; };
 		E457006E1A795D8B00A36ACD /* JBAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAPIManager.m; sourceTree = "<group>"; };
+		E45E01131A8004300034CA28 /* JBCircularImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCircularImageView.h; sourceTree = "<group>"; };
+		E45E01141A8004300034CA28 /* JBCircularImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCircularImageView.m; sourceTree = "<group>"; };
+		E45E01161A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCacheWithProgress.h"; sourceTree = "<group>"; };
+		E45E01171A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCacheWithProgress.m"; sourceTree = "<group>"; };
+		E45E011C1A802E0D0034CA28 /* CERoundProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CERoundProgressView.h; sourceTree = "<group>"; };
+		E45E011D1A802E0D0034CA28 /* CERoundProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CERoundProgressView.m; sourceTree = "<group>"; };
+		E45E011E1A802E0D0034CA28 /* CERoundProgressLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CERoundProgressLayer.h; sourceTree = "<group>"; };
+		E45E011F1A802E0D0034CA28 /* CERoundProgressLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CERoundProgressLayer.m; sourceTree = "<group>"; };
 		E46A92711A79CA2A002EF3A3 /* JBChallenge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBChallenge.h; sourceTree = "<group>"; };
 		E46A92721A79CA2A002EF3A3 /* JBChallenge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBChallenge.m; sourceTree = "<group>"; };
 		E46A92741A79CC2D002EF3A3 /* JBDonation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBDonation.h; sourceTree = "<group>"; };
@@ -225,6 +237,12 @@
 		E41448E51A769551002EB3AB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E45E011C1A802E0D0034CA28 /* CERoundProgressView.h */,
+				E45E011D1A802E0D0034CA28 /* CERoundProgressView.m */,
+				E45E011E1A802E0D0034CA28 /* CERoundProgressLayer.h */,
+				E45E011F1A802E0D0034CA28 /* CERoundProgressLayer.m */,
+				E45E01131A8004300034CA28 /* JBCircularImageView.h */,
+				E45E01141A8004300034CA28 /* JBCircularImageView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -232,6 +250,8 @@
 		E48FD5811A77220000FFA94B /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				E45E01161A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.h */,
+				E45E01171A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.m */,
 				E48FD5821A77220C00FFA94B /* UIImage+FXBlur.h */,
 				E48FD5831A77220C00FFA94B /* UIImage+FXBlur.m */,
 			);
@@ -376,6 +396,7 @@
 				E457006C1A7959AC00A36ACD /* JBCheckin.m in Sources */,
 				E41448F91A76E787002EB3AB /* JBFeedTableViewController.m in Sources */,
 				E47C422F1A7EA03300141416 /* TestViewController.m in Sources */,
+				E45E01181A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.m in Sources */,
 				E41448C31A768EAF002EB3AB /* JBAppDelegate.m in Sources */,
 				E46A92761A79CC2D002EF3A3 /* JBDonation.m in Sources */,
 				E48FD5841A77220C00FFA94B /* UIImage+FXBlur.m in Sources */,
@@ -384,9 +405,12 @@
 				E457006F1A795D8B00A36ACD /* JBAPIManager.m in Sources */,
 				E41448ED1A76A78F002EB3AB /* JBUser.m in Sources */,
 				E41448E81A76968D002EB3AB /* JBTeam.m in Sources */,
+				E45E01201A802E0D0034CA28 /* CERoundProgressView.m in Sources */,
 				E41448F61A76E0DA002EB3AB /* JBBaseTableViewController.m in Sources */,
 				E46A92731A79CA2A002EF3A3 /* JBChallenge.m in Sources */,
+				E45E01151A8004300034CA28 /* JBCircularImageView.m in Sources */,
 				E40A2AF81A7BC780001C5AF1 /* JBService.m in Sources */,
+				E45E01211A802E0D0034CA28 /* CERoundProgressLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

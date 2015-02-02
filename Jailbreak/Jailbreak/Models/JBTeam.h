@@ -35,7 +35,6 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, assign) CLLocationDegrees currentLatitude;
 @property (nonatomic, assign) CLLocationDegrees currentLongitude;
 @property (nonatomic, assign) University university;
-@property (nonatomic, strong) NSString *teamDescription;
 @property (nonatomic, assign) NSUInteger amountRaisedOnline;
 @property (nonatomic, assign) NSUInteger amountRaisedOffline;
 @property (nonatomic, assign) CLLocationDistance distanceToX;
@@ -43,6 +42,7 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, assign) NSUInteger transports;
 @property (nonatomic, strong) NSURL *donationsURL;
 @property (nonatomic, strong) NSArray *challenges; // of type JBChallenge
+@property (nonatomic, assign, getter=isFeatured) BOOL featured;
 
 
 - (instancetype)initWithJSON:(NSDictionary *)json;

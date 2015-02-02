@@ -8,6 +8,7 @@
 
 #import <Stripe.h>
 #import "JBAppDelegate.h"
+#import <SDWebImage/SDImageCache.h>
 
 NSString * const StripePublishableKey = @"pk_test_6pRNASCoBOKtIshFeQd4XMUh";
 
@@ -22,6 +23,12 @@ NSString * const StripePublishableKey = @"pk_test_6pRNASCoBOKtIshFeQd4XMUh";
 {
     // Configure Stripe
     [Stripe setDefaultPublishableKey:StripePublishableKey];
+    
+    // Configure SDWebImage
+    SDImageCache *sharedImageCache = [SDImageCache sharedImageCache];
+    sharedImageCache.maxCacheAge = 1 * 7 * 24 * 60 * 60; // 1 week
+    sharedImageCache.maxCacheSize = 200 * 1000000; // 200 MBs
+    [sharedImageCache cleanDisk]; // remove all expired cached image on each launch
 
     return YES;
 }

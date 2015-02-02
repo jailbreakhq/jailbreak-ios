@@ -33,7 +33,6 @@
         self.currentLatitude = [aDecoder decodeDoubleForKey:@"currentLatitude"];
         self.currentLongitude = [aDecoder decodeDoubleForKey:@"currentLongitude"];
         self.university = [aDecoder decodeIntegerForKey:@"university"];
-        self.teamDescription = [aDecoder decodeObjectForKey:@"teamDescription"];
         self.amountRaisedOnline = [aDecoder decodeIntegerForKey:@"amountRaisedOnline"];
         self.amountRaisedOffline = [aDecoder decodeIntegerForKey:@"amountRaisedOffline"];
         self.distanceToX = [aDecoder decodeDoubleForKey:@"distanceToX"];
@@ -41,6 +40,7 @@
         self.transports = [aDecoder decodeIntegerForKey:@"transports"];
         self.donationsURL = [aDecoder decodeObjectForKey:@"donationsURL"];
         self.challenges = [aDecoder decodeObjectForKey:@"challenges"];
+        self.featured = [aDecoder decodeBoolForKey:@"featured"];
     }
     
     return self;
@@ -57,7 +57,6 @@
     [aCoder encodeDouble:self.currentLatitude forKey:@"currentLatitude"];
     [aCoder encodeDouble:self.currentLongitude forKey:@"currentLongitude"];
     [aCoder encodeInteger:self.university forKey:@"university"];
-    [aCoder encodeObject:self.teamDescription forKey:@"teamDescription"];
     [aCoder encodeInteger:self.amountRaisedOnline forKey:@"amountRaisedOnline"];
     [aCoder encodeInteger:self.amountRaisedOffline forKey:@"amountRaisedOffline"];
     [aCoder encodeDouble:self.distanceToX forKey:@"distanceToX"];
@@ -65,6 +64,7 @@
     [aCoder encodeInteger:self.transports forKey:@"transports"];
     [aCoder encodeObject:self.donationsURL forKey:@"donationsURL"];
     [aCoder encodeObject:self.challenges forKey:@"challenges"];
+    [aCoder encodeBool:self.featured forKey:@"featured"];
 }
 
 #pragma mark - NSObject
@@ -84,7 +84,6 @@
         self.currentLatitude = [json[@"currentLat"] doubleValue];
         self.currentLongitude = [json[@"currentLon"] doubleValue];
         self.university = [self getUniversityFromString:json[@"university"]];
-        self.teamDescription = json[@"description"];
         self.amountRaisedOnline = [json[@"amountRaisedOnline"] unsignedIntegerValue];
         self.amountRaisedOffline = [json[@"amountRaisedOffline"] unsignedIntegerValue];
         self.distanceToX = [json[@"distanceToX"] doubleValue];
@@ -92,6 +91,7 @@
         self.transports = [json[@"transports"] unsignedIntegerValue];
         self.donationsURL = [NSURL URLWithString:json[@"donationsUrl"]];
 #warning Incomplete Challenge implementation
+        self.featured = [json[@"featured"] boolValue];
     }
     
     return self;

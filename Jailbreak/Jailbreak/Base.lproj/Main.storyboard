@@ -240,8 +240,25 @@
                     <view key="view" contentMode="scaleToFill" id="8bG-SF-N2h">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EIm-og-K6S" customClass="JBCircularImageView">
+                                <rect key="frame" x="225" y="40" width="150" height="150"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="QAt-IT-Hxx"/>
+                                    <constraint firstAttribute="height" constant="150" id="x8V-9Y-DM2"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="EIm-og-K6S" secondAttribute="centerX" id="ale-D1-1jl"/>
+                            <constraint firstItem="EIm-og-K6S" firstAttribute="top" secondItem="6dj-m2-HSU" secondAttribute="bottom" constant="20" id="mRI-We-wa5"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="EIm-og-K6S" id="L9x-97-TaA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dJk-fq-sDJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

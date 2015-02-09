@@ -108,26 +108,26 @@
                                     <constraint firstAttribute="height" constant="200" id="v6m-1D-TKF"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aU4-A8-Cln" customClass="YTPlayerView">
+                                <rect key="frame" x="20" y="294" width="560" height="232"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="b3P-P9-0st" firstAttribute="top" secondItem="zTf-KI-feY" secondAttribute="topMargin" id="1Up-pE-k4F"/>
-                            <constraint firstItem="b3P-P9-0st" firstAttribute="top" secondItem="zTf-KI-feY" secondAttribute="top" id="3P9-Ig-OoP"/>
+                            <constraint firstAttribute="trailing" secondItem="aU4-A8-Cln" secondAttribute="trailing" constant="20" id="5to-iF-gHA"/>
                             <constraint firstItem="b3P-P9-0st" firstAttribute="leading" secondItem="zTf-KI-feY" secondAttribute="leading" id="ALf-6u-KqF"/>
+                            <constraint firstItem="aU4-A8-Cln" firstAttribute="leading" secondItem="zTf-KI-feY" secondAttribute="leading" constant="20" id="L7B-5w-0iz"/>
                             <constraint firstAttribute="trailing" secondItem="b3P-P9-0st" secondAttribute="trailing" id="XAr-0t-qK3"/>
+                            <constraint firstItem="rKi-t4-C7F" firstAttribute="top" secondItem="aU4-A8-Cln" secondAttribute="bottom" constant="25" id="Zvf-uH-ojS"/>
                             <constraint firstItem="b3P-P9-0st" firstAttribute="top" secondItem="7rn-cN-8Sm" secondAttribute="bottom" id="a1R-g0-2Ex"/>
+                            <constraint firstItem="aU4-A8-Cln" firstAttribute="top" secondItem="b3P-P9-0st" secondAttribute="bottom" constant="30" id="uXH-M6-23q"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="1Up-pE-k4F"/>
-                                <exclude reference="3P9-Ig-OoP"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="avatarImageView" destination="bSs-2j-PjA" id="aMB-iO-7gv"/>
                         <outlet property="blurImageView" destination="bPZ-9r-793" id="Syu-Dw-pRp"/>
                         <outlet property="namesLabel" destination="yvP-tR-kaq" id="iQp-ZH-RA6"/>
+                        <outlet property="videoView" destination="aU4-A8-Cln" id="91V-Ph-Cxb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lhh-dS-shc" userLabel="First Responder" sceneMemberID="firstResponder"/>

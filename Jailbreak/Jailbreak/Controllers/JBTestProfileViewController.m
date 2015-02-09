@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import "YTPlayerView.h"
 #import "JBTestProfileViewController.h"
 
 @interface JBTestProfileViewController ()
@@ -13,6 +14,7 @@
 @property (nonatomic, weak) IBOutlet UIImageView *blurImageView;
 @property (nonatomic, weak) IBOutlet UIImageView *avatarImageView;
 @property (nonatomic, weak) IBOutlet UILabel *namesLabel;
+@property (nonatomic, weak) IBOutlet YTPlayerView *videoView;
 
 @end
 
@@ -21,6 +23,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (self.team.videoID) [self.videoView loadWithVideoId:self.team.videoID];
     
     [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarLargeURL
                                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {

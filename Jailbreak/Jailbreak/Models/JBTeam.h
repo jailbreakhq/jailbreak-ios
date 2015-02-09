@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, strong) NSURL *donationsURL;
 @property (nonatomic, strong) NSArray *challenges; // of type JBChallenge
 @property (nonatomic, assign, getter=isFeatured) BOOL featured;
-@property (nonatomic, strong) NSString *video;
+@property (nonatomic, strong) NSString *videoID;
 
 
 - (instancetype)initWithJSON:(NSDictionary *)json;

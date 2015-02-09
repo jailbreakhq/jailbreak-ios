@@ -44,7 +44,7 @@
         self.donationsURL = [aDecoder decodeObjectForKey:@"donationsURL"];
         self.challenges = [aDecoder decodeObjectForKey:@"challenges"];
         self.featured = [aDecoder decodeBoolForKey:@"featured"];
-        self.video = [aDecoder decodeObjectForKey:@"video"];
+        self.videoID = [aDecoder decodeObjectForKey:@"videoID"];
     }
     
     return self;
@@ -72,7 +72,7 @@
     [aCoder encodeObject:self.donationsURL forKey:@"donationsURL"];
     [aCoder encodeObject:self.challenges forKey:@"challenges"];
     [aCoder encodeBool:self.featured forKey:@"featured"];
-    [aCoder encodeObject:self.video forKey:@"video"];
+    [aCoder encodeObject:self.videoID forKey:@"videoID"];
 }
 
 #pragma mark - NSObject
@@ -103,7 +103,13 @@
         self.donationsURL = [NSURL URLWithString:json[@"donationsUrl"]];
 #warning Incomplete Challenge implementation
         self.featured = [json[@"featured"] boolValue];
-        self.video = json[@"video"];
+        self.videoID = json[@"video"];
+        
+        if (!self.videoID || ![self.videoID isEqual:[NSNull null]])
+        {
+            self.videoID = [[self.videoID componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] objectAtIndex:1];
+            self.videoID = [[self.videoID componentsSeparatedByString:@"/"] lastObject];
+        }
     }
     
     return self;

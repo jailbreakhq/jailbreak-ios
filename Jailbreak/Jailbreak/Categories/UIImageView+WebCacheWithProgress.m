@@ -51,6 +51,8 @@ static char kProgressViewKey;
     
     if ([self isSquare])
     {
+        trackColor = [UIColor clearColor];
+        
         if (!self.roundProgressView)
         {
             CGFloat size = CGRectGetHeight(self.frame) + 10.0;

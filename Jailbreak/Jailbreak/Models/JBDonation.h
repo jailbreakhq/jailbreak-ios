@@ -22,6 +22,7 @@ typedef NS_ENUM(NSUInteger, DonationType)
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) NSUInteger time;
 @property (nonatomic, assign) DonationType type;
+@property (nonatomic, strong) NSString *email;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
 

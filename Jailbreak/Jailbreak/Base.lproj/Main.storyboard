@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="03Q-Rz-MUU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="bcb-vA-MAe">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -24,10 +24,10 @@
             </objects>
             <point key="canvasLocation" x="213" y="382"/>
         </scene>
-        <!--View Controller-->
+        <!--Test Profile View Controller-->
         <scene sceneID="Gk0-ca-0VO">
             <objects>
-                <viewController id="pdG-8H-KlR" sceneMemberID="viewController">
+                <viewController id="pdG-8H-KlR" customClass="JBTestProfileViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="7rn-cN-8Sm"/>
                         <viewControllerLayoutGuide type="bottom" id="rKi-t4-C7F"/>
@@ -37,9 +37,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3P-P9-0st">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="200"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="me" translatesAutoresizingMaskIntoConstraints="NO" id="bPZ-9r-793">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bPZ-9r-793" userLabel="me blur">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                     </imageView>
                                     <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xWq-LD-66c">
@@ -48,24 +48,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="me" translatesAutoresizingMaskIntoConstraints="NO" id="bSs-2j-PjA">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bSs-2j-PjA" customClass="JBCircularImageView">
                                                     <rect key="frame" x="230" y="15" width="140" height="140"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="KKi-FM-GnE"/>
                                                         <constraint firstAttribute="height" constant="140" id="zq0-8b-jN4"/>
                                                     </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="70"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                                                            <integer key="value" value="1"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="layer.borderColor">
-                                                            <color key="value" red="0.99989503622055054" green="1" blue="0.99987143278121948" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DR7-sc-rIv">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
@@ -122,26 +111,39 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="b3P-P9-0st" firstAttribute="top" secondItem="zTf-KI-feY" secondAttribute="topMargin" id="1Up-pE-k4F"/>
                             <constraint firstItem="b3P-P9-0st" firstAttribute="top" secondItem="zTf-KI-feY" secondAttribute="top" id="3P9-Ig-OoP"/>
                             <constraint firstItem="b3P-P9-0st" firstAttribute="leading" secondItem="zTf-KI-feY" secondAttribute="leading" id="ALf-6u-KqF"/>
                             <constraint firstAttribute="trailing" secondItem="b3P-P9-0st" secondAttribute="trailing" id="XAr-0t-qK3"/>
+                            <constraint firstItem="b3P-P9-0st" firstAttribute="top" secondItem="7rn-cN-8Sm" secondAttribute="bottom" id="a1R-g0-2Ex"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="1Up-pE-k4F"/>
+                                <exclude reference="3P9-Ig-OoP"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="avatarImageView" destination="bSs-2j-PjA" id="aMB-iO-7gv"/>
+                        <outlet property="blurImageView" destination="bPZ-9r-793" id="Syu-Dw-pRp"/>
+                        <outlet property="namesLabel" destination="yvP-tR-kaq" id="iQp-ZH-RA6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lhh-dS-shc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1639" y="-82"/>
+            <point key="canvasLocation" x="2333" y="591"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Teams Table View Controller-->
         <scene sceneID="fWE-u2-UrP">
             <objects>
-                <tableViewController id="2As-GR-JYB" sceneMemberID="viewController">
+                <tableViewController id="2As-GR-JYB" customClass="JBTeamsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2ts-q8-l68">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="bzH-GD-eH7">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="bzH-GD-eH7">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bzH-GD-eH7" id="ZSm-VG-Jxi">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -154,6 +156,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="nVe-jB-60B"/>
+                    <connections>
+                        <segue destination="pdG-8H-KlR" kind="show" identifier="showTeamProfile" id="Krp-jQ-9bA"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xse-6y-9b6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -193,9 +198,6 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7A3-HY-pHB" id="x4R-Lu-A8R">
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="pdG-8H-KlR" kind="presentation" id="rb8-Bb-n2N"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>
@@ -229,43 +231,5 @@
             </objects>
             <point key="canvasLocation" x="929" y="591"/>
         </scene>
-        <!--Test View Controller-->
-        <scene sceneID="Y0U-Bs-WRY">
-            <objects>
-                <viewController id="03Q-Rz-MUU" customClass="TestViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="6dj-m2-HSU"/>
-                        <viewControllerLayoutGuide type="bottom" id="49t-ll-bJa"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bG-SF-N2h">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EIm-og-K6S" customClass="JBCircularImageView">
-                                <rect key="frame" x="225" y="40" width="150" height="150"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="QAt-IT-Hxx"/>
-                                    <constraint firstAttribute="height" constant="150" id="x8V-9Y-DM2"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="EIm-og-K6S" secondAttribute="centerX" id="ale-D1-1jl"/>
-                            <constraint firstItem="EIm-og-K6S" firstAttribute="top" secondItem="6dj-m2-HSU" secondAttribute="bottom" constant="20" id="mRI-We-wa5"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="imageView" destination="EIm-og-K6S" id="L9x-97-TaA"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dJk-fq-sDJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="929" y="1286"/>
-        </scene>
     </scenes>
-    <resources>
-        <image name="me" width="2048" height="2046"/>
-    </resources>
 </document>

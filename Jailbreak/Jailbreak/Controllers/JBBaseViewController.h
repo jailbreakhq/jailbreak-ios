@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JBAPIManager.h"
+#import "UIImageView+WebCacheWithProgress.h"
 
 @interface JBBaseViewController : UIViewController
 

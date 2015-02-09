@@ -30,8 +30,11 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, assign) NSUInteger number;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *membersNames;
-@property (nonatomic, strong) NSURL *avatarURL;
+@property (nonatomic, strong) NSString *slug;
+@property (nonatomic, strong) NSURL *avatarURL; // 300x300
+@property (nonatomic, strong) NSURL *avatarLargeURL; // 1024x1024
 @property (nonatomic, strong) NSString *tagLine;
+@property (nonatomic, strong) NSString *about;
 @property (nonatomic, assign) CLLocationDegrees currentLatitude;
 @property (nonatomic, assign) CLLocationDegrees currentLongitude;
 @property (nonatomic, assign) University university;
@@ -43,6 +46,7 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, strong) NSURL *donationsURL;
 @property (nonatomic, strong) NSArray *challenges; // of type JBChallenge
 @property (nonatomic, assign, getter=isFeatured) BOOL featured;
+@property (nonatomic, strong) NSString *video;
 
 
 - (instancetype)initWithJSON:(NSDictionary *)json;

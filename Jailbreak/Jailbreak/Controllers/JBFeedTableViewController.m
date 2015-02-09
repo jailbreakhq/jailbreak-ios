@@ -6,9 +6,12 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import "JBDonation.h"
 #import "JBFeedTableViewController.h"
 
 @interface JBFeedTableViewController ()
+
+@property (nonatomic, strong) NSMutableArray *donations;
 
 @end
 
@@ -19,6 +22,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.donations = [NSMutableArray new];
+    
+    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"limit": @20}
+                                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                      for (NSDictionary *dict in responseObject)
+                                                      {
+                                                          [self.donations addObject:[[JBDonation alloc] initWithJSON:dict]];
+                                                      }
+                                                      
+                                                      [self.tableView reloadData];
+                                                  } failure:nil];
     
     // Configure TableView
     self.tableView.estimatedRowHeight = 30.0;
@@ -34,12 +49,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 15;
+    return self.donations.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
+    cell.textLabel.text = [self.donations[indexPath.row] name];
     
     return cell;
 }

@@ -28,8 +28,11 @@
         self.number = [aDecoder decodeIntegerForKey:@"number"];
         self.name = [aDecoder decodeObjectForKey:@"name"];
         self.membersNames = [aDecoder decodeObjectForKey:@"membersNames"];
+        self.slug = [aDecoder decodeObjectForKey:@"slug"];
         self.avatarURL = [aDecoder decodeObjectForKey:@"avatarURL"];
+        self.avatarLargeURL = [aDecoder decodeObjectForKey:@"avatarLargeURL"];
         self.tagLine = [aDecoder decodeObjectForKey:@"tagLine"];
+        self.about = [aDecoder decodeObjectForKey:@"about"];
         self.currentLatitude = [aDecoder decodeDoubleForKey:@"currentLatitude"];
         self.currentLongitude = [aDecoder decodeDoubleForKey:@"currentLongitude"];
         self.university = [aDecoder decodeIntegerForKey:@"university"];
@@ -41,6 +44,7 @@
         self.donationsURL = [aDecoder decodeObjectForKey:@"donationsURL"];
         self.challenges = [aDecoder decodeObjectForKey:@"challenges"];
         self.featured = [aDecoder decodeBoolForKey:@"featured"];
+        self.video = [aDecoder decodeObjectForKey:@"video"];
     }
     
     return self;
@@ -52,8 +56,11 @@
     [aCoder encodeInteger:self.number forKey:@"number"];
     [aCoder encodeObject:self.name forKey:@"name"];
     [aCoder encodeObject:self.membersNames forKey:@"membersNames"];
+    [aCoder encodeObject:self.slug forKey:@"slug"];
     [aCoder encodeObject:self.avatarURL forKey:@"avatarURL"];
+    [aCoder encodeObject:self.avatarLargeURL forKey:@"avatarLargeURL"];
     [aCoder encodeObject:self.tagLine forKey:@"tagLine"];
+    [aCoder encodeObject:self.about forKey:@"about"];
     [aCoder encodeDouble:self.currentLatitude forKey:@"currentLatitude"];
     [aCoder encodeDouble:self.currentLongitude forKey:@"currentLongitude"];
     [aCoder encodeInteger:self.university forKey:@"university"];
@@ -65,6 +72,7 @@
     [aCoder encodeObject:self.donationsURL forKey:@"donationsURL"];
     [aCoder encodeObject:self.challenges forKey:@"challenges"];
     [aCoder encodeBool:self.featured forKey:@"featured"];
+    [aCoder encodeObject:self.video forKey:@"video"];
 }
 
 #pragma mark - NSObject
@@ -79,8 +87,11 @@
         self.number = [json[@"teamNumber"] unsignedIntegerValue];
         self.name = json[@"teamName"];
         self.membersNames = json[@"names"];
+        self.slug = json[@"slug"];
         self.avatarURL = [NSURL URLWithString:json[@"avatar"]];
+        self.avatarLargeURL = [NSURL URLWithString:json[@"avatarLarge"]];
         self.tagLine = json[@"tagLine"];
+        self.about = json[@"description"];
         self.currentLatitude = [json[@"currentLat"] doubleValue];
         self.currentLongitude = [json[@"currentLon"] doubleValue];
         self.university = [self getUniversityFromString:json[@"university"]];
@@ -92,6 +103,7 @@
         self.donationsURL = [NSURL URLWithString:json[@"donationsUrl"]];
 #warning Incomplete Challenge implementation
         self.featured = [json[@"featured"] boolValue];
+        self.video = json[@"video"];
     }
     
     return self;

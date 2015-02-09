@@ -30,6 +30,7 @@
         self.name = [aDecoder decodeObjectForKey:@"name"];
         self.time = [aDecoder decodeIntegerForKey:@"time"];
         self.type = [aDecoder decodeIntegerForKey:@"type"];
+        self.email = [aDecoder decodeObjectForKey:@"email"];
     }
     
     return self;
@@ -43,6 +44,7 @@
     [aCoder encodeObject:self.name forKey:@"name"];
     [aCoder encodeInteger:self.time forKey:@"time"];
     [aCoder encodeInteger:self.type forKey:@"type"];
+    [aCoder encodeObject:self.email forKey:@"email"];
 }
 
 #pragma mark - NSObject
@@ -59,6 +61,7 @@
         self.name = json[@"name"];
         self.time = [json[@"time"] unsignedIntegerValue];
         self.type = [self getDonationTypeFromString:json[@"type"]];
+        self.email = json[@"email"];
     }
     
     return self;

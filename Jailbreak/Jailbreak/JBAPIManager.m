@@ -9,7 +9,7 @@
 #import "JBAPIManager.h"
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
-#define BASE_URL @"http://private-anon-5ab11e309-jailbreakapi.apiary-mock.com/"
+#define BASE_URL @"https://jbapi.net"
 
 #define SuccessBlockWithJSONOperation                           \
     ^(AFHTTPRequestOperation *operation, id responseObject) {   \
@@ -47,11 +47,12 @@
     return self;
 }
 
-- (void)getAllTeamsWithSuccess:(HTTPRequestSuccess)success
-                       failure:(HTTPRequestFailure)failure
+- (void)getAllTeamsWithParameters:(NSDictionary *)parameters
+                          success:(HTTPRequestSuccess)success
+                          failure:(HTTPRequestFailure)failure
 {
     [self GET:[NSString stringWithFormat:@"teams"]
-   parameters:nil
+   parameters:parameters
       success:SuccessBlockWithJSONOperation
       failure:FailureBlockWithJSONOperation];
 

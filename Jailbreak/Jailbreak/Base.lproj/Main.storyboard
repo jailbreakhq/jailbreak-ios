@@ -36,72 +36,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3P-P9-0st">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3P-P9-0st" userLabel="Header View">
                                 <rect key="frame" x="0.0" y="64" width="600" height="200"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bPZ-9r-793" userLabel="me blur">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bPZ-9r-793" userLabel="Blur View">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                     </imageView>
-                                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xWq-LD-66c">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="UKD-jG-jCq">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bSs-2j-PjA" customClass="JBCircularImageView">
-                                                    <rect key="frame" x="230" y="15" width="140" height="140"/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="140" id="KKi-FM-GnE"/>
-                                                        <constraint firstAttribute="height" constant="140" id="zq0-8b-jN4"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DR7-sc-rIv">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
-                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="WXQ-3u-3Tr">
-                                                        <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shayan Yousefizadeh" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yvP-tR-kaq">
-                                                                <rect key="frame" x="218" y="165" width="165" height="24"/>
-                                                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
-                                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="centerX" secondItem="yvP-tR-kaq" secondAttribute="centerX" id="LAW-NE-U81"/>
-                                                        </constraints>
-                                                    </view>
-                                                    <vibrancyEffect>
-                                                        <blurEffect style="light"/>
-                                                    </vibrancyEffect>
-                                                </visualEffectView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="DR7-sc-rIv" secondAttribute="bottom" id="FEr-kY-Efn"/>
-                                                <constraint firstItem="DR7-sc-rIv" firstAttribute="leading" secondItem="UKD-jG-jCq" secondAttribute="leading" id="IiC-wn-mKD"/>
-                                                <constraint firstAttribute="trailing" secondItem="DR7-sc-rIv" secondAttribute="trailing" id="KfN-tF-DX2"/>
-                                                <constraint firstItem="DR7-sc-rIv" firstAttribute="leading" secondItem="UKD-jG-jCq" secondAttribute="leading" id="Mkf-mw-YR6"/>
-                                                <constraint firstItem="bSs-2j-PjA" firstAttribute="top" secondItem="UKD-jG-jCq" secondAttribute="top" constant="15" id="RDI-qK-wL4"/>
-                                                <constraint firstAttribute="trailing" secondItem="DR7-sc-rIv" secondAttribute="trailing" id="d9A-hS-r59"/>
-                                                <constraint firstItem="DR7-sc-rIv" firstAttribute="top" secondItem="UKD-jG-jCq" secondAttribute="top" id="etg-nU-KMQ"/>
-                                                <constraint firstItem="DR7-sc-rIv" firstAttribute="top" secondItem="UKD-jG-jCq" secondAttribute="top" id="m1o-Bb-jTb"/>
-                                                <constraint firstAttribute="centerX" secondItem="bSs-2j-PjA" secondAttribute="centerX" id="rSV-OR-D1V"/>
-                                                <constraint firstItem="yvP-tR-kaq" firstAttribute="top" secondItem="bSs-2j-PjA" secondAttribute="bottom" constant="10" id="vfb-si-mgI"/>
-                                                <constraint firstAttribute="bottom" secondItem="DR7-sc-rIv" secondAttribute="bottom" id="ws1-aE-3gn"/>
-                                            </constraints>
-                                        </view>
-                                        <blurEffect style="light"/>
-                                    </visualEffectView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bSs-2j-PjA" customClass="JBCircularImageView">
+                                        <rect key="frame" x="230" y="20" width="140" height="140"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="140" id="KKi-FM-GnE"/>
+                                            <constraint firstAttribute="height" constant="140" id="zq0-8b-jN4"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="90" placeholderIntrinsicHeight="21" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3NV-9r-nrH">
+                                        <rect key="frame" x="255" y="170" width="90" height="21"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                        <size key="shadowOffset" width="1" height="1"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="xWq-LD-66c" secondAttribute="bottom" id="FeP-qm-TzG"/>
-                                    <constraint firstAttribute="trailing" secondItem="xWq-LD-66c" secondAttribute="trailing" id="KHY-ta-AIS"/>
-                                    <constraint firstItem="xWq-LD-66c" firstAttribute="leading" secondItem="b3P-P9-0st" secondAttribute="leading" id="LNs-KL-ju1"/>
+                                    <constraint firstItem="3NV-9r-nrH" firstAttribute="top" secondItem="bSs-2j-PjA" secondAttribute="bottom" constant="10" id="2C8-4O-LFm"/>
+                                    <constraint firstAttribute="centerX" secondItem="3NV-9r-nrH" secondAttribute="centerX" id="FZV-Nx-cK5"/>
                                     <constraint firstItem="bPZ-9r-793" firstAttribute="top" secondItem="b3P-P9-0st" secondAttribute="top" id="Pc8-sU-BTK"/>
-                                    <constraint firstItem="xWq-LD-66c" firstAttribute="top" secondItem="b3P-P9-0st" secondAttribute="top" id="dP1-po-m6P"/>
+                                    <constraint firstAttribute="centerX" secondItem="bSs-2j-PjA" secondAttribute="centerX" id="WZj-8N-NIz"/>
+                                    <constraint firstItem="bSs-2j-PjA" firstAttribute="top" secondItem="b3P-P9-0st" secondAttribute="top" constant="20" id="gDv-s9-mqe"/>
                                     <constraint firstAttribute="bottom" secondItem="bPZ-9r-793" secondAttribute="bottom" id="kJJ-EM-NOL"/>
                                     <constraint firstItem="bPZ-9r-793" firstAttribute="leading" secondItem="b3P-P9-0st" secondAttribute="leading" id="nar-Dj-Hh6"/>
                                     <constraint firstAttribute="trailing" secondItem="bPZ-9r-793" secondAttribute="trailing" id="rku-i7-4ek"/>
@@ -126,7 +89,7 @@
                     <connections>
                         <outlet property="avatarImageView" destination="bSs-2j-PjA" id="aMB-iO-7gv"/>
                         <outlet property="blurImageView" destination="bPZ-9r-793" id="Syu-Dw-pRp"/>
-                        <outlet property="namesLabel" destination="yvP-tR-kaq" id="iQp-ZH-RA6"/>
+                        <outlet property="namesLabel" destination="3NV-9r-nrH" id="9U9-nD-pnN"/>
                         <outlet property="videoView" destination="aU4-A8-Cln" id="91V-Ph-Cxb"/>
                     </connections>
                 </viewController>

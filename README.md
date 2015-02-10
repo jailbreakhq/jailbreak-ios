@@ -13,6 +13,7 @@ Development
 - [**JTSImageViewController**](https://github.com/jaredsinclair/JTSImageViewController)
 - [**Stripe**](https://github.com/stripe/stripe-ios)
 - [**PaymentKit**](https://github.com/stripe/PaymentKit)
+- [**XCDYouTubeKit**](https://github.com/0xced/XCDYouTubeKit)
 
 ###Installing Dependencies
 

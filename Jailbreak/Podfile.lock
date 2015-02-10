@@ -30,6 +30,7 @@ PODS:
     - Stripe/Core (= 3.1.0)
   - Stripe/Core (3.1.0)
   - SVPullToRefresh (0.4.1)
+  - XCDYouTubeKit (2.1.0)
 
 DEPENDENCIES:
   - AFNetworking
@@ -39,6 +40,7 @@ DEPENDENCIES:
   - SIAlertView
   - Stripe
   - SVPullToRefresh
+  - XCDYouTubeKit
 
 SPEC CHECKSUMS:
   AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
@@ -48,5 +50,6 @@ SPEC CHECKSUMS:
   SIAlertView: d00609a1faa9d82f17b9f0b4eede64e84a577b10
   Stripe: aaa174b50fac40a16958cbc892457a241d0b4b08
   SVPullToRefresh: d5161ebc833a38b465364412e5e307ca80bbb190
+  XCDYouTubeKit: 0c6f5b28d27b0646989b7c42edd165997ec52299
 
 COCOAPODS: 0.35.0

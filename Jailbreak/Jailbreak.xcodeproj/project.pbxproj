@@ -35,8 +35,6 @@
 		E46A92731A79CA2A002EF3A3 /* JBChallenge.m in Sources */ = {isa = PBXBuildFile; fileRef = E46A92721A79CA2A002EF3A3 /* JBChallenge.m */; };
 		E46A92761A79CC2D002EF3A3 /* JBDonation.m in Sources */ = {isa = PBXBuildFile; fileRef = E46A92751A79CC2D002EF3A3 /* JBDonation.m */; };
 		E48FD5841A77220C00FFA94B /* UIImage+FXBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = E48FD5831A77220C00FFA94B /* UIImage+FXBlur.m */; };
-		E4B706951A88FE450064B164 /* YTPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B706941A88FE450064B164 /* YTPlayerView.m */; };
-		E4B706971A88FF350064B164 /* YTPlayerView-iframe-player.html in Resources */ = {isa = PBXBuildFile; fileRef = E4B706961A88FF350064B164 /* YTPlayerView-iframe-player.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,9 +101,6 @@
 		E46A92751A79CC2D002EF3A3 /* JBDonation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBDonation.m; sourceTree = "<group>"; };
 		E48FD5821A77220C00FFA94B /* UIImage+FXBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FXBlur.h"; sourceTree = "<group>"; };
 		E48FD5831A77220C00FFA94B /* UIImage+FXBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FXBlur.m"; sourceTree = "<group>"; };
-		E4B706931A88FE450064B164 /* YTPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTPlayerView.h; sourceTree = "<group>"; };
-		E4B706941A88FE450064B164 /* YTPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTPlayerView.m; sourceTree = "<group>"; };
-		E4B706961A88FF350064B164 /* YTPlayerView-iframe-player.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "YTPlayerView-iframe-player.html"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,7 +187,6 @@
 		E41448BD1A768EAF002EB3AB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E4B706961A88FF350064B164 /* YTPlayerView-iframe-player.html */,
 				E41448BE1A768EAF002EB3AB /* Info.plist */,
 				E41448BF1A768EAF002EB3AB /* main.m */,
 			);
@@ -261,8 +255,6 @@
 				E45E011F1A802E0D0034CA28 /* CERoundProgressLayer.m */,
 				E45E01131A8004300034CA28 /* JBCircularImageView.h */,
 				E45E01141A8004300034CA28 /* JBCircularImageView.m */,
-				E4B706931A88FE450064B164 /* YTPlayerView.h */,
-				E4B706941A88FE450064B164 /* YTPlayerView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -364,7 +356,6 @@
 			files = (
 				E41448C91A768EAF002EB3AB /* Main.storyboard in Resources */,
 				E41448CE1A768EAF002EB3AB /* LaunchScreen.xib in Resources */,
-				E4B706971A88FF350064B164 /* YTPlayerView-iframe-player.html in Resources */,
 				E41448CB1A768EAF002EB3AB /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -435,7 +426,6 @@
 				E45E01151A8004300034CA28 /* JBCircularImageView.m in Sources */,
 				E40A2AF81A7BC780001C5AF1 /* JBService.m in Sources */,
 				E45E01211A802E0D0034CA28 /* CERoundProgressLayer.m in Sources */,
-				E4B706951A88FE450064B164 /* YTPlayerView.m in Sources */,
 				E42EDF991A88C29400B1F0EF /* JBTestProfileViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -6,16 +6,18 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
-#import "YTPlayerView.h"
 #import "UIImage+FXBlur.h"
 #import "JBTestProfileViewController.h"
+#import <XCDYouTubeKit.h>
 
 @interface JBTestProfileViewController ()
 
 @property (nonatomic, weak) IBOutlet UIImageView *blurImageView;
 @property (nonatomic, weak) IBOutlet UIImageView *avatarImageView;
 @property (nonatomic, weak) IBOutlet UILabel *namesLabel;
-@property (nonatomic, weak) IBOutlet YTPlayerView *videoView;
+@property (nonatomic, weak) IBOutlet UIImageView *thumbnailImageView;
+
+@property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
 
 @end
 
@@ -25,7 +27,19 @@
 {
     [super viewDidLoad];
     
-    if (self.team.videoID) [self.videoView loadWithVideoId:self.team.videoID];
+    // YouTube video thumbnail
+    if (self.team.videoID)
+    {
+        self.videoPlayerViewController = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:self.team.videoID];
+        
+        NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+        [defaultCenter addObserver:self selector:@selector(videoPlayerViewControllerDidReceiveVideo:) name:XCDYouTubeVideoPlayerViewControllerDidReceiveVideoNotification object:self.videoPlayerViewController];
+        [defaultCenter addObserver:self selector:@selector(moviePlayerPlaybackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.videoPlayerViewController.moviePlayer];
+    }
+    else
+    {
+        
+    }
     
     __weak typeof(self) weakSelf = self;
     [[SDWebImageManager sharedManager] downloadImageWithURL:self.team.avatarURL
@@ -47,6 +61,23 @@
     
     [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarLargeURL completed:nil];
     self.namesLabel.text = self.team.membersNames;
+}
+
+- (void)videoPlayerViewControllerDidReceiveVideo:(NSNotification *)notification
+{
+    XCDYouTubeVideo *video = notification.userInfo[XCDYouTubeVideoUserInfoKey];
+    
+    [self.thumbnailImageView sd_setImageWithURL:video.mediumThumbnailURL ?: video.smallThumbnailURL];
+}
+
+- (void)moviePlayerPlaybackDidFinish:(NSNotification *)notification
+{
+    
+}
+
+- (IBAction)playVideo:(UITapGestureRecognizer *)sender
+{
+    [self presentMoviePlayerViewControllerAnimated:self.videoPlayerViewController];
 }
 
 @end

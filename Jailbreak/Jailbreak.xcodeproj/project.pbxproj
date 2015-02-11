@@ -24,6 +24,7 @@
 		E42EDF991A88C29400B1F0EF /* JBTestProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E42EDF981A88C29400B1F0EF /* JBTestProfileViewController.m */; };
 		E43EFEE01A894AD200B93D05 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43EFEDF1A894AD200B93D05 /* MapKit.framework */; };
 		E43EFEE31A894E9900B93D05 /* MKMapView+Snapshot.m in Sources */ = {isa = PBXBuildFile; fileRef = E43EFEE21A894E9900B93D05 /* MKMapView+Snapshot.m */; };
+		E43EFEE61A8AC6BE00B93D05 /* JBYouTubeView.m in Sources */ = {isa = PBXBuildFile; fileRef = E43EFEE51A8AC6BE00B93D05 /* JBYouTubeView.m */; };
 		E45700691A794C2300A36ACD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45700681A794C2300A36ACD /* QuartzCore.framework */; };
 		E457006C1A7959AC00A36ACD /* JBCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = E457006B1A7959AC00A36ACD /* JBCheckin.m */; };
 		E457006F1A795D8B00A36ACD /* JBAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E457006E1A795D8B00A36ACD /* JBAPIManager.m */; };
@@ -80,6 +81,8 @@
 		E43EFEDF1A894AD200B93D05 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E43EFEE11A894E9900B93D05 /* MKMapView+Snapshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+Snapshot.h"; sourceTree = "<group>"; };
 		E43EFEE21A894E9900B93D05 /* MKMapView+Snapshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+Snapshot.m"; sourceTree = "<group>"; };
+		E43EFEE41A8AC6BE00B93D05 /* JBYouTubeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBYouTubeView.h; sourceTree = "<group>"; };
+		E43EFEE51A8AC6BE00B93D05 /* JBYouTubeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBYouTubeView.m; sourceTree = "<group>"; };
 		E45700681A794C2300A36ACD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E457006A1A7959AC00A36ACD /* JBCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCheckin.h; sourceTree = "<group>"; };
 		E457006B1A7959AC00A36ACD /* JBCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCheckin.m; sourceTree = "<group>"; };
@@ -249,6 +252,8 @@
 		E41448E51A769551002EB3AB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E43EFEE41A8AC6BE00B93D05 /* JBYouTubeView.h */,
+				E43EFEE51A8AC6BE00B93D05 /* JBYouTubeView.m */,
 				E45E011C1A802E0D0034CA28 /* CERoundProgressView.h */,
 				E45E011D1A802E0D0034CA28 /* CERoundProgressView.m */,
 				E45E011E1A802E0D0034CA28 /* CERoundProgressLayer.h */,
@@ -410,6 +415,7 @@
 				E457006C1A7959AC00A36ACD /* JBCheckin.m in Sources */,
 				E43EFEE31A894E9900B93D05 /* MKMapView+Snapshot.m in Sources */,
 				E41448F91A76E787002EB3AB /* JBFeedTableViewController.m in Sources */,
+				E43EFEE61A8AC6BE00B93D05 /* JBYouTubeView.m in Sources */,
 				E45E01181A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.m in Sources */,
 				E45E01241A803CB30034CA28 /* JBTeamsTableViewController.m in Sources */,
 				E41448C31A768EAF002EB3AB /* JBAppDelegate.m in Sources */,

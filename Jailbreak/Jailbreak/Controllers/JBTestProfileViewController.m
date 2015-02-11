@@ -7,6 +7,7 @@
 //
 
 #import "UIImage+FXBlur.h"
+#import "JBYouTubeView.h"
 #import "JBTestProfileViewController.h"
 #import <XCDYouTubeKit.h>
 
@@ -15,7 +16,7 @@
 @property (nonatomic, weak) IBOutlet UIImageView *blurImageView;
 @property (nonatomic, weak) IBOutlet UIImageView *avatarImageView;
 @property (nonatomic, weak) IBOutlet UILabel *namesLabel;
-@property (nonatomic, weak) IBOutlet UIImageView *thumbnailImageView;
+@property (nonatomic, weak) IBOutlet JBYouTubeView *videoView;
 
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
 
@@ -26,6 +27,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVideo:)];
+    tapGesture.numberOfTapsRequired = 1;
+    tapGesture.numberOfTouchesRequired = 1;
+    [self.videoView.playButton addGestureRecognizer:tapGesture];
     
     // YouTube video thumbnail
     if (self.team.videoID)
@@ -67,7 +73,8 @@
 {
     XCDYouTubeVideo *video = notification.userInfo[XCDYouTubeVideoUserInfoKey];
     
-    [self.thumbnailImageView sd_setImageWithURL:video.mediumThumbnailURL ?: video.smallThumbnailURL];
+    self.videoView.titleLabel.text = video.title;
+    [self.videoView.thumbnailImageView sd_setImageWithURL:video.largeThumbnailURL ?: video.mediumThumbnailURL ?: video.smallThumbnailURL];
 }
 
 - (void)moviePlayerPlaybackDidFinish:(NSNotification *)notification
@@ -75,7 +82,7 @@
     
 }
 
-- (IBAction)playVideo:(UITapGestureRecognizer *)sender
+- (void)playVideo:(UITapGestureRecognizer *)sender
 {
     [self presentMoviePlayerViewControllerAnimated:self.videoPlayerViewController];
 }

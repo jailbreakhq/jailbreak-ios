@@ -71,38 +71,30 @@
                                     <constraint firstAttribute="height" constant="200" id="v6m-1D-TKF"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lvv-By-Fen">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ipo-rG-kEY" customClass="JBYouTubeView">
                                 <rect key="frame" x="20" y="284" width="560" height="227"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="jDA-VT-mct" appends="YES" id="XRV-GB-64j"/>
-                                </connections>
-                            </imageView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="rKi-t4-C7F" firstAttribute="top" secondItem="ipo-rG-kEY" secondAttribute="bottom" constant="40" id="244-Hx-ZBZ"/>
                             <constraint firstItem="b3P-P9-0st" firstAttribute="leading" secondItem="zTf-KI-feY" secondAttribute="leading" id="ALf-6u-KqF"/>
-                            <constraint firstAttribute="trailing" secondItem="lvv-By-Fen" secondAttribute="trailing" constant="20" id="M05-5o-2tU"/>
+                            <constraint firstItem="ipo-rG-kEY" firstAttribute="leading" secondItem="zTf-KI-feY" secondAttribute="leading" constant="20" id="Jek-fP-Jo9"/>
                             <constraint firstAttribute="trailing" secondItem="b3P-P9-0st" secondAttribute="trailing" id="XAr-0t-qK3"/>
                             <constraint firstItem="b3P-P9-0st" firstAttribute="top" secondItem="7rn-cN-8Sm" secondAttribute="bottom" id="a1R-g0-2Ex"/>
-                            <constraint firstItem="lvv-By-Fen" firstAttribute="leading" secondItem="zTf-KI-feY" secondAttribute="leading" constant="20" id="aJh-8X-qvD"/>
-                            <constraint firstItem="rKi-t4-C7F" firstAttribute="top" secondItem="lvv-By-Fen" secondAttribute="bottom" constant="40" id="dih-II-mIp"/>
-                            <constraint firstItem="lvv-By-Fen" firstAttribute="top" secondItem="b3P-P9-0st" secondAttribute="bottom" constant="20" id="m3b-Iu-xY7"/>
+                            <constraint firstAttribute="trailing" secondItem="ipo-rG-kEY" secondAttribute="trailing" constant="20" id="eXV-2X-5to"/>
+                            <constraint firstItem="ipo-rG-kEY" firstAttribute="top" secondItem="b3P-P9-0st" secondAttribute="bottom" constant="20" id="wx1-eQ-3Vk"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="avatarImageView" destination="bSs-2j-PjA" id="aMB-iO-7gv"/>
                         <outlet property="blurImageView" destination="bPZ-9r-793" id="Syu-Dw-pRp"/>
                         <outlet property="namesLabel" destination="3NV-9r-nrH" id="9U9-nD-pnN"/>
-                        <outlet property="thumbnailImageView" destination="lvv-By-Fen" id="QDP-Zy-KTa"/>
+                        <outlet property="videoView" destination="ipo-rG-kEY" id="M60-kC-CE4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lhh-dS-shc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="jDA-VT-mct">
-                    <connections>
-                        <action selector="playVideo:" destination="pdG-8H-KlR" id="9yO-he-PwW"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2333" y="591"/>
         </scene>

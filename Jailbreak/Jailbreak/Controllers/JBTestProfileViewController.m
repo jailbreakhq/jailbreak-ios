@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
-#import "UIImage+FXBlur.h"
+#import "UIImage+JBAdditions.h"
 #import "JBYouTubeView.h"
 #import "JBTestProfileViewController.h"
 #import <XCDYouTubeKit.h>
@@ -55,8 +55,9 @@
                                                      if (image)
                                                      {
                                                          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                                             UIImage *blurImage = [image resizedImage:CGSizeMake(image.size.width/2.0, image.size.height/2.0) interpolationQuality:kCGInterpolationNone];
                                                              // Blur image
-                                                             UIImage *blurImage = [image blurredImageWithRadius:10 iterations:3 tintColor:[UIColor colorWithWhite:0.0 alpha:0.25]];
+                                                             blurImage = [blurImage blurredImageWithRadius:10 iterations:3 tintColor:[UIColor colorWithWhite:0.0 alpha:0.25]];
                                                              
                                                              dispatch_async(dispatch_get_main_queue(), ^{
                                                                  weakSelf.blurImageView.image = blurImage;

@@ -10,6 +10,7 @@
 
 static char kRoundProgressViewKey;
 static char kProgressViewKey;
+static char kProgressColor;
 
 @interface UIImageView (Private)
 
@@ -44,10 +45,20 @@ static char kProgressViewKey;
     objc_setAssociatedObject(self, &kProgressViewKey, progressView, OBJC_ASSOCIATION_RETAIN);
 }
 
+- (UIColor *)progressColor
+{
+    return (UIColor *)objc_getAssociatedObject(self, &kProgressColor);
+}
+
+- (void)setProgressColor:(UIColor *)progressColor
+{
+    objc_setAssociatedObject(self, &kProgressColor, progressColor, OBJC_ASSOCIATION_RETAIN);
+}
+
 - (void)addProgressView
 {
     UIColor *trackColor = [UIColor colorWithWhite:0.85 alpha:1.0];
-    UIColor *tintColor = [UIColor orangeColor];
+    UIColor *tintColor = self.progressColor ?: [UIColor orangeColor];
     
     if ([self isSquare])
     {

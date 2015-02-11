@@ -50,5 +50,6 @@ typedef NS_ENUM(NSUInteger, University)
 
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
+- (NSString *)getUniversityString;
 
 @end

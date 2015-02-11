@@ -123,7 +123,18 @@
                              @"nuim": @4, @"cit": @5, @"nci": @6, @"gmit": @7,
                              @"itt": @8, @"itc": @9};
     
-    return (University)lookup[string.lowercaseString];
+    return (University)[lookup[string.lowercaseString] unsignedIntegerValue];
+}
+
+#pragma mark - Public Methods
+
+- (NSString *)getUniversityString
+{
+    NSDictionary *lookup = @{@0: @"TCD", @1: @"UCD", @2: @"UCC", @3: @"NUIG",
+                             @4: @"NUIM", @5: @"CIT", @6: @"NCI", @7: @"GMIT",
+                             @8: @"ITT", @9: @"ITC"};
+    
+    return lookup[@(self.university)];
 }
 
 @end

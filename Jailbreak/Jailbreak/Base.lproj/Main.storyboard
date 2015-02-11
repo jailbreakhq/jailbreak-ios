@@ -105,7 +105,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="230" sectionHeaderHeight="10" sectionFooterHeight="1" id="2ts-q8-l68">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.8280494213104248" green="0.83898466825485229" blue="0.86080974340438843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" id="bzH-GD-eH7" customClass="JBTeamsTableViewCell">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -117,7 +117,7 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5cc-wi-dih" customClass="JBCircularImageView">
                                                     <rect key="frame" x="240" y="5" width="100" height="100"/>
-                                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                    <color key="backgroundColor" red="0.8280494213104248" green="0.83898466825485229" blue="0.86080974340438843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="MdW-M6-GtB"/>
                                                         <constraint firstAttribute="height" constant="100" id="YXy-O9-d1p"/>
@@ -199,7 +199,6 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="c7l-ue-4ut" firstAttribute="leading" secondItem="9pD-k9-FBb" secondAttribute="leading" id="E9L-f6-WLG"/>
                                                         <constraint firstAttribute="bottom" secondItem="c7l-ue-4ut" secondAttribute="bottom" id="IQo-fs-SCa"/>
@@ -234,7 +233,6 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="KtL-hf-ixz" firstAttribute="leading" secondItem="xhv-e1-24a" secondAttribute="leading" id="Kh6-TB-oiX"/>
                                                         <constraint firstAttribute="trailing" secondItem="KtL-hf-ixz" secondAttribute="trailing" id="WaM-aQ-Wev"/>
@@ -275,7 +273,7 @@
                                         <constraint firstItem="zuA-Kg-poE" firstAttribute="top" secondItem="ZSm-VG-Jxi" secondAttribute="top" id="RsB-uP-DMd"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.8280494213104248" green="0.83898466825485229" blue="0.86080974340438843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="avatarImageView" destination="5cc-wi-dih" id="4JK-gk-1vY"/>
                                     <outlet property="checkinLabel" destination="flq-c7-rsU" id="kXX-e1-KdO"/>

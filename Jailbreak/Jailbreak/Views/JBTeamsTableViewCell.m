@@ -24,7 +24,7 @@
     self.collegeLabel.text = [self.team getUniversityString];
     self.rankLabel.text = @"42nd";
     self.traveledLabel.text = @"40 km";
-    self.checkinLabel.text = @"Collins Baracks";
+    self.checkinLabel.text = @"Collins Barracks";
     
     [self setUniversityColors];
     
@@ -75,6 +75,7 @@
         _priceFormatter = [[NSNumberFormatter alloc] init];
         [_priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
         [_priceFormatter setLocale:[NSLocale currentLocale]];
+        [_priceFormatter setCurrencyCode:@"EUR"];
     });
     _priceFormatter.minimumFractionDigits = 0;
     

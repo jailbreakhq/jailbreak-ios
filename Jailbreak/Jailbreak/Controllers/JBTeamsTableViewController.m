@@ -7,6 +7,7 @@
 //
 
 #import "JBTeam.h"
+#import "JBService.h"
 #import "JBTeamsTableViewCell.h"
 #import "JBTeamsTableViewController.h"
 #import "JBTestProfileViewController.h"
@@ -16,6 +17,7 @@
 @property (nonatomic, strong) NSMutableArray *teams;
 @property (nonatomic, strong) NSMutableArray *teamsPointer;
 @property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, strong) JBService *service;
 
 @end
 
@@ -57,16 +59,22 @@
     self.tableView.tableHeaderView.backgroundColor = [UIColor clearColor];
     self.definesPresentationContext = YES; // Fixes dodgy search presenting when used outside Navigation Bar
     
-    // Fetch teams
-    [[JBAPIManager manager] getAllTeamsWithParameters:nil
-                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                  for (NSDictionary *team in responseObject)
-                                                  {
-                                                      [self.teams addObject:[[JBTeam alloc] initWithJSON:team]];
-                                                  }
-                                                  
-                                                  [self.tableView reloadData];
-                                              } failure:nil];
+    [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        self.service = [[JBService alloc] initWithJSON:responseObject];
+        
+        // Fetch teams
+        [[JBAPIManager manager] getAllTeamsWithParameters:nil
+                                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                      for (NSDictionary *dict in responseObject)
+                                                      {
+                                                          JBTeam *team = [[JBTeam alloc] initWithJSON:dict];
+                                                          team.distanceTravelled = [team.currentLocation distanceFromLocation:self.service.finalLocation];
+                                                          [self.teams addObject:team];
+                                                      }
+                                                      
+                                                      [self.tableView reloadData];
+                                                  } failure:nil];
+    } failure:nil];
     
     // Configure TableView
 //    self.tableView.estimatedRowHeight = 30.0;

@@ -13,6 +13,9 @@ typedef void (^HTTPRequestFailure)(AFHTTPRequestOperation *operation, NSError *e
 
 @interface JBAPIManager : AFHTTPRequestOperationManager
 
+- (void)getServicesWithSuccess:(HTTPRequestSuccess)success
+                       failure:(HTTPRequestFailure)failure;
+
 - (void)getAllTeamsWithParameters:(NSDictionary *)parameters
                           success:(HTTPRequestSuccess)success
                           failure:(HTTPRequestFailure)failure;

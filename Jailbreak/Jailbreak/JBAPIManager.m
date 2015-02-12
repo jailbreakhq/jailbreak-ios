@@ -47,6 +47,14 @@
     return self;
 }
 
+- (void)getServicesWithSuccess:(HTTPRequestSuccess)success failure:(HTTPRequestFailure)failure
+{
+    [self GET:@""
+   parameters:nil
+      success:SuccessBlockWithJSONOperation
+      failure:FailureBlockWithJSONOperation];
+}
+
 - (void)getAllTeamsWithParameters:(NSDictionary *)parameters
                           success:(HTTPRequestSuccess)success
                           failure:(HTTPRequestFailure)failure

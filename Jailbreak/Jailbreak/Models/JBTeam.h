@@ -35,13 +35,13 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, strong) NSURL *avatarLargeURL; // 1024x1024
 @property (nonatomic, strong) NSString *tagLine;
 @property (nonatomic, strong) NSString *about;
-@property (nonatomic, assign) CLLocationDegrees currentLatitude;
-@property (nonatomic, assign) CLLocationDegrees currentLongitude;
+@property (nonatomic, strong) CLLocation *currentLocation;
 @property (nonatomic, assign) University university;
 @property (nonatomic, strong) NSString *universityString;
 @property (nonatomic, assign) NSUInteger amountRaisedOnline;
 @property (nonatomic, assign) NSUInteger amountRaisedOffline;
 @property (nonatomic, assign) CLLocationDistance distanceToX;
+@property (nonatomic, assign) CLLocationDistance distanceTravelled;
 @property (nonatomic, assign) NSUInteger countries;
 @property (nonatomic, assign) NSUInteger transports;
 @property (nonatomic, strong) NSURL *donationsURL;

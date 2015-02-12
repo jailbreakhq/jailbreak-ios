@@ -23,7 +23,7 @@
     self.raisedLabel.text = [[self priceFormatter] stringFromNumber:donations];
     self.collegeLabel.text = self.team.universityString;
     self.rankLabel.text = @"42nd";
-    self.traveledLabel.text = @"40 km";
+    self.traveledLabel.text = [[self lengthFormatter] stringFromMeters:self.team.distanceTravelled];
     self.checkinLabel.text = @"Collins Barracks";
     
     [self setUniversityColors];
@@ -76,10 +76,23 @@
         [_priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
         [_priceFormatter setLocale:[NSLocale currentLocale]];
         [_priceFormatter setCurrencyCode:@"EUR"];
+        _priceFormatter.minimumFractionDigits = 0;
     });
-    _priceFormatter.minimumFractionDigits = 0;
     
     return _priceFormatter;
+}
+
+- (NSLengthFormatter *)lengthFormatter
+{
+    static NSLengthFormatter *_lengthFormater = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _lengthFormater = [[NSLengthFormatter alloc] init];
+        [_lengthFormater.numberFormatter setLocale:[NSLocale currentLocale]];
+        _lengthFormater.numberFormatter.maximumFractionDigits = 0;
+    });
+    
+    return _lengthFormater;
 }
 
 @end

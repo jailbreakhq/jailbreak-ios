@@ -15,10 +15,8 @@
 @property (nonatomic, assign) NSUInteger amountRaised;
 @property (nonatomic, assign) NSUInteger winningTeamID;
 @property (nonatomic, assign, getter=isTFMLive) BOOL tfmLive;
-@property (nonatomic, assign) CLLocationDegrees startLocationLatitude;
-@property (nonatomic, assign) CLLocationDegrees startLocationLongitude;
-@property (nonatomic, assign) CLLocationDegrees finalLocationLatitude;
-@property (nonatomic, assign) CLLocationDegrees finalLocationLongitude;
+@property (nonatomic, strong) CLLocation *startLocation;
+@property (nonatomic, strong) CLLocation *finalLocation;
 @property (nonatomic, strong) NSURL *teamsURL;
 @property (nonatomic, strong) NSURL *facebookTokensURL;
 @property (nonatomic, strong) NSURL *authenticateURL;

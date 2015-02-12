@@ -11,6 +11,7 @@
 @interface JBTeam ()
 
 - (University)getUniversityFromString:(NSString *)string;
+- (NSString *)getUniversityString;
 
 @end
 
@@ -36,6 +37,7 @@
         self.currentLatitude = [aDecoder decodeDoubleForKey:@"currentLatitude"];
         self.currentLongitude = [aDecoder decodeDoubleForKey:@"currentLongitude"];
         self.university = [aDecoder decodeIntegerForKey:@"university"];
+        self.universityString = [aDecoder decodeObjectForKey:@"universityString"];
         self.amountRaisedOnline = [aDecoder decodeIntegerForKey:@"amountRaisedOnline"];
         self.amountRaisedOffline = [aDecoder decodeIntegerForKey:@"amountRaisedOffline"];
         self.distanceToX = [aDecoder decodeDoubleForKey:@"distanceToX"];
@@ -64,6 +66,7 @@
     [aCoder encodeDouble:self.currentLatitude forKey:@"currentLatitude"];
     [aCoder encodeDouble:self.currentLongitude forKey:@"currentLongitude"];
     [aCoder encodeInteger:self.university forKey:@"university"];
+    [aCoder encodeObject:self.universityString forKey:@"universityString"];
     [aCoder encodeInteger:self.amountRaisedOnline forKey:@"amountRaisedOnline"];
     [aCoder encodeInteger:self.amountRaisedOffline forKey:@"amountRaisedOffline"];
     [aCoder encodeDouble:self.distanceToX forKey:@"distanceToX"];
@@ -95,6 +98,7 @@
         self.currentLatitude = [json[@"currentLat"] doubleValue];
         self.currentLongitude = [json[@"currentLon"] doubleValue];
         self.university = [self getUniversityFromString:json[@"university"]];
+        self.universityString = [self getUniversityString];
         self.amountRaisedOnline = [json[@"amountRaisedOnline"] unsignedIntegerValue];
         self.amountRaisedOffline = [json[@"amountRaisedOffline"] unsignedIntegerValue];
         self.distanceToX = [json[@"distanceToX"] doubleValue];

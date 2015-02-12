@@ -16,8 +16,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="bvv-f5-FLn" kind="relationship" relationship="viewControllers" id="Tnd-B8-zB6"/>
                         <segue destination="xYd-Mp-LV0" kind="relationship" relationship="viewControllers" id="Hma-4C-EAd"/>
+                        <segue destination="bvv-f5-FLn" kind="relationship" relationship="viewControllers" id="Tnd-B8-zB6"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j7L-CM-ea6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -102,7 +102,7 @@
         <scene sceneID="fWE-u2-UrP">
             <objects>
                 <tableViewController id="2As-GR-JYB" customClass="JBTeamsTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="230" sectionHeaderHeight="10" sectionFooterHeight="1" id="2ts-q8-l68">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="230" sectionHeaderHeight="5" sectionFooterHeight="5" id="2ts-q8-l68">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.8280494213104248" green="0.83898466825485229" blue="0.86080974340438843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

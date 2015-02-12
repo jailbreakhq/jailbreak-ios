@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, assign) CLLocationDegrees currentLatitude;
 @property (nonatomic, assign) CLLocationDegrees currentLongitude;
 @property (nonatomic, assign) University university;
+@property (nonatomic, strong) NSString *universityString;
 @property (nonatomic, assign) NSUInteger amountRaisedOnline;
 @property (nonatomic, assign) NSUInteger amountRaisedOffline;
 @property (nonatomic, assign) CLLocationDistance distanceToX;
@@ -50,6 +51,5 @@ typedef NS_ENUM(NSUInteger, University)
 
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
-- (NSString *)getUniversityString;
 
 @end

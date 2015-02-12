@@ -21,7 +21,7 @@
     
     NSNumber *donations = [NSNumber numberWithDouble:(((self.team.amountRaisedOnline + self.team.amountRaisedOffline) / 100.0))];
     self.raisedLabel.text = [[self priceFormatter] stringFromNumber:donations];
-    self.collegeLabel.text = [self.team getUniversityString];
+    self.collegeLabel.text = self.team.universityString;
     self.rankLabel.text = @"42nd";
     self.traveledLabel.text = @"40 km";
     self.checkinLabel.text = @"Collins Barracks";

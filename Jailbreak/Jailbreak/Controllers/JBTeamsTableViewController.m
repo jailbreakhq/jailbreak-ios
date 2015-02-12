@@ -11,9 +11,11 @@
 #import "JBTeamsTableViewController.h"
 #import "JBTestProfileViewController.h"
 
-@interface JBTeamsTableViewController ()
+@interface JBTeamsTableViewController () <UISearchControllerDelegate, UISearchResultsUpdating>
 
 @property (nonatomic, strong) NSMutableArray *teams;
+@property (nonatomic, strong) NSMutableArray *teamsPointer;
+@property (nonatomic, strong) UISearchController *searchController;
 
 @end
 
@@ -23,7 +25,11 @@
 
 - (NSMutableArray *)teams
 {
-    if (!_teams) _teams = [NSMutableArray new];
+    if (!_teams)
+    {
+        _teams = [NSMutableArray new];
+        self.teamsPointer = _teams;
+    }
     return _teams;
 }
 
@@ -33,6 +39,24 @@
 {
     [super viewDidLoad];
     
+    // Configure Search
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil]; // display in same view as searching!
+    self.searchController.delegate = self;
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.searchBar.frame = CGRectMake(0, 0, self.tableView.frame.size.width, 44);
+    self.searchController.searchBar.placeholder = @"Search for Team";
+//    self.searchController.searchBar.translucent = NO;
+    self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    self.searchController.searchBar.barTintColor = [UIColor whiteColor];
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    self.navigationItem.titleView = self.searchController.searchBar;
+
+    // Lower space between 1st cell and top
+    self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.sectionHeaderHeight + self.tableView.sectionFooterHeight)];
+    self.tableView.tableHeaderView.backgroundColor = [UIColor clearColor];
+    self.definesPresentationContext = YES; // Fixes dodgy search presenting when used outside Navigation Bar
+    
     // Fetch teams
     [[JBAPIManager manager] getAllTeamsWithParameters:nil
                                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -41,7 +65,6 @@
                                                       [self.teams addObject:[[JBTeam alloc] initWithJSON:team]];
                                                   }
                                                   
-                                                  self.teams = [[self sortTeamsByKey:@"number" ascending:YES] mutableCopy];
                                                   [self.tableView reloadData];
                                               } failure:nil];
     
@@ -85,6 +108,33 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self performSegueWithIdentifier:@"showTeamProfile" sender:indexPath];
+}
+
+#pragma mark - UISearchResultsUpdatingDelegate
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    if (searchController.searchBar.text.length)
+    {
+        NSString *predicateFormat = @"(name CONTAINS[cd] $term) OR (membersNames CONTAINS[cd] $term) OR (about CONTAINS[cd] $term) OR (universityString MATCHES[cd] $term)";
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat];
+        NSPredicate *newPredicate = [predicate predicateWithSubstitutionVariables:@{@"term": searchController.searchBar.text}];
+        self.teams = [[self.teamsPointer filteredArrayUsingPredicate:newPredicate] mutableCopy];
+    }
+    else
+    {
+        self.teams = self.teamsPointer;
+    }
+    
+    [self.tableView reloadData];
+}
+
+#pragma mark - UISearchControllerDelegate
+
+- (void)didDismissSearchController:(UISearchController *)searchController
+{
+    self.teams = self.teamsPointer;
+    [self.tableView reloadData];
 }
 
 #pragma mark - Helper Methods

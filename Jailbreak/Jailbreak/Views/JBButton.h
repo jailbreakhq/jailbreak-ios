@@ -12,13 +12,14 @@ IB_DESIGNABLE
 
 @interface JBButton : UIButton
 
-@property (nonatomic, strong) IBInspectable UIColor *highlightedBackgroundColor;
-@property (nonatomic, strong) IBInspectable UIColor *highlightedTextColor;
-@property (nonatomic, strong) IBInspectable UIColor *highlightedBorderColor;
+// Active == Highlighted | Selected
+@property (nonatomic, strong) IBInspectable UIColor *activeBackgroundColor;
+@property (nonatomic, strong) IBInspectable UIColor *activeTextColor;
+@property (nonatomic, strong) IBInspectable UIColor *activeBorderColor;
 
-@property (nonatomic, strong) IBInspectable UIColor *backgroundColor;
-@property (nonatomic, strong) IBInspectable UIColor *textColor;
-@property (nonatomic, strong) IBInspectable UIColor *borderColor;
+@property (nonatomic, strong) IBInspectable UIColor *normalBackgroundColor;
+@property (nonatomic, strong) IBInspectable UIColor *normalTextColor;
+@property (nonatomic, strong) IBInspectable UIColor *normalBorderColor;
 
 @property (nonatomic, assign) IBInspectable CGFloat cornerRadius;
 @property (nonatomic, assign) IBInspectable CGFloat borderWidth;

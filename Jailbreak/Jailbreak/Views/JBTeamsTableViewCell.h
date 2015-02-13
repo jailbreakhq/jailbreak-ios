@@ -18,7 +18,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *rankLabel;
 @property (nonatomic, weak) IBOutlet UILabel *collegeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *raisedLabel;
-@property (nonatomic, weak) IBOutlet UILabel *traveledLabel;
+@property (nonatomic, weak) IBOutlet UILabel *distanceToXLabel;
 @property (nonatomic, weak) IBOutlet UILabel *namesLabel;
 @property (nonatomic, weak) IBOutlet UILabel *teamNameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *checkinLabel;

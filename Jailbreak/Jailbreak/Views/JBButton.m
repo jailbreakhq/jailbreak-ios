@@ -12,42 +12,41 @@
 
 #pragma mark - Accessors
 
-- (void)setHighlightedBackgroundColor:(UIColor *)highlightedBackgroundColor
+- (void)setActiveBackgroundColor:(UIColor *)activeBackgroundColor
 {
-    _highlightedBackgroundColor = highlightedBackgroundColor;
-    [self setBackgroundImage:[self backgroundImageWithColor:_highlightedBackgroundColor] forState:UIControlStateHighlighted];
+    _activeBackgroundColor = activeBackgroundColor;
+    [self setBackgroundImage:[self imageWithColor:_activeBackgroundColor] forState:UIControlStateHighlighted];
 }
 
-- (void)setBackgroundColor:(UIColor *)backgroundColor
+- (void)setNormalBackgroundColor:(UIColor *)normalBackgroundColor
 {
-    _backgroundColor = backgroundColor;
-    UIImage *backgroundImage = _backgroundColor ? [self backgroundImageWithColor:_backgroundColor] : nil;
-    [self setBackgroundImage:backgroundImage forState:UIControlStateNormal];
+    _normalBackgroundColor = normalBackgroundColor;
+    [self setBackgroundImage:[self imageWithColor:_normalBackgroundColor] forState:UIControlStateNormal];
 }
 
-- (void)setHighlightedTextColor:(UIColor *)highlightedTextColor
+- (void)setActiveTextColor:(UIColor *)activeTextColor
 {
-    _highlightedTextColor = highlightedTextColor;
-    [self setTitleColor:_highlightedTextColor forState:UIControlStateHighlighted];
+    _activeTextColor = activeTextColor;
+    [self setTitleColor:_activeTextColor forState:UIControlStateHighlighted];
 }
 
-- (void)setTextColor:(UIColor *)textColor
+- (void)setNormalTextColor:(UIColor *)normalTextColor
 {
-    _textColor = textColor;
-    [self setTitleColor:_textColor forState:UIControlStateNormal];
+    _normalTextColor = normalTextColor;
+    [self setTitleColor:_normalTextColor forState:UIControlStateNormal];
 }
 
-- (void)setHighlightedBorderColor:(UIColor *)highlightedBorderColor
+- (void)setActiveBorderColor:(UIColor *)activeBorderColor
 {
-    _highlightedBorderColor = highlightedBorderColor;
-    self.layer.borderColor = _highlightedBorderColor.CGColor;
+    _activeBorderColor = activeBorderColor;
+    self.layer.borderColor = _activeBorderColor.CGColor;
     
 }
 
-- (void)setBorderColor:(UIColor *)borderColor
+- (void)setNormalBorderColor:(UIColor *)normalBorderColor
 {
-    _borderColor = borderColor;
-    self.layer.borderColor = _borderColor.CGColor;
+    _normalBorderColor = normalBorderColor;
+    self.layer.borderColor = _normalBackgroundColor.CGColor;
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius
@@ -104,17 +103,22 @@
 
 - (void)delay
 {
-    [self setBackgroundImage:[self backgroundImageWithColor:self.highlightedBackgroundColor] forState:UIControlStateNormal];
-    [self setTitleColor:self.highlightedTextColor forState:UIControlStateNormal];
+    [self setBackgroundImage:[self imageWithColor:self.activeBackgroundColor] forState:UIControlStateNormal];
+    [self setTitleColor:self.activeTextColor forState:UIControlStateNormal];
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        UIImage *backgroundImage = self.backgroundColor ? [self backgroundImageWithColor:self.backgroundColor] : nil;
-        [self setBackgroundImage:backgroundImage forState:UIControlStateNormal];
-        [self setTitleColor:self.textColor forState:UIControlStateNormal];
+        [self setBackgroundImage:[self imageWithColor:self.normalBackgroundColor] forState:UIControlStateNormal];
+        [self setTitleColor:self.normalTextColor forState:UIControlStateNormal];
     });
 }
 
-- (UIImage *)backgroundImageWithColor:(UIColor *)color
+- (UIImage *)imageWithColor:(UIColor *)color
 {
+    if (!color)
+    {
+        return nil;
+    }
+    
     CGRect rect = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();

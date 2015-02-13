@@ -23,7 +23,7 @@
     self.raisedLabel.text = [[self priceFormatter] stringFromNumber:donations];
     self.collegeLabel.text = self.team.universityString;
     self.rankLabel.text = @"42nd";
-    self.traveledLabel.text = [[self lengthFormatter] stringFromMeters:self.team.distanceTravelled];
+    self.distanceToXLabel.text = [[self lengthFormatter] stringFromMeters:self.team.distanceToX];
     self.checkinLabel.text = @"Collins Barracks";
     
     [self setUniversityColors];
@@ -57,14 +57,16 @@
     self.raisedLabel.backgroundColor = color;
     self.rankLabel.backgroundColor = color;
     self.collegeLabel.backgroundColor = color;
-    self.traveledLabel.backgroundColor = color;
+    self.distanceToXLabel.backgroundColor = color;
     self.avatarImageView.progressColor = color;
     
-    self.donateButton.textColor = color;
-    self.donateButton.borderColor = color;
-    self.donateButton.highlightedBorderColor = color;
-    self.donateButton.highlightedBackgroundColor = color;
-    self.donateButton.highlightedTextColor = [UIColor whiteColor];
+    self.donateButton.normalTextColor = color;
+    self.donateButton.normalBorderColor = color;
+    self.donateButton.normalBackgroundColor = [UIColor clearColor];
+    self.donateButton.activeTextColor = [UIColor whiteColor];
+    self.donateButton.activeBorderColor = color;
+    self.donateButton.activeBackgroundColor = color;
+    self.donateButton.borderWidth = 1.0;
 }
 
 - (NSNumberFormatter *)priceFormatter

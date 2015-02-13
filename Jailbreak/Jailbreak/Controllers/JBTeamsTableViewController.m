@@ -68,7 +68,8 @@
                                                       for (NSDictionary *dict in responseObject)
                                                       {
                                                           JBTeam *team = [[JBTeam alloc] initWithJSON:dict];
-                                                          team.distanceTravelled = [team.currentLocation distanceFromLocation:self.service.finalLocation];
+                                                          team.distanceToX = [team.currentLocation distanceFromLocation:self.service.finalLocation];
+                                                          team.distanceTravelled = [self.service.startLocation distanceFromLocation:team.currentLocation];
                                                           [self.teams addObject:team];
                                                       }
                                                       

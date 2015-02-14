@@ -14,6 +14,8 @@ Development
 - [**Stripe**](https://github.com/stripe/stripe-ios)
 - [**PaymentKit**](https://github.com/stripe/PaymentKit)
 - [**XCDYouTubeKit**](https://github.com/0xced/XCDYouTubeKit)
+- [**JVFloatLabeledTextField**](https://github.com/jverdi/JVFloatLabeledTextField)
+- [**BSKeyboardControls**](https://github.com/simonbs/BSKeyboardControls)
 
 ###Installing Dependencies
 

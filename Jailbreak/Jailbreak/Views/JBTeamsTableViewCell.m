@@ -16,15 +16,16 @@
 {
     _team = team;
     
-    self.namesLabel.text = self.team.membersNames;
-    self.teamNameLabel.text = self.team.name;
-    
     NSNumber *donations = [NSNumber numberWithDouble:(((self.team.amountRaisedOnline + self.team.amountRaisedOffline) / 100.0))];
     self.raisedLabel.text = [[self priceFormatter] stringFromNumber:donations];
+    self.namesLabel.text = self.team.membersNames;
+    self.teamNameLabel.text = self.team.name;
     self.collegeLabel.text = self.team.universityString;
     self.rankLabel.text = @"42nd";
     self.distanceToXLabel.text = [[self lengthFormatter] stringFromMeters:self.team.distanceToX];
     self.checkinLabel.text = @"Collins Barracks";
+    
+    [self.donateButton addTarget:self action:@selector(didTapDonateButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [self setUniversityColors];
     
@@ -67,6 +68,22 @@
     self.donateButton.activeBorderColor = color;
     self.donateButton.activeBackgroundColor = color;
     self.donateButton.borderWidth = 1.0;
+}
+
+- (void)didTapDonateButton:(JBButton *)sender
+{
+    if ([self.delegate respondsToSelector:@selector(didTapDonateButtonWithCheckoutOptions:)])
+    {
+        STPCheckoutOptions *checkoutOptions = [STPCheckoutOptions new];
+        checkoutOptions.companyName = [NSString stringWithFormat:@"\"%@\"", self.team.name];
+        checkoutOptions.logoURL = self.team.avatarURL;
+        checkoutOptions.logoColor = [self getColorForUniversity:self.team.university];
+        checkoutOptions.purchaseDescription = @"Thanks for supporting Amnesty & SVP!";
+        checkoutOptions.purchaseLabel = @"Donate";
+        checkoutOptions.purchaseCurrency = @"EUR";
+        
+        [self.delegate didTapDonateButtonWithCheckoutOptions:checkoutOptions];
+    }
 }
 
 - (NSNumberFormatter *)priceFormatter

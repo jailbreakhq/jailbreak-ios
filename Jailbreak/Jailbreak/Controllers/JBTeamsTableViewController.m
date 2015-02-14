@@ -7,12 +7,14 @@
 //
 
 #import "JBTeam.h"
+#import <Stripe.h>
 #import "JBService.h"
 #import "JBTeamsTableViewCell.h"
 #import "JBTeamsTableViewController.h"
 #import "JBTestProfileViewController.h"
+#import "JBDonatePopoverViewController.h"
 
-@interface JBTeamsTableViewController () <UISearchControllerDelegate, UISearchResultsUpdating>
+@interface JBTeamsTableViewController () <JBTeamsTableViewCellDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
 @property (nonatomic, strong) NSMutableArray *teams;
 @property (nonatomic, strong) NSMutableArray *teamsPointer;
@@ -89,6 +91,11 @@
         JBTestProfileViewController *dvc = (JBTestProfileViewController *)segue.destinationViewController;
         dvc.team = self.teams[[sender section]];
     }
+    else if ([segue.identifier isEqualToString:@"showDonationPopover"])
+    {
+        JBDonatePopoverViewController *dvc = (JBDonatePopoverViewController *)segue.destinationViewController;
+        dvc.checkoutOptions = (STPCheckoutOptions *)sender;
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -108,6 +115,7 @@
     JBTeamsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
     cell.team = self.teams[indexPath.section];
+    cell.delegate = self;
     
     return cell;
 }
@@ -136,6 +144,13 @@
     }
     
     [self.tableView reloadData];
+}
+
+#pragma mark - IBActions
+
+- (void)didTapDonateButtonWithCheckoutOptions:(STPCheckoutOptions *)checkoutOptions
+{
+    [self performSegueWithIdentifier:@"showDonationPopover" sender:checkoutOptions];
 }
 
 #pragma mark - UISearchControllerDelegate

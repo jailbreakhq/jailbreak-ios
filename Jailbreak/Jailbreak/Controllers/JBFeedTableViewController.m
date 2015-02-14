@@ -7,6 +7,7 @@
 //
 
 #import "JBDonation.h"
+#import "NSDictionary+JBAdditions.h"
 #import "JBFeedTableViewController.h"
 
 @interface JBFeedTableViewController ()
@@ -25,7 +26,8 @@
     
     self.donations = [NSMutableArray new];
     
-    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"limit": @20}
+    NSDictionary *filters = @{@"teamId": @(67)};
+    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"limit": @20, @"filters": [filters jsonString]}
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                       for (NSDictionary *dict in responseObject)
                                                       {

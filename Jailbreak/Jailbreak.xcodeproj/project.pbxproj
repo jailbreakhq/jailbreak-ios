@@ -40,6 +40,7 @@
 		E46A92731A79CA2A002EF3A3 /* JBChallenge.m in Sources */ = {isa = PBXBuildFile; fileRef = E46A92721A79CA2A002EF3A3 /* JBChallenge.m */; };
 		E46A92761A79CC2D002EF3A3 /* JBDonation.m in Sources */ = {isa = PBXBuildFile; fileRef = E46A92751A79CC2D002EF3A3 /* JBDonation.m */; };
 		E46EFDB11A8EB741002EFCB7 /* JBDonatePopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E46EFDB01A8EB741002EFCB7 /* JBDonatePopoverViewController.m */; };
+		E4F45FBC1A8F98DE003A4997 /* NSDictionary+JBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F45FBB1A8F98DE003A4997 /* NSDictionary+JBAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,8 @@
 		E46A92751A79CC2D002EF3A3 /* JBDonation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBDonation.m; sourceTree = "<group>"; };
 		E46EFDAF1A8EB740002EFCB7 /* JBDonatePopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBDonatePopoverViewController.h; sourceTree = "<group>"; };
 		E46EFDB01A8EB741002EFCB7 /* JBDonatePopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBDonatePopoverViewController.m; sourceTree = "<group>"; };
+		E4F45FBA1A8F98DE003A4997 /* NSDictionary+JBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+JBAdditions.h"; sourceTree = "<group>"; };
+		E4F45FBB1A8F98DE003A4997 /* NSDictionary+JBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+JBAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +288,8 @@
 		E48FD5811A77220000FFA94B /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				E4F45FBA1A8F98DE003A4997 /* NSDictionary+JBAdditions.h */,
+				E4F45FBB1A8F98DE003A4997 /* NSDictionary+JBAdditions.m */,
 				E43EFEE11A894E9900B93D05 /* MKMapView+Snapshot.h */,
 				E43EFEE21A894E9900B93D05 /* MKMapView+Snapshot.m */,
 				E43EFEF01A8BF80900B93D05 /* UIColor+JBAdditions.h */,
@@ -440,6 +445,7 @@
 				E45E01181A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.m in Sources */,
 				E45E01241A803CB30034CA28 /* JBTeamsTableViewController.m in Sources */,
 				E41448C31A768EAF002EB3AB /* JBAppDelegate.m in Sources */,
+				E4F45FBC1A8F98DE003A4997 /* NSDictionary+JBAdditions.m in Sources */,
 				E46A92761A79CC2D002EF3A3 /* JBDonation.m in Sources */,
 				E41448F01A76DE04002EB3AB /* JBBaseViewController.m in Sources */,
 				E46EFDB11A8EB741002EFCB7 /* JBDonatePopoverViewController.m in Sources */,

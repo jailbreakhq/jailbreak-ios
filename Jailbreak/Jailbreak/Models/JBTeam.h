@@ -7,6 +7,7 @@
 //
 
 #import "JBChallenge.h"
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
@@ -48,6 +49,7 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, strong) NSArray *challenges; // of type JBChallenge
 @property (nonatomic, assign, getter=isFeatured) BOOL featured;
 @property (nonatomic, strong) NSString *videoID;
+@property (nonatomic, strong) UIColor *universityColor;
 
 
 - (instancetype)initWithJSON:(NSDictionary *)json;

@@ -23,6 +23,7 @@
 @property (nonatomic, weak) id <JBTeamsTableViewCellDelegate> delegate;
 
 @property (nonatomic, weak) IBOutlet UIImageView *avatarImageView;
+@property (nonatomic, weak) IBOutlet UILabel *placeholderLabel;
 @property (nonatomic, weak) IBOutlet UILabel *rankLabel;
 @property (nonatomic, weak) IBOutlet UILabel *collegeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *raisedLabel;

@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
-#import "UIColor+JBAdditions.h"
 #import "JBTeamsTableViewCell.h"
 #import "UIImageView+WebCacheWithProgress.h"
 
@@ -24,51 +23,36 @@
     self.rankLabel.text = @"42nd";
     self.distanceToXLabel.text = [[self lengthFormatter] stringFromMeters:self.team.distanceToX];
     self.checkinLabel.text = @"Collins Barracks";
+    self.placeholderLabel.hidden = YES;
+    
+    self.raisedLabel.backgroundColor = self.team.universityColor;
+    self.rankLabel.backgroundColor = self.team.universityColor;
+    self.collegeLabel.backgroundColor = self.team.universityColor;
+    self.distanceToXLabel.backgroundColor = self.team.universityColor;
+    self.avatarImageView.progressColor = self.team.universityColor;
+    self.avatarImageView.progressWidth = @(5);
+    
+    self.donateButton.normalTextColor = self.team.universityColor;
+    self.donateButton.normalBorderColor = self.team.universityColor;
+    self.donateButton.normalBackgroundColor = [UIColor clearColor];
+    self.donateButton.activeTextColor = [UIColor whiteColor];
+    self.donateButton.activeBorderColor = self.team.universityColor;
+    self.donateButton.activeBackgroundColor = self.team.universityColor;
+    self.donateButton.borderWidth = 1.0;
     
     [self.donateButton addTarget:self action:@selector(didTapDonateButton:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self setUniversityColors];
-    
-    [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarURL];
+    [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarLargeURL
+                                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                                  if (!image)
+                                                  {
+                                                      self.placeholderLabel.hidden = NO;
+                                                      self.placeholderLabel.text = [self abbreviationForNames:self.team.membersNames];
+                                                  }
+                                              }];
 }
 
 #pragma mark - Private Methods
-
-- (UIColor *)getColorForUniversity:(University)university
-{
-    switch (university)
-    {
-        case TCD:
-            return [UIColor colorWithHexString:@"#85387C"];
-        case UCD:
-            return [UIColor colorWithHexString:@"#388085"];
-        case UCC:
-            return [UIColor colorWithHexString:@"#C94242"];
-        case NUIG:
-            return [UIColor colorWithHexString:@"#1EC971"];
-        default:
-            return [UIColor colorWithHexString:@"#4672A6"];
-    }
-}
-
-- (void)setUniversityColors
-{
-    UIColor *color = [self getColorForUniversity:self.team.university];
-    
-    self.raisedLabel.backgroundColor = color;
-    self.rankLabel.backgroundColor = color;
-    self.collegeLabel.backgroundColor = color;
-    self.distanceToXLabel.backgroundColor = color;
-    self.avatarImageView.progressColor = color;
-    
-    self.donateButton.normalTextColor = color;
-    self.donateButton.normalBorderColor = color;
-    self.donateButton.normalBackgroundColor = [UIColor clearColor];
-    self.donateButton.activeTextColor = [UIColor whiteColor];
-    self.donateButton.activeBorderColor = color;
-    self.donateButton.activeBackgroundColor = color;
-    self.donateButton.borderWidth = 1.0;
-}
 
 - (void)didTapDonateButton:(JBButton *)sender
 {
@@ -77,13 +61,19 @@
         STPCheckoutOptions *checkoutOptions = [STPCheckoutOptions new];
         checkoutOptions.companyName = [NSString stringWithFormat:@"\"%@\"", self.team.name];
         checkoutOptions.logoURL = self.team.avatarURL;
-        checkoutOptions.logoColor = [self getColorForUniversity:self.team.university];
+        checkoutOptions.logoColor = self.team.universityColor;
         checkoutOptions.purchaseDescription = @"Thanks for supporting Amnesty & SVP!";
-        checkoutOptions.purchaseLabel = @"Donate";
+        checkoutOptions.purchaseLabel = @"Pay";
         checkoutOptions.purchaseCurrency = @"EUR";
         
         [self.delegate didTapDonateButtonWithCheckoutOptions:checkoutOptions];
     }
+}
+
+- (NSString *)abbreviationForNames:(NSString *)string
+{
+    NSArray *names = [[string stringByReplacingOccurrencesOfString:@" " withString:@""] componentsSeparatedByString:@"&"];
+    return [NSString stringWithFormat:@"%@&%@", [names[0] substringToIndex:1], [names[1] substringToIndex:1]];
 }
 
 - (NSNumberFormatter *)priceFormatter

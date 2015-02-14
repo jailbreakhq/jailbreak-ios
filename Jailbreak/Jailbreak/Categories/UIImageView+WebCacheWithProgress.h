@@ -16,6 +16,7 @@
 @property (nonatomic, strong) CERoundProgressView *roundProgressView;
 @property (nonatomic, strong) UIProgressView *progressView;
 @property (nonatomic, strong) UIColor *progressColor;
+@property (nonatomic, strong) NSNumber *progressWidth;
 
 - (void)sd_setImageWithProgressAndURL:(NSURL *)url;
 

@@ -7,11 +7,13 @@
 //
 
 #import "JBTeam.h"
+#import "UIColor+JBAdditions.h"
 
 @interface JBTeam ()
 
 - (University)getUniversityFromString:(NSString *)string;
 - (NSString *)getUniversityString;
+- (UIColor *)getUniversityColor;
 
 @end
 
@@ -47,6 +49,7 @@
         self.challenges = [aDecoder decodeObjectForKey:@"challenges"];
         self.featured = [aDecoder decodeBoolForKey:@"featured"];
         self.videoID = [aDecoder decodeObjectForKey:@"videoID"];
+        self.universityColor = [aDecoder decodeObjectForKey:@"universityColor"];
     }
     
     return self;
@@ -76,6 +79,7 @@
     [aCoder encodeObject:self.challenges forKey:@"challenges"];
     [aCoder encodeBool:self.featured forKey:@"featured"];
     [aCoder encodeObject:self.videoID forKey:@"videoID"];
+    [aCoder encodeObject:self.universityColor forKey:@"universityColor"];
 }
 
 #pragma mark - NSObject
@@ -109,6 +113,7 @@
 #warning Incomplete Challenge implementation
         self.featured = [json[@"featured"] boolValue];
         self.videoID = json[@"video"];
+        self.universityColor = [self getUniversityColor];
         
         if (!self.videoID || ![self.videoID isEqual:[NSNull null]])
         {
@@ -129,6 +134,23 @@
                              @"itt": @8, @"itc": @9};
     
     return (University)[lookup[string.lowercaseString] unsignedIntegerValue];
+}
+
+- (UIColor *)getUniversityColor
+{
+    switch (self.university)
+    {
+        case TCD:
+            return [UIColor colorWithHexString:@"#85387C"];
+        case UCD:
+            return [UIColor colorWithHexString:@"#388085"];
+        case UCC:
+            return [UIColor colorWithHexString:@"#C94242"];
+        case NUIG:
+            return [UIColor colorWithHexString:@"#1EC971"];
+        default:
+            return [UIColor colorWithHexString:@"#4672A6"];
+    }
 }
 
 #pragma mark - Public Methods

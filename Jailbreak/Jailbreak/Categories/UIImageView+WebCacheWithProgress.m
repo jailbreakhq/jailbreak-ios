@@ -11,6 +11,7 @@
 static char kRoundProgressViewKey;
 static char kProgressViewKey;
 static char kProgressColor;
+static char kProgressWidth;
 
 @interface UIImageView (Private)
 
@@ -24,6 +25,8 @@ static char kProgressColor;
 
 @dynamic roundProgressView;
 @dynamic progressView;
+@dynamic progressColor;
+@dynamic progressWidth;
 
 - (CERoundProgressView *)roundProgressView
 {
@@ -55,6 +58,16 @@ static char kProgressColor;
     objc_setAssociatedObject(self, &kProgressColor, progressColor, OBJC_ASSOCIATION_RETAIN);
 }
 
+- (NSNumber *)progressWidth
+{
+    return (NSNumber *)objc_getAssociatedObject(self, &kProgressWidth);
+}
+
+- (void)setProgressWidth:(NSNumber *)progressWidth
+{
+    objc_setAssociatedObject(self, &kProgressWidth, progressWidth, OBJC_ASSOCIATION_RETAIN);
+}
+
 - (void)addProgressView
 {
     UIColor *trackColor = [UIColor colorWithWhite:0.85 alpha:1.0];
@@ -66,7 +79,7 @@ static char kProgressColor;
         
         if (!self.roundProgressView)
         {
-            CGFloat size = CGRectGetHeight(self.frame) + 10.0;
+            CGFloat size = CGRectGetHeight(self.frame) + (self.progressWidth.doubleValue * 2.0);
             self.roundProgressView = [[CERoundProgressView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
             self.roundProgressView.center = self.center;
             self.roundProgressView.startAngle = (3.0 * M_PI) / 2.0;

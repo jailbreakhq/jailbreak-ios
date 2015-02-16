@@ -9,17 +9,29 @@
 #import <BSKeyboardControls.h>
 #import "JBDonatePopoverViewController.h"
 
+static const NSUInteger kMinimumDonationAmount = 5;
+
 @interface JBDonatePopoverViewController () <BSKeyboardControlsDelegate, STPCheckoutViewControllerDelegate, UITextFieldDelegate>
 
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *fullNameLabelHeightConstraint;
 
 @property (nonatomic, strong) NSString *previousTextPlain;
 @property (nonatomic, assign) NSUInteger previousTextLength;
+@property (nonatomic, assign) CGFloat fullNameTextFieldHeight;
 @property (nonatomic, strong) BSKeyboardControls *keyboardControls;
+@property (nonatomic, strong) STPCheckoutOptions *checkoutOptions;
 
 @end
 
 @implementation JBDonatePopoverViewController
+
+#pragma mark - Accessors
+
+- (STPCheckoutOptions *)checkoutOptions
+{
+    if (!_checkoutOptions) _checkoutOptions = [STPCheckoutOptions new];
+    return _checkoutOptions;
+}
 
 #pragma mark - Lifecycle
 
@@ -27,30 +39,37 @@
 {
     [super viewDidLoad];
     
-    UIColor *teamColor = self.checkoutOptions.logoColor;
-    self.anonymousSwitch.tintColor = teamColor;
-    self.anonymousSwitch.onTintColor = teamColor;
-    self.headerView.backgroundColor = teamColor;
-    self.fullNameSeparatorView.backgroundColor = teamColor;
-    self.emailSeparatorView.backgroundColor = teamColor;
+    self.anonymousSwitch.tintColor = self.team.universityColor;
+    self.anonymousSwitch.onTintColor = self.team.universityColor;
+    self.headerView.backgroundColor = self.team.universityColor;
+    self.fullNameSeparatorView.backgroundColor = self.team.universityColor;
+    self.emailSeparatorView.backgroundColor = self.team.universityColor;
     self.amountTextField.textColor = [UIColor whiteColor];
-    self.fullNameTextField.textColor = teamColor;
-    self.emailTextField.textColor = teamColor;
-    self.anonymousLabel.textColor = teamColor;
-    self.payButton.normalTextColor = teamColor;
+    self.amountTextField.placeholder = [[self priceFormatter] stringFromNumber:@(kMinimumDonationAmount)];
+    self.fullNameTextField.textColor = self.team.universityColor;
+    self.emailTextField.textColor = self.team.universityColor;
+    self.anonymousLabel.textColor = self.team.universityColor;
+    self.payButton.normalTextColor = self.team.universityColor;
     self.payButton.normalBackgroundColor = [UIColor clearColor];
-    self.payButton.normalBorderColor = teamColor;
+    self.payButton.normalBorderColor = self.team.universityColor;
     self.payButton.activeTextColor = [UIColor whiteColor];
-    self.payButton.activeBackgroundColor = teamColor;
-    self.payButton.activeBorderColor = teamColor;
+    self.payButton.activeBackgroundColor = self.team.universityColor;
+    self.payButton.activeBorderColor = self.team.universityColor;
     self.payButton.borderWidth = 1.0;
     self.cancelButton.normalTextColor = [UIColor whiteColor];
     self.cancelButton.normalBackgroundColor = [UIColor clearColor];
     self.cancelButton.normalBorderColor = [UIColor whiteColor];
-    self.cancelButton.activeTextColor = teamColor;
+    self.cancelButton.activeTextColor = self.team.universityColor;
     self.cancelButton.activeBackgroundColor = [UIColor whiteColor];
     self.cancelButton.activeBorderColor = [UIColor whiteColor];
     self.cancelButton.borderWidth = 1.0;
+    
+    self.checkoutOptions.companyName = [NSString stringWithFormat:@"\"%@\"", self.team.name];
+    self.checkoutOptions.logoURL = self.team.avatarURL;
+    self.checkoutOptions.logoColor = self.team.universityColor;
+    self.checkoutOptions.purchaseDescription = @"Thanks for supporting Amnesty & SVP!";
+    self.checkoutOptions.purchaseLabel = @"Pay";
+    self.checkoutOptions.purchaseCurrency = @"EUR";
     
     NSArray *fields = @[self.amountTextField, self.fullNameTextField, self.emailTextField];
     self.keyboardControls = [[BSKeyboardControls alloc] initWithFields:fields];
@@ -76,34 +95,65 @@
     return _priceFormatter;
 }
 
+- (BOOL)isValidEmail:(NSString *)email
+{
+    NSString *emailRegex =
+    @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
+    @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
+    @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
+    @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
+    @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
+    @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
+    @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+    
+    return [[NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", emailRegex] evaluateWithObject:email];
+}
+
 #pragma mark - IBActions
 
 - (IBAction)paymentButtonPressed:(JBButton *)sender
 {
-    [self.view endEditing:YES];
-
-    // Automatically charge minimum donation (€5) if they forget to fill in
-    NSInteger donationAmount = self.amountTextField.text.length ? [[[self priceFormatter] numberFromString:self.amountTextField.text] integerValue] * 100 : 500;
-    self.checkoutOptions.customerEmail = self.emailTextField.text;
-    self.checkoutOptions.purchaseAmount = donationAmount;
-    
-    STPCheckoutViewController *checkoutViewController = [[STPCheckoutViewController alloc] initWithOptions:self.checkoutOptions];
-    checkoutViewController.checkoutDelegate = self;
-    [self presentViewController:checkoutViewController animated:YES completion:nil];
+    // Alert if all required fields aren't filled in
+    if (!self.emailTextField.text.length || (!self.fullNameTextField.text.length && !self.anonymousSwitch.isOn) || !self.previousTextPlain.length)
+    {
+        
+    }
+    // Alert if donation is less than minimum
+    else if ([self.previousTextPlain integerValue] < kMinimumDonationAmount)
+    {
+        NSLog(@"bad amount");
+    }
+    // Alert if email is invalid (Stripe Checkout will validate but can't get address back for API call so...)
+    else if (![self isValidEmail:self.emailTextField.text])
+    {
+        NSLog(@"bad email");
+    }
+    else
+    {
+        [self.view endEditing:YES];
+        
+        self.checkoutOptions.customerEmail = self.emailTextField.text;
+        self.checkoutOptions.purchaseAmount = [self.previousTextPlain integerValue] * 100;;
+        
+        STPCheckoutViewController *checkoutViewController = [[STPCheckoutViewController alloc] initWithOptions:self.checkoutOptions];
+        checkoutViewController.checkoutDelegate = self;
+        
+        [self presentViewController:checkoutViewController animated:YES completion:nil];
+    }
 }
 
 - (IBAction)anonymousSwitchValueChanged:(UISwitch *)sender
 {
-    static CGFloat fullNameLabelHeight = 0.0;
     CGFloat animationDuration = 0.3;
     
     if (sender.isOn)
     {
-        fullNameLabelHeight = self.fullNameLabelHeightConstraint.constant;
+        self.fullNameTextFieldHeight = self.fullNameLabelHeightConstraint.constant;
         
         [UIView animateWithDuration:animationDuration animations:^{
             self.fullNameSeparatorView.alpha = 0.0;
             self.fullNameLabelHeightConstraint.constant = 0.0;
+            self.fullNameTextField.enabled = NO;
             [self.view layoutIfNeeded];
         }];
     }
@@ -111,7 +161,8 @@
     {
         [UIView animateWithDuration:animationDuration animations:^{
             self.fullNameSeparatorView.alpha = 1.0;
-            self.fullNameLabelHeightConstraint.constant = fullNameLabelHeight;
+            self.fullNameLabelHeightConstraint.constant = self.fullNameTextFieldHeight;
+            self.fullNameTextField.enabled = YES;
             [self.view layoutIfNeeded];
         }];
     }
@@ -171,19 +222,46 @@
     switch (status)
     {
         case STPPaymentStatusSuccess:
+        case STPPaymentStatusUserCancelled:
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             break;
         case STPPaymentStatusError:
+        {
+            [self dismissViewControllerAnimated:YES completion:^{
+                [[[UIAlertView alloc] initWithTitle:@"Oops"
+                                            message:error.localizedDescription
+                                           delegate:self
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil] show];
+            }];
             break;
-        case STPPaymentStatusUserCancelled:
-            [self dismissViewControllerAnimated:YES completion:nil];
-            break;
+        }
     }
 }
 
 - (void)checkoutController:(STPCheckoutViewController *)controller didCreateToken:(STPToken *)token completion:(STPTokenSubmissionHandler)completion
 {
-    completion(STPBackendChargeResultSuccess, nil);
+    if (token)
+    {
+        [[JBAPIManager manager] makeDonationWithParameters:@{@"token": token.tokenId,
+                                                             @"amount": @(self.checkoutOptions.purchaseAmount),
+                                                             @"teamId": @(self.team.ID),
+                                                             @"email": self.checkoutOptions.customerEmail,
+                                                             @"name": self.fullNameTextField.text,
+                                                             @"backer": self.anonymousSwitch.isOn ? @"false" : @"true"}
+                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                       completion(STPBackendChargeResultSuccess, nil);
+                                                   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                       NSError *usefulError = [NSError errorWithDomain:error.domain
+                                                                                                  code:error.code
+                                                                                              userInfo:@{NSLocalizedDescriptionKey: operation.responseObject[@"message"]}];
+                                                       completion(STPBackendChargeResultFailure, usefulError);
+                                                   }];
+    }
+    else
+    {
+        completion(STPBackendChargeResultFailure, nil);
+    }
 }
 
 #pragma mark - BSKeyboardControlsDelegate

@@ -13,7 +13,7 @@
 
 @protocol JBTeamsTableViewCellDelegate <NSObject>
 
-- (void)didTapDonateButtonWithCheckoutOptions:(STPCheckoutOptions *)checkoutOptions;
+- (void)didTapDonateButtonForTeam:(JBTeam *)team;
 
 @end
 

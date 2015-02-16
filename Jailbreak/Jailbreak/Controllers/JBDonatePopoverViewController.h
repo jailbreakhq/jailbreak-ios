@@ -7,14 +7,15 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import "JBTeam.h"
 #import <Stripe.h>
 #import "JBButton.h"
 #import <UIKit/UIKit.h>
-#import <JVFloatLabeledTextField.h>
+#import "JBAPIManager.h"
 
 @interface JBDonatePopoverViewController : UIViewController
 
-@property (nonatomic, strong) STPCheckoutOptions *checkoutOptions;
+@property (nonatomic, strong) JBTeam *team;
 
 @property (nonatomic, weak) IBOutlet UIView *headerView;
 @property (nonatomic, weak) IBOutlet UITextField *amountTextField;

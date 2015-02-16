@@ -28,5 +28,9 @@ typedef void (^HTTPRequestFailure)(AFHTTPRequestOperation *operation, NSError *e
                               success:(HTTPRequestSuccess)success
                               failure:(HTTPRequestFailure)failure;
 
+- (void)makeDonationWithParameters:(NSDictionary *)parameters
+                           success:(HTTPRequestSuccess)success
+                           failure:(HTTPRequestFailure)failure;
+
 
 @end

@@ -49,7 +49,6 @@
     self.searchController.searchResultsUpdater = self;
     self.searchController.searchBar.frame = CGRectMake(0, 0, self.tableView.frame.size.width, 44);
     self.searchController.searchBar.placeholder = @"Search for Team";
-//    self.searchController.searchBar.translucent = NO;
     self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     self.searchController.searchBar.barTintColor = [UIColor whiteColor];
     self.searchController.dimsBackgroundDuringPresentation = NO;
@@ -94,7 +93,7 @@
     else if ([segue.identifier isEqualToString:@"showDonationPopover"])
     {
         JBDonatePopoverViewController *dvc = (JBDonatePopoverViewController *)segue.destinationViewController;
-        dvc.checkoutOptions = (STPCheckoutOptions *)sender;
+        dvc.team = (JBTeam *)sender;
     }
 }
 
@@ -146,11 +145,11 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - IBActions
+#pragma mark - JBTeamsTableViewCellDelegate
 
-- (void)didTapDonateButtonWithCheckoutOptions:(STPCheckoutOptions *)checkoutOptions
+- (void)didTapDonateButtonForTeam:(JBTeam *)team
 {
-    [self performSegueWithIdentifier:@"showDonationPopover" sender:checkoutOptions];
+    [self performSegueWithIdentifier:@"showDonationPopover" sender:team];
 }
 
 #pragma mark - UISearchControllerDelegate

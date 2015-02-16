@@ -56,17 +56,9 @@
 
 - (void)didTapDonateButton:(JBButton *)sender
 {
-    if ([self.delegate respondsToSelector:@selector(didTapDonateButtonWithCheckoutOptions:)])
+    if ([self.delegate respondsToSelector:@selector(didTapDonateButtonForTeam:)])
     {
-        STPCheckoutOptions *checkoutOptions = [STPCheckoutOptions new];
-        checkoutOptions.companyName = [NSString stringWithFormat:@"\"%@\"", self.team.name];
-        checkoutOptions.logoURL = self.team.avatarURL;
-        checkoutOptions.logoColor = self.team.universityColor;
-        checkoutOptions.purchaseDescription = @"Thanks for supporting Amnesty & SVP!";
-        checkoutOptions.purchaseLabel = @"Pay";
-        checkoutOptions.purchaseCurrency = @"EUR";
-        
-        [self.delegate didTapDonateButtonWithCheckoutOptions:checkoutOptions];
+        [self.delegate didTapDonateButtonForTeam:self.team];
     }
 }
 

@@ -10,7 +10,7 @@
 #import "JBAppDelegate.h"
 #import <SDWebImage/SDImageCache.h>
 
-NSString * const StripePublishableKey = @"pk_test_elhSJvoDh3lhrYOuOv1D5i23";
+NSString * const StripePublishableKey = @"pk_live_lu13pTg7V1dy0MctBEh5PBB3";
 
 @interface JBAppDelegate ()
 

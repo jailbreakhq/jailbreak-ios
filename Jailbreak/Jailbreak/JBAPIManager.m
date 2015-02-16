@@ -42,6 +42,8 @@
     if (self)
     {
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
+        self.requestSerializer = [AFJSONRequestSerializer new];
+        self.responseSerializer = [AFJSONResponseSerializer new];
     }
     
     return self;
@@ -63,7 +65,6 @@
    parameters:parameters
       success:SuccessBlockWithJSONOperation
       failure:FailureBlockWithJSONOperation];
-
 }
 
 - (void)getCheckinsForTeamWithId:(NSUInteger)teamId
@@ -84,6 +85,16 @@
    parameters:parameters
       success:SuccessBlockWithJSONOperation
       failure:FailureBlockWithJSONOperation];
+}
+
+- (void)makeDonationWithParameters:(NSDictionary *)parameters
+                           success:(HTTPRequestSuccess)success
+                           failure:(HTTPRequestFailure)failure
+{
+    [self POST:@"stripe"
+    parameters:parameters
+       success:SuccessBlockWithJSONOperation
+       failure:FailureBlockWithJSONOperation];
 }
 
 @end

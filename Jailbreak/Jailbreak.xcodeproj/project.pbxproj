@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8F10F38B1654469AC1FA6D32 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F6E0023750A50BB40328B9C /* libPods.a */; };
+		E4070AF61A926FD5007E3CBB /* JBTeamProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4070AF51A926FD5007E3CBB /* JBTeamProfileTableViewController.m */; };
+		E4070AF91A9289B3007E3CBB /* JBMapTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4070AF81A9289B3007E3CBB /* JBMapTableViewCell.m */; };
 		E40A2AF81A7BC780001C5AF1 /* JBService.m in Sources */ = {isa = PBXBuildFile; fileRef = E40A2AF71A7BC780001C5AF1 /* JBService.m */; };
 		E41448C01A768EAF002EB3AB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E41448BF1A768EAF002EB3AB /* main.m */; };
 		E41448C31A768EAF002EB3AB /* JBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E41448C21A768EAF002EB3AB /* JBAppDelegate.m */; };
@@ -29,6 +31,7 @@
 		E43EFEEC1A8BA3D700B93D05 /* UIImage+JBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E43EFEEB1A8BA3D700B93D05 /* UIImage+JBAdditions.m */; };
 		E43EFEEF1A8BE61600B93D05 /* JBButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E43EFEEE1A8BE61600B93D05 /* JBButton.m */; };
 		E43EFEF21A8BF80900B93D05 /* UIColor+JBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E43EFEF11A8BF80900B93D05 /* UIColor+JBAdditions.m */; };
+		E4474A221A92A74D005557B1 /* JBAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E4474A211A92A74D005557B1 /* JBAnnotation.m */; };
 		E45700691A794C2300A36ACD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45700681A794C2300A36ACD /* QuartzCore.framework */; };
 		E457006C1A7959AC00A36ACD /* JBCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = E457006B1A7959AC00A36ACD /* JBCheckin.m */; };
 		E457006F1A795D8B00A36ACD /* JBAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E457006E1A795D8B00A36ACD /* JBAPIManager.m */; };
@@ -57,6 +60,10 @@
 		0F6E0023750A50BB40328B9C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		44B60641F982759679496D5E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		CDC4B41D247DBA85DAB1DFF1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E4070AF41A926FD5007E3CBB /* JBTeamProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamProfileTableViewController.h; sourceTree = "<group>"; };
+		E4070AF51A926FD5007E3CBB /* JBTeamProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamProfileTableViewController.m; sourceTree = "<group>"; };
+		E4070AF71A9289B3007E3CBB /* JBMapTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBMapTableViewCell.h; sourceTree = "<group>"; };
+		E4070AF81A9289B3007E3CBB /* JBMapTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBMapTableViewCell.m; sourceTree = "<group>"; };
 		E40A2AF61A7BC780001C5AF1 /* JBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBService.h; sourceTree = "<group>"; };
 		E40A2AF71A7BC780001C5AF1 /* JBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBService.m; sourceTree = "<group>"; };
 		E41448BA1A768EAF002EB3AB /* Jailbreak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jailbreak.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +103,8 @@
 		E43EFEEE1A8BE61600B93D05 /* JBButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBButton.m; sourceTree = "<group>"; };
 		E43EFEF01A8BF80900B93D05 /* UIColor+JBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+JBAdditions.h"; sourceTree = "<group>"; };
 		E43EFEF11A8BF80900B93D05 /* UIColor+JBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+JBAdditions.m"; sourceTree = "<group>"; };
+		E4474A201A92A74D005557B1 /* JBAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAnnotation.h; sourceTree = "<group>"; };
+		E4474A211A92A74D005557B1 /* JBAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAnnotation.m; sourceTree = "<group>"; };
 		E45700681A794C2300A36ACD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E457006A1A7959AC00A36ACD /* JBCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCheckin.h; sourceTree = "<group>"; };
 		E457006B1A7959AC00A36ACD /* JBCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCheckin.m; sourceTree = "<group>"; };
@@ -231,14 +240,16 @@
 		E41448E31A769551002EB3AB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E46EFDAF1A8EB740002EFCB7 /* JBDonatePopoverViewController.h */,
-				E46EFDB01A8EB741002EFCB7 /* JBDonatePopoverViewController.m */,
 				E41448F41A76E0DA002EB3AB /* JBBaseTableViewController.h */,
 				E41448F51A76E0DA002EB3AB /* JBBaseTableViewController.m */,
 				E41448EE1A76DE04002EB3AB /* JBBaseViewController.h */,
 				E41448EF1A76DE04002EB3AB /* JBBaseViewController.m */,
+				E46EFDAF1A8EB740002EFCB7 /* JBDonatePopoverViewController.h */,
+				E46EFDB01A8EB741002EFCB7 /* JBDonatePopoverViewController.m */,
 				E41448F71A76E787002EB3AB /* JBFeedTableViewController.h */,
 				E41448F81A76E787002EB3AB /* JBFeedTableViewController.m */,
+				E4070AF41A926FD5007E3CBB /* JBTeamProfileTableViewController.h */,
+				E4070AF51A926FD5007E3CBB /* JBTeamProfileTableViewController.m */,
 				E45E01221A803CB30034CA28 /* JBTeamsTableViewController.h */,
 				E45E01231A803CB30034CA28 /* JBTeamsTableViewController.m */,
 				E42EDF971A88C29400B1F0EF /* JBTestProfileViewController.h */,
@@ -250,6 +261,8 @@
 		E41448E41A769551002EB3AB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E4474A201A92A74D005557B1 /* JBAnnotation.h */,
+				E4474A211A92A74D005557B1 /* JBAnnotation.m */,
 				E46A92711A79CA2A002EF3A3 /* JBChallenge.h */,
 				E46A92721A79CA2A002EF3A3 /* JBChallenge.m */,
 				E457006A1A7959AC00A36ACD /* JBCheckin.h */,
@@ -269,6 +282,8 @@
 		E41448E51A769551002EB3AB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E4070AF71A9289B3007E3CBB /* JBMapTableViewCell.h */,
+				E4070AF81A9289B3007E3CBB /* JBMapTableViewCell.m */,
 				E45E011E1A802E0D0034CA28 /* CERoundProgressLayer.h */,
 				E45E011F1A802E0D0034CA28 /* CERoundProgressLayer.m */,
 				E45E011C1A802E0D0034CA28 /* CERoundProgressView.h */,
@@ -288,10 +303,10 @@
 		E48FD5811A77220000FFA94B /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				E4F45FBA1A8F98DE003A4997 /* NSDictionary+JBAdditions.h */,
-				E4F45FBB1A8F98DE003A4997 /* NSDictionary+JBAdditions.m */,
 				E43EFEE11A894E9900B93D05 /* MKMapView+Snapshot.h */,
 				E43EFEE21A894E9900B93D05 /* MKMapView+Snapshot.m */,
+				E4F45FBA1A8F98DE003A4997 /* NSDictionary+JBAdditions.h */,
+				E4F45FBB1A8F98DE003A4997 /* NSDictionary+JBAdditions.m */,
 				E43EFEF01A8BF80900B93D05 /* UIColor+JBAdditions.h */,
 				E43EFEF11A8BF80900B93D05 /* UIColor+JBAdditions.m */,
 				E43EFEEA1A8BA3D700B93D05 /* UIImage+JBAdditions.h */,
@@ -442,6 +457,7 @@
 				E43EFEE91A8AEDBF00B93D05 /* JBTeamsTableViewCell.m in Sources */,
 				E41448F91A76E787002EB3AB /* JBFeedTableViewController.m in Sources */,
 				E43EFEE61A8AC6BE00B93D05 /* JBYouTubeView.m in Sources */,
+				E4070AF61A926FD5007E3CBB /* JBTeamProfileTableViewController.m in Sources */,
 				E45E01181A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.m in Sources */,
 				E45E01241A803CB30034CA28 /* JBTeamsTableViewController.m in Sources */,
 				E41448C31A768EAF002EB3AB /* JBAppDelegate.m in Sources */,
@@ -452,7 +468,9 @@
 				E41448C01A768EAF002EB3AB /* main.m in Sources */,
 				E43EFEEC1A8BA3D700B93D05 /* UIImage+JBAdditions.m in Sources */,
 				E457006F1A795D8B00A36ACD /* JBAPIManager.m in Sources */,
+				E4070AF91A9289B3007E3CBB /* JBMapTableViewCell.m in Sources */,
 				E41448ED1A76A78F002EB3AB /* JBUser.m in Sources */,
+				E4474A221A92A74D005557B1 /* JBAnnotation.m in Sources */,
 				E43EFEEF1A8BE61600B93D05 /* JBButton.m in Sources */,
 				E41448E81A76968D002EB3AB /* JBTeam.m in Sources */,
 				E45E01201A802E0D0034CA28 /* CERoundProgressView.m in Sources */,

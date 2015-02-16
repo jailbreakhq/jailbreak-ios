@@ -28,6 +28,7 @@
     self.loadingIndicatorView.spinnerSize = 50.0; // default is 37.0
     self.loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
     self.loadingIndicatorView.color = [UIColor whiteColor];
+    [self.loadingIndicatorView stopAnimating];
     
     self.tableView.backgroundView = [UIView new];
     [self.tableView.backgroundView addSubview:self.loadingIndicatorView];

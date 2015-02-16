@@ -34,12 +34,18 @@
                                              selector:@selector(handleApplicationDidBecomeActiveNotification)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
+    
+    self.refreshControl = [UIRefreshControl new];
+    [self.refreshControl addTarget:self
+                            action:@selector(refresh)
+                  forControlEvents:UIControlEventValueChanged];
 }
 
 #pragma mark - Public Methods
 
 - (void)handleApplicationDidEnterBackgroundNotification {}
 - (void)handleApplicationDidBecomeActiveNotification {}
+- (void)refresh {}
 
 - (id)loadFromArchiveObjectWithKey:(NSString *)key
 {

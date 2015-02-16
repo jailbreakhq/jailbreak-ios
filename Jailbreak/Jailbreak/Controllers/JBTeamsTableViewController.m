@@ -162,6 +162,29 @@
 
 #pragma mark - Helper Methods
 
+- (void)refresh
+{
+    [self.refreshControl beginRefreshing];
+    
+    [[JBAPIManager manager] getAllTeamsWithParameters:nil
+                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                  [self.teams removeAllObjects];
+                                                  
+                                                  for (NSDictionary *dict in responseObject)
+                                                  {
+                                                      JBTeam *team = [[JBTeam alloc] initWithJSON:dict];
+                                                      team.distanceToX = [team.currentLocation distanceFromLocation:self.service.finalLocation];
+                                                      team.distanceTravelled = [self.service.startLocation distanceFromLocation:team.currentLocation];
+                                                      [self.teams addObject:team];
+                                                  }
+                                                  
+                                                  [self.refreshControl endRefreshing];
+                                                  [self.tableView reloadData];
+                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                  [self.refreshControl endRefreshing];
+                                              }];
+}
+
 - (NSArray *)sortTeamsByKey:(NSString *)key ascending:(BOOL)asccending
 {
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:key ascending:asccending];

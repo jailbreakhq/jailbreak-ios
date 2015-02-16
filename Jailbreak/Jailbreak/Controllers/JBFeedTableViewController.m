@@ -26,6 +26,9 @@
     
     self.donations = [NSMutableArray new];
     
+    self.loadingIndicatorView.color = [UIColor colorWithWhite:0.4 alpha:1.0];
+    [self startLoadingIndicator];
+    
     NSDictionary *filters = @{@"teamId": @(67)};
     [[JBAPIManager manager] getAllDonationsWithParameters:@{@"limit": @20, @"filters": [filters jsonString]}
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {

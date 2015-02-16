@@ -20,6 +20,34 @@
 {
     [super viewDidLoad];
     
+    // Remove separators for empty cells
+    self.tableView.tableFooterView = [UIView new];
+    
+    self.loadingIndicatorView = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave];
+    self.loadingIndicatorView.hidesWhenStopped = YES;
+    self.loadingIndicatorView.spinnerSize = 50.0; // default is 37.0
+    self.loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.loadingIndicatorView.color = [UIColor whiteColor];
+    
+    self.tableView.backgroundView = [UIView new];
+    [self.tableView.backgroundView addSubview:self.loadingIndicatorView];
+    [self.tableView.backgroundView addConstraint:[NSLayoutConstraint constraintWithItem:self.loadingIndicatorView
+                                                                              attribute:NSLayoutAttributeCenterX
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:self.tableView.backgroundView
+                                                                              attribute:NSLayoutAttributeCenterX
+                                                                             multiplier:1.0
+                                                                               constant:0.0]];
+    
+    [self.tableView.backgroundView addConstraint:[NSLayoutConstraint constraintWithItem:self.loadingIndicatorView
+                                                                              attribute:NSLayoutAttributeCenterY
+                                                                              relatedBy:NSLayoutRelationEqual
+                                                                                 toItem:self.tableView.backgroundView
+                                                                              attribute:NSLayoutAttributeCenterY
+                                                                             multiplier:1.0
+                                                                               constant:0.0]];
+
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleApplicationDidEnterBackgroundNotification)
                                                  name:UIApplicationDidEnterBackgroundNotification
@@ -46,6 +74,16 @@
 - (void)handleApplicationDidEnterBackgroundNotification {}
 - (void)handleApplicationDidBecomeActiveNotification {}
 - (void)refresh {}
+
+- (void)startLoadingIndicator
+{
+    [self.loadingIndicatorView startAnimating];
+}
+
+- (void)stopLoadingIndicator
+{
+    [self.loadingIndicatorView stopAnimating];
+}
 
 - (id)loadFromArchiveObjectWithKey:(NSString *)key
 {

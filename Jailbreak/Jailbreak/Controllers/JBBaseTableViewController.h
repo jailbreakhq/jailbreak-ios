@@ -8,13 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "JBAPIManager.h"
+#import <RTSpinKitView.h>
 #import "UIImageView+WebCacheWithProgress.h"
 
 @interface JBBaseTableViewController : UITableViewController
 
+@property (nonatomic, strong) RTSpinKitView *loadingIndicatorView;
+
 - (void)handleApplicationDidEnterBackgroundNotification;
 - (void)handleApplicationDidBecomeActiveNotification;
+
 - (void)refresh;
+- (void)startLoadingIndicator;
+- (void)stopLoadingIndicator;
 
 - (id)loadFromArchiveObjectWithKey:(NSString *)key;
 - (void)saveToArchiveObject:(id)object withKey:(NSString *)key;

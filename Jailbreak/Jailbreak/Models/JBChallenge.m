@@ -8,6 +8,13 @@
 
 #import "JBChallenge.h"
 
+@interface JBChallenge ()
+
+- (ChallengeType)getChallengeTypeFromString:(NSString *)string;
+- (NSString *)getChallengeTypeString;
+
+@end
+
 @implementation JBChallenge
 
 #pragma mark - NSCoding
@@ -51,11 +58,29 @@
         self.teamID = [json[@"teamId"] unsignedIntegerValue];
         self.name = json[@"name"];
         self.completed = [json[@"completed"] boolValue];
-        self.type = (ChallengeType)[json[@"type"] unsignedIntegerValue];
+        self.type = [self getChallengeTypeFromString:json[@"type"]];
         self.completedTime = [json[@"completedTime"] unsignedIntegerValue];
     }
     
     return self;
+}
+
+#pragma mark - Private Methods
+
+- (ChallengeType)getChallengeTypeFromString:(NSString *)string;
+{
+    NSDictionary *lookup = @{@"blindfold": @0, @"paperboats": @1,
+                             @"education": @2, @"altruism": @3};
+    
+    return (ChallengeType)[lookup[string.lowercaseString] unsignedIntegerValue];
+}
+
+- (NSString *)getChallengeTypeString;
+{
+    NSDictionary *lookup = @{@0: @"Blindfold", @1: @"PaperBoats",
+                             @2: @"Education", @3: @"Altruism"};
+    
+    return lookup[@(self.type)];
 }
 
 @end

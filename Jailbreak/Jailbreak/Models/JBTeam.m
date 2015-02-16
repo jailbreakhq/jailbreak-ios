@@ -110,10 +110,17 @@
         self.countries = [json[@"countries"] unsignedIntegerValue];
         self.transports = [json[@"transports"] unsignedIntegerValue];
         self.donationsURL = [NSURL URLWithString:json[@"donationsUrl"]];
-#warning Incomplete Challenge implementation
         self.featured = [json[@"featured"] boolValue];
         self.videoID = json[@"video"];
         self.universityColor = [self getUniversityColor];
+        
+        NSMutableArray *tempChallenges = [NSMutableArray new];
+        for (NSDictionary *challenge in json[@"challenges"])
+        {
+            [tempChallenges addObject:[[JBChallenge alloc] initWithJSON:challenge]];
+        }
+        self.challenges = [tempChallenges copy];
+
         
         if (!self.videoID || ![self.videoID isEqual:[NSNull null]])
         {
@@ -152,8 +159,6 @@
             return [UIColor colorWithHexString:@"#4672A6"];
     }
 }
-
-#pragma mark - Public Methods
 
 - (NSString *)getUniversityString
 {

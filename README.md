@@ -12,10 +12,11 @@ Development
 - [**SVPullToRefresh**](https://github.com/samvermette/SVPullToRefresh)
 - [**JTSImageViewController**](https://github.com/jaredsinclair/JTSImageViewController)
 - [**Stripe**](https://github.com/stripe/stripe-ios)
-- [**PaymentKit**](https://github.com/stripe/PaymentKit)
 - [**XCDYouTubeKit**](https://github.com/0xced/XCDYouTubeKit)
 - [**JVFloatLabeledTextField**](https://github.com/jverdi/JVFloatLabeledTextField)
 - [**BSKeyboardControls**](https://github.com/simonbs/BSKeyboardControls)
+- [**Shimmer**](https://github.com/facebook/Shimmer)
+- [**SpinKit**](https://github.com/raymondjavaxx/SpinKit-ObjC)
 
 ###Installing Dependencies
 

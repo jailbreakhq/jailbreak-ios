@@ -43,6 +43,8 @@
 {
     [super viewDidLoad];
     
+    [self startLoadingIndicator];
+    
     // Configure Search
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil]; // display in same view as searching!
     self.searchController.delegate = self;
@@ -74,8 +76,11 @@
                                                           [self.teams addObject:team];
                                                       }
                                                       
+                                                      [self stopLoadingIndicator];
                                                       [self.tableView reloadData];
-                                                  } failure:nil];
+                                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                      [self stopLoadingIndicator];
+                                                  }];
     } failure:nil];
     
     // Configure TableView
@@ -178,9 +183,11 @@
                                                       [self.teams addObject:team];
                                                   }
                                                   
+                                                  [self stopLoadingIndicator];
                                                   [self.refreshControl endRefreshing];
                                                   [self.tableView reloadData];
                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                  [self stopLoadingIndicator];
                                                   [self.refreshControl endRefreshing];
                                               }];
 }

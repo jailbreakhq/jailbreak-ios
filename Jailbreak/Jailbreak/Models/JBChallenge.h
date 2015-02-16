@@ -10,7 +10,7 @@
 
 typedef NS_ENUM(NSUInteger, ChallengeType)
 {
-    Blindfold,
+    Blindfold = 0,
     PaperBoats,
     Education,
     Altruism,

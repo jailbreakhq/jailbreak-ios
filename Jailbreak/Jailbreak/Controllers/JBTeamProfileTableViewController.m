@@ -7,14 +7,18 @@
 //
 
 #import "JBDonation.h"
+#import "JBYouTubeView.h"
+#import <XCDYouTubeKit.h>
 #import "JBMapTableViewCell.h"
+#import "JBTeamVideoTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
 #import "JBTeamSummaryTableViewCell.h"
 #import "JBTeamProfileTableViewController.h"
 
-@interface JBTeamProfileTableViewController ()
+@interface JBTeamProfileTableViewController () <JBYouTubeViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *donations; // of type JBDonation
+@property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
 
 @end
 
@@ -49,6 +53,15 @@
 
     // Lower space between 1st cell and top
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
+    
+    if (self.team.videoID)
+    {
+        self.videoPlayerViewController = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:self.team.videoID];
+        
+        NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+        [defaultCenter addObserver:self selector:@selector(videoPlayerViewControllerDidReceiveVideo:) name:XCDYouTubeVideoPlayerViewControllerDidReceiveVideoNotification object:self.videoPlayerViewController];
+        [defaultCenter addObserver:self selector:@selector(moviePlayerPlaybackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.videoPlayerViewController.moviePlayer];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -63,10 +76,10 @@
     switch (section)
     {
         case 0:
-            return 3;
+            return self.team.videoID ? 4 : 3;
             break;
         case 1:
-            return self.donations.count;
+            return self.donations.count + 1; // for "Donation" title cell
         default:
             return 0;
             break;
@@ -92,6 +105,13 @@
             case 2:
                 cell = [tableView dequeueReusableCellWithIdentifier:@"AboutCell" forIndexPath:indexPath];
                 [cell setTeam:self.team];
+            case 3:
+            {
+                cell = [tableView dequeueReusableCellWithIdentifier:@"YouTubeCell" forIndexPath:indexPath];
+                JBTeamVideoTableViewCell *cellCasted = (JBTeamVideoTableViewCell *)cell;
+                cellCasted.youTubeView.delegate = self;
+                break;
+            }
             default:
                 cell = [tableView dequeueReusableCellWithIdentifier:@"MapCell" forIndexPath:indexPath];
                 break;
@@ -101,11 +121,21 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DonationCell"];
         UITableViewCell *donationCell = (UITableViewCell *)cell;
-        donationCell.textLabel.text = [self.donations[indexPath.row] name];
-        donationCell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:15.0];
-        donationCell.detailTextLabel.text = [[self priceFormatter] stringFromNumber:@([self.donations[indexPath.row] amount] / 100.0)];
-        donationCell.detailTextLabel.font = [UIFont fontWithName:@"AvenirNext-DemiBold" size:16.0];
-        donationCell.detailTextLabel.textColor = self.team.universityColor;
+        
+        if (indexPath.row == 0)
+        {
+            donationCell.textLabel.text = @"Donations";
+            donationCell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0];
+            donationCell.detailTextLabel.text = @"";
+        }
+        else
+        {
+            donationCell.textLabel.text = [self.donations[indexPath.row - 1] name];
+            donationCell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:15.0];
+            donationCell.detailTextLabel.text = [[self priceFormatter] stringFromNumber:@([self.donations[indexPath.row - 1] amount] / 100.0)];
+            donationCell.detailTextLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0];
+            donationCell.detailTextLabel.textColor = self.team.universityColor;
+        }
     }
     else
     {
@@ -119,7 +149,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -134,6 +163,8 @@
                 return 190.0;
             case 2:
                 return 200.0;
+            case 3:
+                return 210.0;
             default:
                 return 44.0;
         }
@@ -146,6 +177,13 @@
     {
         return 44.0;
     }
+}
+
+#pragma mark - JBYouTubeViewDelegate
+
+- (void)didTapPlayButton
+{
+    [self presentMoviePlayerViewControllerAnimated:self.videoPlayerViewController];
 }
 
 #pragma mark - Helper Methods
@@ -163,6 +201,19 @@
     });
     
     return _priceFormatter;
+}
+
+- (void)videoPlayerViewControllerDidReceiveVideo:(NSNotification *)notification
+{
+    XCDYouTubeVideo *video = notification.userInfo[XCDYouTubeVideoUserInfoKey];
+    
+    JBTeamVideoTableViewCell *cell = (JBTeamVideoTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
+    [cell.youTubeView.thumbnailImageView sd_setImageWithURL:video.largeThumbnailURL ?: video.mediumThumbnailURL ?: video.smallThumbnailURL];
+}
+
+- (void)moviePlayerPlaybackDidFinish:(NSNotification *)notification
+{
+    
 }
 
 @end

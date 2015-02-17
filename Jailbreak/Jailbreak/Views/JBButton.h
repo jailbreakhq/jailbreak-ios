@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-IB_DESIGNABLE
-
 @interface JBButton : UIButton
 
 // Active == Highlighted | Selected

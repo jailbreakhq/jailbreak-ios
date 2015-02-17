@@ -44,6 +44,7 @@
 		E46A92761A79CC2D002EF3A3 /* JBDonation.m in Sources */ = {isa = PBXBuildFile; fileRef = E46A92751A79CC2D002EF3A3 /* JBDonation.m */; };
 		E46EFDB11A8EB741002EFCB7 /* JBDonatePopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E46EFDB01A8EB741002EFCB7 /* JBDonatePopoverViewController.m */; };
 		E476BDAE1A92E66200728C9E /* JBTeamSummaryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E476BDAD1A92E66200728C9E /* JBTeamSummaryTableViewCell.m */; };
+		E476BDB41A92FC1900728C9E /* JBTeamAboutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E476BDB31A92FC1900728C9E /* JBTeamAboutTableViewCell.m */; };
 		E4F45FBC1A8F98DE003A4997 /* NSDictionary+JBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E4F45FBB1A8F98DE003A4997 /* NSDictionary+JBAdditions.m */; };
 /* End PBXBuildFile section */
 
@@ -129,6 +130,8 @@
 		E46EFDB01A8EB741002EFCB7 /* JBDonatePopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBDonatePopoverViewController.m; sourceTree = "<group>"; };
 		E476BDAC1A92E66200728C9E /* JBTeamSummaryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamSummaryTableViewCell.h; sourceTree = "<group>"; };
 		E476BDAD1A92E66200728C9E /* JBTeamSummaryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamSummaryTableViewCell.m; sourceTree = "<group>"; };
+		E476BDB21A92FC1900728C9E /* JBTeamAboutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamAboutTableViewCell.h; sourceTree = "<group>"; };
+		E476BDB31A92FC1900728C9E /* JBTeamAboutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamAboutTableViewCell.m; sourceTree = "<group>"; };
 		E4F45FBA1A8F98DE003A4997 /* NSDictionary+JBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+JBAdditions.h"; sourceTree = "<group>"; };
 		E4F45FBB1A8F98DE003A4997 /* NSDictionary+JBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+JBAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -285,10 +288,6 @@
 		E41448E51A769551002EB3AB /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E476BDAC1A92E66200728C9E /* JBTeamSummaryTableViewCell.h */,
-				E476BDAD1A92E66200728C9E /* JBTeamSummaryTableViewCell.m */,
-				E4070AF71A9289B3007E3CBB /* JBMapTableViewCell.h */,
-				E4070AF81A9289B3007E3CBB /* JBMapTableViewCell.m */,
 				E45E011E1A802E0D0034CA28 /* CERoundProgressLayer.h */,
 				E45E011F1A802E0D0034CA28 /* CERoundProgressLayer.m */,
 				E45E011C1A802E0D0034CA28 /* CERoundProgressView.h */,
@@ -297,8 +296,14 @@
 				E43EFEEE1A8BE61600B93D05 /* JBButton.m */,
 				E45E01131A8004300034CA28 /* JBCircularImageView.h */,
 				E45E01141A8004300034CA28 /* JBCircularImageView.m */,
+				E4070AF71A9289B3007E3CBB /* JBMapTableViewCell.h */,
+				E4070AF81A9289B3007E3CBB /* JBMapTableViewCell.m */,
+				E476BDB21A92FC1900728C9E /* JBTeamAboutTableViewCell.h */,
+				E476BDB31A92FC1900728C9E /* JBTeamAboutTableViewCell.m */,
 				E43EFEE71A8AEDBF00B93D05 /* JBTeamsTableViewCell.h */,
 				E43EFEE81A8AEDBF00B93D05 /* JBTeamsTableViewCell.m */,
+				E476BDAC1A92E66200728C9E /* JBTeamSummaryTableViewCell.h */,
+				E476BDAD1A92E66200728C9E /* JBTeamSummaryTableViewCell.m */,
 				E43EFEE41A8AC6BE00B93D05 /* JBYouTubeView.h */,
 				E43EFEE51A8AC6BE00B93D05 /* JBYouTubeView.m */,
 			);
@@ -461,6 +466,7 @@
 				E43EFEE31A894E9900B93D05 /* MKMapView+Snapshot.m in Sources */,
 				E43EFEE91A8AEDBF00B93D05 /* JBTeamsTableViewCell.m in Sources */,
 				E41448F91A76E787002EB3AB /* JBFeedTableViewController.m in Sources */,
+				E476BDB41A92FC1900728C9E /* JBTeamAboutTableViewCell.m in Sources */,
 				E43EFEE61A8AC6BE00B93D05 /* JBYouTubeView.m in Sources */,
 				E4070AF61A926FD5007E3CBB /* JBTeamProfileTableViewController.m in Sources */,
 				E45E01181A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.m in Sources */,

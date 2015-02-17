@@ -94,6 +94,7 @@
     {
         JBTeamProfileTableViewController *dvc = (JBTeamProfileTableViewController *)segue.destinationViewController;
         dvc.team = self.teams[[sender section]];
+        dvc.title = [self.teams[[sender section]] name];
     }
     else if ([segue.identifier isEqualToString:@"showDonationPopover"])
     {

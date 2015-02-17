@@ -15,12 +15,24 @@
 {
     _team = team;
     
-    [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarURL];
+    [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarURL
+                                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                                  if (!image)
+                                                  {
+                                                      self.avatarPlaceholderLabel.text = [self abbreviationForNames:self.team.membersNames];
+                                                  }
+                                              }];
     self.teamMemberNamesLabel.text = self.team.membersNames;
     self.teamRankLabel.text = @"42nd Place";
     self.teamUniversityLabel.text = self.team.universityString;
     self.teamUniversityLabel.textColor = self.team.universityColor;
     self.teamTaglineLabel.text = self.team.tagLine;
+}
+
+- (NSString *)abbreviationForNames:(NSString *)string
+{
+    NSArray *names = [[string stringByReplacingOccurrencesOfString:@" " withString:@""] componentsSeparatedByString:@"&"];
+    return [NSString stringWithFormat:@"%@&%@", [names[0] substringToIndex:1], [names[1] substringToIndex:1]];
 }
 
 @end

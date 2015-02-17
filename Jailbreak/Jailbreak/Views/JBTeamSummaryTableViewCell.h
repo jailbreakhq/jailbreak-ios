@@ -14,6 +14,7 @@
 @property (nonatomic, weak) JBTeam *team;
 
 @property (nonatomic, weak) IBOutlet UIImageView *avatarImageView;
+@property (nonatomic, weak) IBOutlet UILabel *avatarPlaceholderLabel;
 @property (nonatomic, weak) IBOutlet UILabel *teamMemberNamesLabel;
 @property (nonatomic, weak) IBOutlet UILabel *teamRankLabel;
 @property (nonatomic, weak) IBOutlet UILabel *teamUniversityLabel;

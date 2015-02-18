@@ -64,6 +64,11 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSLog(@"%@", self.view);
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -76,7 +81,7 @@
     switch (section)
     {
         case 0:
-            return self.team.videoID ? 4 : 3;
+            return self.team.videoID ? 5 : 4;
             break;
         case 1:
             return self.donations.count + 1; // for "Donation" title cell
@@ -99,17 +104,30 @@
                 [cell setTeam:self.team];
                 break;
             case 1:
-                cell = [tableView dequeueReusableCellWithIdentifier:@"SummaryCell" forIndexPath:indexPath];
+                cell = [tableView dequeueReusableCellWithIdentifier:@"StatsCell" forIndexPath:indexPath];
                 [cell setTeam:self.team];
                 break;
             case 2:
+                cell = [tableView dequeueReusableCellWithIdentifier:@"SummaryCell" forIndexPath:indexPath];
+                [cell setTeam:self.team];
+                break;
+            case 3:
                 cell = [tableView dequeueReusableCellWithIdentifier:@"AboutCell" forIndexPath:indexPath];
                 [cell setTeam:self.team];
-            case 3:
+            case 4:
             {
                 cell = [tableView dequeueReusableCellWithIdentifier:@"YouTubeCell" forIndexPath:indexPath];
                 JBTeamVideoTableViewCell *cellCasted = (JBTeamVideoTableViewCell *)cell;
                 cellCasted.youTubeView.delegate = self;
+                NSURL *hdThumbnail = [NSURL URLWithString:[NSString stringWithFormat:@"http://i3.ytimg.com/vi/%@/maxresdefault.jpg", self.team.videoID]];
+                NSURL *sdThumbnail = [NSURL URLWithString:[NSString stringWithFormat:@"http://i3.ytimg.com/vi/%@/sddefault.jpg", self.team.videoID]];
+                [cellCasted.youTubeView.thumbnailImageView sd_setImageWithURL:hdThumbnail
+                                                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                                                        if (!image)
+                                                                        {
+                                                                            [cellCasted.youTubeView.thumbnailImageView sd_setImageWithURL:sdThumbnail];
+                                                                        }
+                                                                    }];
                 break;
             }
             default:
@@ -160,10 +178,12 @@
             case 0:
                 return 190.0;
             case 1:
-                return 190.0;
+                return 125.0;
             case 2:
-                return 200.0;
+                return 190.0;
             case 3:
+                return 200.0;
+            case 4:
                 return 210.0;
             default:
                 return 44.0;
@@ -205,10 +225,6 @@
 
 - (void)videoPlayerViewControllerDidReceiveVideo:(NSNotification *)notification
 {
-    XCDYouTubeVideo *video = notification.userInfo[XCDYouTubeVideoUserInfoKey];
-    
-    JBTeamVideoTableViewCell *cell = (JBTeamVideoTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
-    [cell.youTubeView.thumbnailImageView sd_setImageWithURL:video.largeThumbnailURL ?: video.mediumThumbnailURL ?: video.smallThumbnailURL];
 }
 
 - (void)moviePlayerPlaybackDidFinish:(NSNotification *)notification

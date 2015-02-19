@@ -15,11 +15,21 @@
 {
     _team = team;
     
-    [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarURL
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnImageView)];
+    tapGestureRecognizer.numberOfTapsRequired = 1;
+    tapGestureRecognizer.numberOfTouchesRequired = 1;
+    
+    [self.avatarImageView addGestureRecognizer:tapGestureRecognizer];
+    self.avatarImageView.userInteractionEnabled = NO;
+    [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarLargeURL
                                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                                   if (!image)
                                                   {
                                                       self.avatarPlaceholderLabel.text = [self abbreviationForNames:self.team.membersNames];
+                                                  }
+                                                  else
+                                                  {
+                                                      self.avatarImageView.userInteractionEnabled = YES;
                                                   }
                                               }];
     self.teamMemberNamesLabel.text = self.team.membersNames;
@@ -27,6 +37,14 @@
     self.teamUniversityLabel.text = self.team.universityString;
     self.teamUniversityLabel.textColor = self.team.universityColor;
     self.teamTaglineLabel.text = self.team.tagLine;
+}
+
+- (void)didTapOnImageView
+{
+    if ([self.delegate respondsToSelector:@selector(didTapAvatarImageView:)])
+    {
+        [self.delegate didTapAvatarImageView:self.avatarImageView];
+    }
 }
 
 - (NSString *)abbreviationForNames:(NSString *)string

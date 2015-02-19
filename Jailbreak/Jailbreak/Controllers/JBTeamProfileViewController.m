@@ -12,6 +12,7 @@
 #import <XCDYouTubeKit.h>
 #import "JBMapTableViewCell.h"
 #import "JBMapViewController.h"
+#import <JTSImageViewController.h>
 #import "JBTeamVideoTableViewCell.h"
 #import "JBTeamAboutTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
@@ -32,7 +33,7 @@ static NSString * const kAboutCellIdentifier    = @"AboutCell";
 static NSString * const kYouTubeCellIdentifier  = @"YouTubeCell";
 static NSString * const kDonationCellIdentifier = @"DonationCell";
 
-@interface JBTeamProfileViewController () <JBYouTubeViewDelegate>
+@interface JBTeamProfileViewController () <JBTeamSummaryTableViewCellDelegate, JBYouTubeViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *donations; // of type JBDonation
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
@@ -91,8 +92,8 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     // Button moves after load (possibly due to scroll view insets being set), here's a temp fix
     self.donateButton.alpha = 0.0;
     self.donateButton.backgroundColor = self.team.universityColor;
-    [UIView animateWithDuration:0.3
-                          delay:0.6
+    [UIView animateWithDuration:0.4
+                          delay:0.5
                         options:UIViewAnimationOptionTransitionNone
                      animations:^{
                          self.donateButton.alpha = 1.0;
@@ -149,6 +150,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
             case kSummaryCellRow:
                 cell = [tableView dequeueReusableCellWithIdentifier:kSummaryCellIdentifier forIndexPath:indexPath];
                 [cell setTeam:self.team];
+                [(JBTeamSummaryTableViewCell *)cell setDelegate:self];
                 break;
             case kAboutCellRow:
                 cell = [tableView dequeueReusableCellWithIdentifier:kAboutCellIdentifier forIndexPath:indexPath];
@@ -221,11 +223,11 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
         switch (indexPath.row)
         {
             case kMapCellRow:
-                return 190.0;
+                return 180.0;
             case kStatsCellRow:
                 return 125.0;
             case kSummaryCellRow:
-                return 190.0;
+                return 200.0;
             case kAboutCellRow:
                 return [(JBTeamAboutTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kAboutCellIdentifier] heightForBodyLabelWithText:self.team.about];
             case kYouTubeCellRow:
@@ -249,6 +251,24 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 - (void)didTapPlayButton
 {
     [self presentMoviePlayerViewControllerAnimated:self.videoPlayerViewController];
+}
+
+#pragma mark - JBTeamSummaryTableViewCellDelegate
+
+- (void)didTapAvatarImageView:(UIImageView *)avatarImageView
+{
+    JTSImageInfo *imageInfo = [JTSImageInfo new];
+    imageInfo.image = avatarImageView.image;
+    imageInfo.referenceRect = avatarImageView.frame;
+    imageInfo.referenceView = avatarImageView.superview;
+    imageInfo.referenceContentMode = avatarImageView.contentMode;
+    imageInfo.referenceCornerRadius = avatarImageView.layer.cornerRadius;
+    
+    JTSImageViewController *imageViewController = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
+                                                                                               mode:JTSImageViewControllerMode_Image
+                                                                                    backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+    
+    [imageViewController showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
 }
 
 #pragma mark - Helper Methods

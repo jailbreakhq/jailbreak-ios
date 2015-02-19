@@ -132,6 +132,11 @@
     [self performSegueWithIdentifier:@"showTeamProfile" sender:indexPath];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 205.0;
+}
+
 #pragma mark - UISearchResultsUpdatingDelegate
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController

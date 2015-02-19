@@ -12,8 +12,6 @@
 
 @interface JBFeedTableViewController ()
 
-@property (nonatomic, strong) NSMutableArray *donations;
-
 @end
 
 @implementation JBFeedTableViewController
@@ -24,22 +22,6 @@
 {
     [super viewDidLoad];
     
-    self.donations = [NSMutableArray new];
-    
-    self.loadingIndicatorView.color = [UIColor colorWithWhite:0.4 alpha:1.0];
-    [self startLoadingIndicator];
-    
-    NSDictionary *filters = @{@"teamId": @(67)};
-    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"limit": @20, @"filters": [filters jsonString]}
-                                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                      for (NSDictionary *dict in responseObject)
-                                                      {
-                                                          [self.donations addObject:[[JBDonation alloc] initWithJSON:dict]];
-                                                      }
-                                                      
-                                                      [self.tableView reloadData];
-                                                  } failure:nil];
-    
     // Configure TableView
     self.tableView.estimatedRowHeight = 30.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
@@ -47,35 +29,7 @@
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.donations.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    
-    cell.textLabel.text = [self.donations[indexPath.row] name];
-    
-    return cell;
-}
 
 #pragma mark - UITableViewDelegate
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    return [tableView dequeueReusableCellWithIdentifier:@"SectionHeader"];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 100.0f;
-}
 
 @end

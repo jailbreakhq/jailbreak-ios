@@ -18,7 +18,6 @@
                     </tabBar>
                     <connections>
                         <segue destination="xYd-Mp-LV0" kind="relationship" relationship="viewControllers" id="Hma-4C-EAd"/>
-                        <segue destination="bvv-f5-FLn" kind="relationship" relationship="viewControllers" id="Tnd-B8-zB6"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j7L-CM-ea6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -988,54 +987,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YyK-tq-UQp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1639" y="1638"/>
-        </scene>
-        <!--Feed-->
-        <scene sceneID="maX-gu-1QD">
-            <objects>
-                <tableViewController id="bvv-f5-FLn" customClass="JBFeedTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="tUl-tl-YNa">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SectionHeader" id="yLf-po-VDM">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yLf-po-VDM" id="z2B-bk-tNH">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Something pinned" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JYi-S0-zhT">
-                                            <rect key="frame" x="230" y="13" width="140" height="17"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" red="0.75789123773574829" green="0.3161473274230957" blue="0.4853174090385437" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstItem="JYi-S0-zhT" firstAttribute="top" secondItem="z2B-bk-tNH" secondAttribute="topMargin" constant="5" id="6MQ-Z1-AxT"/>
-                                        <constraint firstAttribute="centerX" secondItem="JYi-S0-zhT" secondAttribute="centerX" id="MU8-w7-iJd"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="JYi-S0-zhT" secondAttribute="bottom" constant="5" id="yKT-uN-mzB"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="7A3-HY-pHB">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7A3-HY-pHB" id="x4R-Lu-A8R">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <sections/>
-                        <connections>
-                            <outlet property="dataSource" destination="bvv-f5-FLn" id="Aba-NF-yf9"/>
-                            <outlet property="delegate" destination="bvv-f5-FLn" id="Zck-DT-XF6"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="Feed" id="2YY-iZ-bwa"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="31G-TW-70X" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="929" y="-82"/>
         </scene>
         <!--Teams-->
         <scene sceneID="4ju-c4-iQp">

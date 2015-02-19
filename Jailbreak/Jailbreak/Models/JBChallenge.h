@@ -20,7 +20,6 @@ typedef NS_ENUM(NSUInteger, ChallengeType)
 
 @property (nonatomic, assign) NSUInteger ID;
 @property (nonatomic, assign) NSUInteger teamID;
-@property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) BOOL completed;
 @property (nonatomic, assign) ChallengeType type;
 @property (nonatomic, assign) NSUInteger completedTime;

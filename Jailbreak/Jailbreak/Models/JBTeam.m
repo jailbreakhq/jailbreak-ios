@@ -126,6 +126,8 @@
         {
             self.videoID = [[self.videoID componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] objectAtIndex:1];
             self.videoID = [[self.videoID componentsSeparatedByString:@"/"] lastObject];
+            self.videoID = [self.videoID stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+            self.videoID = [self.videoID stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         }
     }
     

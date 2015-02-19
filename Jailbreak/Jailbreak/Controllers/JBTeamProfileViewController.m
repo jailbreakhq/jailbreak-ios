@@ -13,16 +13,20 @@
 #import "JBTeamVideoTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
 #import "JBTeamSummaryTableViewCell.h"
-#import "JBTeamProfileTableViewController.h"
+#import "JBTeamProfileViewController.h"
+#import "JBDonatePopoverViewController.h"
 
-@interface JBTeamProfileTableViewController () <JBYouTubeViewDelegate>
+@interface JBTeamProfileViewController () <JBYouTubeViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *donations; // of type JBDonation
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
 
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UIButton *donateButton;
+
 @end
 
-@implementation JBTeamProfileTableViewController
+@implementation JBTeamProfileViewController
 
 #pragma mark - Accessors
 
@@ -50,10 +54,11 @@
                                                   failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                       
                                                   }];
-
-    // Lower space between 1st cell and top
-    self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
     
+    // Lower space for header and footer
+    self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
+
     if (self.team.videoID)
     {
         self.videoPlayerViewController = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:self.team.videoID];
@@ -62,11 +67,26 @@
         [defaultCenter addObserver:self selector:@selector(videoPlayerViewControllerDidReceiveVideo:) name:XCDYouTubeVideoPlayerViewControllerDidReceiveVideoNotification object:self.videoPlayerViewController];
         [defaultCenter addObserver:self selector:@selector(moviePlayerPlaybackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.videoPlayerViewController.moviePlayer];
     }
+    
+    // Button moves after load (possibly due to scroll view insets being set), here's a temp fix
+    self.donateButton.alpha = 0.0;
+    [UIView animateWithDuration:0.4
+                          delay:0.8
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         self.donateButton.alpha = 1.0;
+                     } completion:nil];
+    
+    self.donateButton.backgroundColor = self.team.universityColor;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSLog(@"%@", self.view);
+    if ([segue.identifier isEqualToString:@"showDonationPopover"])
+    {
+        JBDonatePopoverViewController *dvc = (JBDonatePopoverViewController *)segue.destinationViewController;
+        dvc.team = self.team;
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -221,6 +241,10 @@
     });
     
     return _priceFormatter;
+}
+- (IBAction)didTapDonateButton:(UIButton *)sender
+{
+    [self performSegueWithIdentifier:@"showDonationPopover" sender:nil];
 }
 
 - (void)videoPlayerViewControllerDidReceiveVideo:(NSNotification *)notification

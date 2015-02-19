@@ -24,10 +24,15 @@
     annotation.customCoordinate = self.team.currentLocation.coordinate;
     [[self mapView] addAnnotation:annotation];
     [[self mapView] showAnnotations:[[self mapView] annotations] animated:NO];
-    [[self mapView] createSnapshotWithSize:self.contentView.frame.size
-                         completionHandler:^(UIImage *snapshot) {
-                             self.mapImageView.image = snapshot;
-                         }];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [[self mapView] createSnapshotWithSize:self.contentView.frame.size
+                             completionHandler:^(UIImage *snapshot) {
+                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                     self.mapImageView.image = snapshot;
+                                 });
+                             }];
+    });
 }
 
 - (MKMapView *)mapView

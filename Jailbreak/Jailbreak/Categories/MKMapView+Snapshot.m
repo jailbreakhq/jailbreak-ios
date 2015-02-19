@@ -30,7 +30,6 @@
     UIImage *snapshotImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:key];
     if (snapshotImage)
     {
-        NSLog(@"hit!");
         completionHandler(snapshotImage);
     }
     else

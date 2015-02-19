@@ -58,6 +58,10 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 {
     [super viewDidLoad];
     
+    // YouTube thumbnail flashes (even though it's cached), so gonna set it in advance here!
+    JBTeamVideoTableViewCell *cell = (JBTeamVideoTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:kYouTubeCellIdentifier];
+    cell.youTubeVideoId = self.team.videoID;
+    
     [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString]}
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                       for (NSDictionary *donation in responseObject)
@@ -73,7 +77,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     
     // Lower space for header and footer
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
-    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 60.0)];
 
     if (self.team.videoID)
     {
@@ -87,8 +91,8 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     // Button moves after load (possibly due to scroll view insets being set), here's a temp fix
     self.donateButton.alpha = 0.0;
     self.donateButton.backgroundColor = self.team.universityColor;
-    [UIView animateWithDuration:0.4
-                          delay:0.8
+    [UIView animateWithDuration:0.3
+                          delay:0.6
                         options:UIViewAnimationOptionTransitionNone
                      animations:^{
                          self.donateButton.alpha = 1.0;
@@ -155,15 +159,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                 cell = [tableView dequeueReusableCellWithIdentifier:kYouTubeCellIdentifier forIndexPath:indexPath];
                 JBTeamVideoTableViewCell *cellCasted = (JBTeamVideoTableViewCell *)cell;
                 cellCasted.youTubeView.delegate = self;
-                NSURL *hdThumbnail = [NSURL URLWithString:[NSString stringWithFormat:@"http://i3.ytimg.com/vi/%@/maxresdefault.jpg", self.team.videoID]];
-                NSURL *sdThumbnail = [NSURL URLWithString:[NSString stringWithFormat:@"http://i3.ytimg.com/vi/%@/sddefault.jpg", self.team.videoID]];
-                [cellCasted.youTubeView.thumbnailImageView sd_setImageWithURL:hdThumbnail
-                                                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                                                        if (!image)
-                                                                        {
-                                                                            [cellCasted.youTubeView.thumbnailImageView sd_setImageWithURL:sdThumbnail];
-                                                                        }
-                                                                    }];
+                cellCasted.youTubeVideoId = self.team.videoID;
                 break;
             }
             default:
@@ -175,6 +171,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kDonationCellIdentifier];
         UITableViewCell *donationCell = (UITableViewCell *)cell;
+        donationCell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         if (indexPath.row == 0)
         {

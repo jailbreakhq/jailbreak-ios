@@ -11,6 +11,8 @@
 
 @interface JBTeamVideoTableViewCell : UITableViewCell
 
+@property (nonatomic, copy) NSString *youTubeVideoId;
+
 @property (nonatomic, weak) IBOutlet JBYouTubeView *youTubeView;
 
 @end

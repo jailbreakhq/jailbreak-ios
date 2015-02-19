@@ -260,7 +260,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="4dV-f5-zMb">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="1140"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="1200"/>
                                 <color key="backgroundColor" red="0.82793557643890381" green="0.83891397714614868" blue="0.86943817138671875" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                 <prototypes>
@@ -756,10 +756,12 @@
                             <constraint firstItem="1Rk-fs-xqe" firstAttribute="leading" secondItem="ORa-WW-F4N" secondAttribute="leading" id="ecU-Ij-dfp"/>
                             <constraint firstItem="4dV-f5-zMb" firstAttribute="top" secondItem="ORa-WW-F4N" secondAttribute="top" id="eiJ-UR-e4b"/>
                             <constraint firstItem="4dV-f5-zMb" firstAttribute="leading" secondItem="ORa-WW-F4N" secondAttribute="leading" id="pLj-I9-C8k"/>
+                            <constraint firstAttribute="bottom" secondItem="4dV-f5-zMb" secondAttribute="bottom" id="yMk-1H-Se7"/>
                             <constraint firstItem="1Rk-fs-xqe" firstAttribute="top" secondItem="4dV-f5-zMb" secondAttribute="bottom" id="zP4-GD-Fne"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="zP4-GD-Fne"/>
                                 <exclude reference="PC7-fr-XgB"/>
                             </mask>
                         </variation>

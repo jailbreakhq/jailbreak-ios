@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import <SDImageCache.h>
 #import "MKMapView+Snapshot.h"
 
 @implementation MKMapView (Snapshot)
@@ -17,10 +18,32 @@
     options.scale = [UIScreen mainScreen].scale;
     options.size = size;
     
-    MKMapSnapshotter *snapshotter = [[MKMapSnapshotter alloc] initWithOptions:options];
-    [snapshotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
-        completionHandler(snapshot.image);
-    }];
+    // https://github.com/Wave39/BPMapSnapshotter/blob/master/BPMapSnapshotter.m
+    NSString *key = [NSString stringWithFormat:@"%f %f %f %f %f | %@ | %f %f %f %f | %d",
+                     options.camera.centerCoordinate.latitude, options.camera.centerCoordinate.longitude,
+                     options.camera.heading, options.camera.pitch, options.camera.altitude,
+                     MKStringFromMapRect(options.mapRect),
+                     options.region.center.latitude, options.region.center.longitude,
+                     options.region.span.latitudeDelta, options.region.span.longitudeDelta,
+                     (int)options.mapType];
+    
+    UIImage *snapshotImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:key];
+    if (snapshotImage)
+    {
+        NSLog(@"hit!");
+        completionHandler(snapshotImage);
+    }
+    else
+    {
+        MKMapSnapshotter *snapshotter = [[MKMapSnapshotter alloc] initWithOptions:options];
+        [snapshotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
+            if (!error)
+            {
+                [[SDImageCache sharedImageCache] storeImage:snapshot.image forKey:key];
+                completionHandler(snapshot.image);
+            }
+        }];
+    }
 }
 
 @end

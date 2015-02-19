@@ -11,8 +11,8 @@
 #import "JBService.h"
 #import "JBTeamsTableViewCell.h"
 #import "JBTeamsTableViewController.h"
+#import "JBTeamProfileViewController.h"
 #import "JBDonatePopoverViewController.h"
-#import "JBTeamProfileTableViewController.h"
 
 @interface JBTeamsTableViewController () <JBTeamsTableViewCellDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
@@ -92,7 +92,7 @@
 {
     if ([segue.identifier isEqualToString:@"showTeamProfile"])
     {
-        JBTeamProfileTableViewController *dvc = (JBTeamProfileTableViewController *)segue.destinationViewController;
+        JBTeamProfileViewController *dvc = (JBTeamProfileViewController *)segue.destinationViewController;
         dvc.team = self.teams[[sender section]];
         dvc.title = [self.teams[[sender section]] name];
     }

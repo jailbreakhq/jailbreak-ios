@@ -86,14 +86,13 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     
     // Button moves after load (possibly due to scroll view insets being set), here's a temp fix
     self.donateButton.alpha = 0.0;
+    self.donateButton.backgroundColor = self.team.universityColor;
     [UIView animateWithDuration:0.4
                           delay:0.8
                         options:UIViewAnimationOptionTransitionNone
                      animations:^{
                          self.donateButton.alpha = 1.0;
                      } completion:nil];
-    
-    self.donateButton.backgroundColor = self.team.universityColor;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -150,6 +149,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
             case kAboutCellRow:
                 cell = [tableView dequeueReusableCellWithIdentifier:kAboutCellIdentifier forIndexPath:indexPath];
                 [cell setTeam:self.team];
+                break;
             case kYouTubeCellRow:
             {
                 cell = [tableView dequeueReusableCellWithIdentifier:kYouTubeCellIdentifier forIndexPath:indexPath];

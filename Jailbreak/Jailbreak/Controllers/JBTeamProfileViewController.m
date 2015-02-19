@@ -13,6 +13,7 @@
 #import "JBMapTableViewCell.h"
 #import "JBMapViewController.h"
 #import "JBTeamVideoTableViewCell.h"
+#import "JBTeamAboutTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
 #import "JBTeamSummaryTableViewCell.h"
 #import "JBTeamProfileViewController.h"
@@ -23,6 +24,13 @@ static const NSUInteger kStatsCellRow   = 1;
 static const NSUInteger kSummaryCellRow = 2;
 static const NSUInteger kAboutCellRow   = 3;
 static const NSUInteger kYouTubeCellRow = 4;
+
+static NSString * const kMapCellIdentifier      = @"MapCell";
+static NSString * const kStatsCellIdentifier    = @"StatsCell";
+static NSString * const kSummaryCellIdentifier  = @"SummaryCell";
+static NSString * const kAboutCellIdentifier    = @"AboutCell";
+static NSString * const kYouTubeCellIdentifier  = @"YouTubeCell";
+static NSString * const kDonationCellIdentifier = @"DonationCell";
 
 @interface JBTeamProfileViewController () <JBYouTubeViewDelegate>
 
@@ -128,23 +136,23 @@ static const NSUInteger kYouTubeCellRow = 4;
         switch (indexPath.row)
         {
             case kMapCellRow:
-                cell = [tableView dequeueReusableCellWithIdentifier:@"MapCell" forIndexPath:indexPath];
+                cell = [tableView dequeueReusableCellWithIdentifier:kMapCellIdentifier forIndexPath:indexPath];
                 [cell setTeam:self.team];
                 break;
             case kStatsCellRow:
-                cell = [tableView dequeueReusableCellWithIdentifier:@"StatsCell" forIndexPath:indexPath];
+                cell = [tableView dequeueReusableCellWithIdentifier:kStatsCellIdentifier forIndexPath:indexPath];
                 [cell setTeam:self.team];
                 break;
             case kSummaryCellRow:
-                cell = [tableView dequeueReusableCellWithIdentifier:@"SummaryCell" forIndexPath:indexPath];
+                cell = [tableView dequeueReusableCellWithIdentifier:kSummaryCellIdentifier forIndexPath:indexPath];
                 [cell setTeam:self.team];
                 break;
             case kAboutCellRow:
-                cell = [tableView dequeueReusableCellWithIdentifier:@"AboutCell" forIndexPath:indexPath];
+                cell = [tableView dequeueReusableCellWithIdentifier:kAboutCellIdentifier forIndexPath:indexPath];
                 [cell setTeam:self.team];
             case kYouTubeCellRow:
             {
-                cell = [tableView dequeueReusableCellWithIdentifier:@"YouTubeCell" forIndexPath:indexPath];
+                cell = [tableView dequeueReusableCellWithIdentifier:kYouTubeCellIdentifier forIndexPath:indexPath];
                 JBTeamVideoTableViewCell *cellCasted = (JBTeamVideoTableViewCell *)cell;
                 cellCasted.youTubeView.delegate = self;
                 NSURL *hdThumbnail = [NSURL URLWithString:[NSString stringWithFormat:@"http://i3.ytimg.com/vi/%@/maxresdefault.jpg", self.team.videoID]];
@@ -159,13 +167,13 @@ static const NSUInteger kYouTubeCellRow = 4;
                 break;
             }
             default:
-                cell = [tableView dequeueReusableCellWithIdentifier:@"MapCell" forIndexPath:indexPath];
+                cell = [tableView dequeueReusableCellWithIdentifier:kMapCellIdentifier forIndexPath:indexPath];
                 break;
         }
     }
     else if (indexPath.section == 1)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DonationCell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kDonationCellIdentifier];
         UITableViewCell *donationCell = (UITableViewCell *)cell;
         
         if (indexPath.row == 0)
@@ -185,7 +193,7 @@ static const NSUInteger kYouTubeCellRow = 4;
     }
     else
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"MapCell" forIndexPath:indexPath];
+        cell = [tableView dequeueReusableCellWithIdentifier:kMapCellIdentifier forIndexPath:indexPath];
     }
     
     return cell;
@@ -222,7 +230,7 @@ static const NSUInteger kYouTubeCellRow = 4;
             case kSummaryCellRow:
                 return 190.0;
             case kAboutCellRow:
-                return 200.0;
+                return [(JBTeamAboutTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kAboutCellIdentifier] heightForBodyLabelWithText:self.team.about];
             case kYouTubeCellRow:
                 return 210.0;
             default:

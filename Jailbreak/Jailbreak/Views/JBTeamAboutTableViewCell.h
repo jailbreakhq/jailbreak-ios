@@ -16,4 +16,6 @@
 @property (nonatomic, weak) IBOutlet UILabel *aboutHeadingLabel;
 @property (nonatomic, weak) IBOutlet UILabel *aboutBodyLabel;
 
+- (CGFloat)heightForBodyLabelWithText:(NSString *)text;
+
 @end

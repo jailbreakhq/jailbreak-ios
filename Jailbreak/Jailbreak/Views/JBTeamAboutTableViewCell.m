@@ -18,4 +18,16 @@
     self.aboutBodyLabel.text = self.team.about;
 }
 
+- (CGFloat)heightForBodyLabelWithText:(NSString *)text
+{
+    // Just taken from Storyboard, height + top / bottom margins for everything except multi-line label height...
+    CGFloat magicNumber = 10 + 21 + 5 + 15;
+    CGSize bodyLabelSize = [text boundingRectWithSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width - 40, CGFLOAT_MAX)
+                                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                                               attributes:@{NSFontAttributeName: self.aboutBodyLabel.font}
+                                                                  context:nil].size;
+    
+    return magicNumber + bodyLabelSize.height + 5;
+}
+
 @end

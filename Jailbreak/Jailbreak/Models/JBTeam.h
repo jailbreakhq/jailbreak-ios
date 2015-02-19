@@ -50,6 +50,7 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, assign, getter=isFeatured) BOOL featured;
 @property (nonatomic, strong) NSString *videoID;
 @property (nonatomic, strong) UIColor *universityColor;
+@property (nonatomic, assign) NSUInteger position;
 
 
 - (instancetype)initWithJSON:(NSDictionary *)json;

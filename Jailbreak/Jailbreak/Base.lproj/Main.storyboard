@@ -25,6 +25,38 @@
             </objects>
             <point key="canvasLocation" x="213" y="382"/>
         </scene>
+        <!--Map View Controller-->
+        <scene sceneID="RBV-E0-rfG">
+            <objects>
+                <viewController storyboardIdentifier="JBMapViewController" id="H0f-CH-MFs" customClass="JBMapViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LQn-uW-SAk"/>
+                        <viewControllerLayoutGuide type="bottom" id="HWc-Cx-D6e"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1Gg-d0-EVK">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="izv-20-h9A">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="HWc-Cx-D6e" firstAttribute="top" secondItem="izv-20-h9A" secondAttribute="bottom" id="EMz-uQ-eBF"/>
+                            <constraint firstItem="izv-20-h9A" firstAttribute="top" secondItem="1Gg-d0-EVK" secondAttribute="top" id="ha4-h8-AuE"/>
+                            <constraint firstAttribute="trailing" secondItem="izv-20-h9A" secondAttribute="trailing" id="rqG-op-ubh"/>
+                            <constraint firstItem="izv-20-h9A" firstAttribute="leading" secondItem="1Gg-d0-EVK" secondAttribute="leading" id="uM0-KQ-LC0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="izv-20-h9A" id="U2w-lb-Vkj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pxh-b6-cQU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1639" y="-132"/>
+        </scene>
         <!--Teams-->
         <scene sceneID="fWE-u2-UrP">
             <objects>
@@ -1022,6 +1054,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="P01-pM-zMM"/>
+        <segue reference="9w9-i5-qG4"/>
     </inferredMetricsTieBreakers>
 </document>

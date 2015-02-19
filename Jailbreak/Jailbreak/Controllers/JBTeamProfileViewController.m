@@ -7,14 +7,22 @@
 //
 
 #import "JBDonation.h"
+#import "JBAnnotation.h"
 #import "JBYouTubeView.h"
 #import <XCDYouTubeKit.h>
 #import "JBMapTableViewCell.h"
+#import "JBMapViewController.h"
 #import "JBTeamVideoTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
 #import "JBTeamSummaryTableViewCell.h"
 #import "JBTeamProfileViewController.h"
 #import "JBDonatePopoverViewController.h"
+
+static const NSUInteger kMapCellRow     = 0;
+static const NSUInteger kStatsCellRow   = 1;
+static const NSUInteger kSummaryCellRow = 2;
+static const NSUInteger kAboutCellRow   = 3;
+static const NSUInteger kYouTubeCellRow = 4;
 
 @interface JBTeamProfileViewController () <JBYouTubeViewDelegate>
 
@@ -119,22 +127,22 @@
     {
         switch (indexPath.row)
         {
-            case 0:
+            case kMapCellRow:
                 cell = [tableView dequeueReusableCellWithIdentifier:@"MapCell" forIndexPath:indexPath];
                 [cell setTeam:self.team];
                 break;
-            case 1:
+            case kStatsCellRow:
                 cell = [tableView dequeueReusableCellWithIdentifier:@"StatsCell" forIndexPath:indexPath];
                 [cell setTeam:self.team];
                 break;
-            case 2:
+            case kSummaryCellRow:
                 cell = [tableView dequeueReusableCellWithIdentifier:@"SummaryCell" forIndexPath:indexPath];
                 [cell setTeam:self.team];
                 break;
-            case 3:
+            case kAboutCellRow:
                 cell = [tableView dequeueReusableCellWithIdentifier:@"AboutCell" forIndexPath:indexPath];
                 [cell setTeam:self.team];
-            case 4:
+            case kYouTubeCellRow:
             {
                 cell = [tableView dequeueReusableCellWithIdentifier:@"YouTubeCell" forIndexPath:indexPath];
                 JBTeamVideoTableViewCell *cellCasted = (JBTeamVideoTableViewCell *)cell;
@@ -187,6 +195,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 0 && indexPath.row == kMapCellRow)
+    {
+        JBAnnotation *annotation = [JBAnnotation new];
+        annotation.customCoordinate = self.team.currentLocation.coordinate;
+        annotation.customTitle = @"Colins Barracks";
+
+        JBMapViewController *dvc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"JBMapViewController"];
+        dvc.title = @"Map";
+        dvc.annotations = @[annotation];
+
+        [self.navigationController pushViewController:dvc animated:YES];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -195,15 +215,15 @@
     {
         switch (indexPath.row)
         {
-            case 0:
+            case kMapCellRow:
                 return 190.0;
-            case 1:
+            case kStatsCellRow:
                 return 125.0;
-            case 2:
+            case kSummaryCellRow:
                 return 190.0;
-            case 3:
+            case kAboutCellRow:
                 return 200.0;
-            case 4:
+            case kYouTubeCellRow:
                 return 210.0;
             default:
                 return 44.0;

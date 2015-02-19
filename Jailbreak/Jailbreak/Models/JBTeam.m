@@ -50,6 +50,7 @@
         self.featured = [aDecoder decodeBoolForKey:@"featured"];
         self.videoID = [aDecoder decodeObjectForKey:@"videoID"];
         self.universityColor = [aDecoder decodeObjectForKey:@"universityColor"];
+        self.position = [aDecoder decodeIntegerForKey:@"position"];
     }
     
     return self;
@@ -80,6 +81,7 @@
     [aCoder encodeBool:self.featured forKey:@"featured"];
     [aCoder encodeObject:self.videoID forKey:@"videoID"];
     [aCoder encodeObject:self.universityColor forKey:@"universityColor"];
+    [aCoder encodeInteger:self.position forKey:@"position"];
 }
 
 #pragma mark - NSObject
@@ -113,6 +115,7 @@
         self.featured = [json[@"featured"] boolValue];
         self.videoID = json[@"video"];
         self.universityColor = [self getUniversityColor];
+        self.position = [json[@"position"] unsignedIntegerValue];
         
         NSMutableArray *tempChallenges = [NSMutableArray new];
         for (NSDictionary *challenge in json[@"challenges"])

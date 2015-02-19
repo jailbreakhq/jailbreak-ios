@@ -17,6 +17,7 @@ Development
 - [**BSKeyboardControls**](https://github.com/simonbs/BSKeyboardControls)
 - [**Shimmer**](https://github.com/facebook/Shimmer)
 - [**SpinKit**](https://github.com/raymondjavaxx/SpinKit-ObjC)
+- [**TPKeyboardAvoiding**](https://github.com/michaeltyson/TPKeyboardAvoiding)
 
 ###Installing Dependencies
 

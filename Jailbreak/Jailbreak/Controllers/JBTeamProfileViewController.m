@@ -16,6 +16,7 @@
 #import "JBTeamVideoTableViewCell.h"
 #import "JBTeamAboutTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
+#import "JBTeamsTableViewController.h"
 #import "JBTeamSummaryTableViewCell.h"
 #import "JBTeamProfileViewController.h"
 #import "JBDonatePopoverViewController.h"
@@ -33,7 +34,7 @@ static NSString * const kAboutCellIdentifier    = @"AboutCell";
 static NSString * const kYouTubeCellIdentifier  = @"YouTubeCell";
 static NSString * const kDonationCellIdentifier = @"DonationCell";
 
-@interface JBTeamProfileViewController () <JBTeamSummaryTableViewCellDelegate, JBYouTubeViewDelegate>
+@interface JBTeamProfileViewController () <JBDonatePopoverViewControllerDelegate, JBTeamSummaryTableViewCellDelegate, JBYouTubeViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *donations; // of type JBDonation
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
@@ -106,6 +107,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     {
         JBDonatePopoverViewController *dvc = (JBDonatePopoverViewController *)segue.destinationViewController;
         dvc.team = self.team;
+        dvc.delegate = self;
     }
 }
 
@@ -269,6 +271,45 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                                                                     backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
     
     [imageViewController showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+}
+
+#pragma mark - JBDonatePopoverViewControllerDelegate
+
+- (void)donatePopoverViewControllerDidSuccessfullyCharge
+{
+    __weak typeof(self) weakSelf = self;
+    
+    // Refresh team data to update raised amount and donations
+    [[JBAPIManager manager] getAllTeamsWithParameters:@{@"filters": [@{@"teamNumber": @(self.team.number)} jsonString]}
+                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                  weakSelf.team = [[JBTeam alloc] initWithJSON:[responseObject firstObject]];
+                                                  weakSelf.team.distanceToX = [weakSelf.team.currentLocation distanceFromLocation:weakSelf.service.finalLocation];
+                                                  weakSelf.team.distanceTravelled = [weakSelf.service.startLocation distanceFromLocation:weakSelf.team.currentLocation];
+                                                  [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                                                  
+                                                  NSUInteger index = weakSelf.navigationController.viewControllers.count - 2;
+                                                  JBTeamsTableViewController *vc = (JBTeamsTableViewController *)weakSelf.navigationController.viewControllers[index];
+                                                  vc.teams[weakSelf.teamSectionIndex] = weakSelf.team;
+                                                  [vc.tableView reloadData];
+                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                  
+                                              }];
+    
+    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString]}
+                                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                      
+                                                      [weakSelf.donations removeAllObjects];
+                                                      
+                                                      for (NSDictionary *donation in responseObject)
+                                                      {
+                                                          [weakSelf.donations addObject:[[JBDonation alloc] initWithJSON:donation]];
+                                                      }
+                                                      
+                                                      [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+                                                      
+                                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                      
+                                                  }];
 }
 
 #pragma mark - Helper Methods

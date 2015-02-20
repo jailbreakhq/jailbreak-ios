@@ -7,10 +7,13 @@
 //
 
 #import "JBTeam.h"
+#import "JBService.h"
 #import "JBBaseViewController.h"
 
 @interface JBTeamProfileViewController : JBBaseViewController
 
-@property (nonatomic, weak) JBTeam *team;
+@property (nonatomic, strong) JBTeam *team;
+@property (nonatomic, assign) NSUInteger teamSectionIndex;
+@property (nonatomic, weak) JBService *service;
 
 @end

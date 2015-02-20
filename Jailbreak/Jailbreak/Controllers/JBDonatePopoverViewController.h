@@ -13,6 +13,12 @@
 #import <UIKit/UIKit.h>
 #import "JBAPIManager.h"
 
+@protocol JBDonatePopoverViewControllerDelegate <NSObject>
+
+- (void)donatePopoverViewControllerDidSuccessfullyCharge;
+
+@end
+
 @interface JBDonatePopoverViewController : UIViewController
 
 @property (nonatomic, strong) JBTeam *team;
@@ -27,5 +33,6 @@
 @property (nonatomic, weak) IBOutlet JBButton *cancelButton;
 @property (nonatomic, weak) IBOutlet UIView *fullNameSeparatorView;
 @property (nonatomic, weak) IBOutlet UIView *emailSeparatorView;
+@property (nonatomic, weak) id <JBDonatePopoverViewControllerDelegate> delegate;
 
 @end

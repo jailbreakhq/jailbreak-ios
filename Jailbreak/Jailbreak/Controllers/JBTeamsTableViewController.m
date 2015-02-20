@@ -16,7 +16,6 @@
 
 @interface JBTeamsTableViewController () <JBTeamsTableViewCellDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
-@property (nonatomic, strong) NSMutableArray *teams;
 @property (nonatomic, strong) NSMutableArray *teamsPointer;
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) JBService *service;
@@ -94,6 +93,8 @@
     {
         JBTeamProfileViewController *dvc = (JBTeamProfileViewController *)segue.destinationViewController;
         dvc.team = self.teams[[sender section]];
+        dvc.teamSectionIndex = [sender section];
+        dvc.service = self.service;
         dvc.title = [self.teams[[sender section]] name];
     }
     else if ([segue.identifier isEqualToString:@"showDonationPopover"])

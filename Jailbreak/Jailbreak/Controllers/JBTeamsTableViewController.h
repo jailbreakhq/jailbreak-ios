@@ -10,4 +10,6 @@
 
 @interface JBTeamsTableViewController : JBBaseTableViewController
 
+@property (nonatomic, strong) NSMutableArray *teams;
+
 @end

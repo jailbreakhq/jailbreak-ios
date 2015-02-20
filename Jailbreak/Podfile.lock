@@ -21,6 +21,7 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - BSKeyboardControls (2.2)
+  - JTSHardwareInfo (0.0.1)
   - JTSImageViewController (1.4)
   - JVFloatLabeledTextField (1.0.2)
   - SDWebImage (3.7.1):
@@ -39,6 +40,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking
   - BSKeyboardControls
+  - JTSHardwareInfo
   - JTSImageViewController
   - JVFloatLabeledTextField
   - SDWebImage
@@ -53,6 +55,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
   BSKeyboardControls: c9aa1bdbb5ecd454aa3d0b2279f79c5dc4b6c6ad
+  JTSHardwareInfo: 4dcdb13d5d877e4a8b7bfdad7860fb6043347792
   JTSImageViewController: 9fe6402194b7679f0e28d0c1002d6164301fc34a
   JVFloatLabeledTextField: c1ad6b4b5bd77115cfe6c71ba4c023866df5c4cf
   SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d

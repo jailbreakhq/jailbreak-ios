@@ -31,6 +31,8 @@
     JBAnnotation *annotation = [JBAnnotation new];
     annotation.customCoordinate = self.team.currentLocation.coordinate;
     
+    [[self mapView] setFrame:self.contentView.frame];
+    
     // Center map around current location with a radius of x meters around it
     [[self mapView] setRegion:MKCoordinateRegionMakeWithDistance(self.team.currentLocation.coordinate, 500000.0, 500000.0) animated:NO];
     

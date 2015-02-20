@@ -49,7 +49,7 @@
     self.searchController.delegate = self;
     self.searchController.searchResultsUpdater = self;
     self.searchController.searchBar.frame = CGRectMake(0, 0, self.tableView.frame.size.width, 44);
-    self.searchController.searchBar.placeholder = @"Search for Team";
+    self.searchController.searchBar.placeholder = @"Search by college, name or team";
     self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     self.searchController.searchBar.barTintColor = [UIColor whiteColor];
     self.searchController.dimsBackgroundDuringPresentation = NO;

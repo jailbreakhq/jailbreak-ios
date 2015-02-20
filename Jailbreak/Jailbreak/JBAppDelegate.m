@@ -8,6 +8,7 @@
 
 #import <Stripe.h>
 #import "JBAppDelegate.h"
+#import "UIColor+JBAdditions.h"
 #import <SDWebImage/SDImageCache.h>
 
 NSString * const StripePublishableKey = @"pk_live_lu13pTg7V1dy0MctBEh5PBB3";
@@ -35,6 +36,10 @@ NSString * const StripePublishableKey = @"pk_live_lu13pTg7V1dy0MctBEh5PBB3";
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // Global Tint
+    [self.window setTintColor:[UIColor colorWithHexString:@"#B41C21"]];
+    [self.window setTintAdjustmentMode:UIViewTintAdjustmentModeNormal];
+    
     // Navigation Bar Title
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Medium" size:17.0]}];
     

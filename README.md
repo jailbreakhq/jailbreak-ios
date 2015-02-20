@@ -18,6 +18,7 @@ Development
 - [**Shimmer**](https://github.com/facebook/Shimmer)
 - [**SpinKit**](https://github.com/raymondjavaxx/SpinKit-ObjC)
 - [**TPKeyboardAvoiding**](https://github.com/michaeltyson/TPKeyboardAvoiding)
+- [**JTSHardwareInfo**](https://github.com/jaredsinclair/JTSHardwareInfo)
 
 ###Installing Dependencies
 

@@ -10,6 +10,7 @@
 #import "JBAnnotation.h"
 #import "JBYouTubeView.h"
 #import <XCDYouTubeKit.h>
+#import <JTSHardwareInfo.h>
 #import "JBMapTableViewCell.h"
 #import "JBMapViewController.h"
 #import <JTSImageViewController.h>
@@ -225,7 +226,10 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
         switch (indexPath.row)
         {
             case kMapCellRow:
-                return 180.0;
+                if ([JTSHardwareInfo hardwareFamily] == JTSHardwareFamily_iPad)
+                    return 280.0;
+                else
+                    return 180.0;
             case kStatsCellRow:
                 return 125.0;
             case kSummaryCellRow:
@@ -233,7 +237,10 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
             case kAboutCellRow:
                 return [(JBTeamAboutTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kAboutCellIdentifier] heightForBodyLabelWithText:self.team.about];
             case kYouTubeCellRow:
-                return 210.0;
+                if ([JTSHardwareInfo hardwareFamily] == JTSHardwareFamily_iPad)
+                    return 310.0;
+                else
+                    return 210.0;
             default:
                 return 44.0;
         }

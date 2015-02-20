@@ -19,6 +19,7 @@
     tapGestureRecognizer.numberOfTapsRequired = 1;
     tapGestureRecognizer.numberOfTouchesRequired = 1;
     
+    self.avatarImageView.progressColor = self.team.universityColor;
     [self.avatarImageView addGestureRecognizer:tapGestureRecognizer];
     self.avatarImageView.userInteractionEnabled = NO;
     [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarLargeURL

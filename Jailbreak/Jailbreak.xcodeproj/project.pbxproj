@@ -44,6 +44,7 @@
 		E46EFDB11A8EB741002EFCB7 /* JBDonatePopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E46EFDB01A8EB741002EFCB7 /* JBDonatePopoverViewController.m */; };
 		E476BDAE1A92E66200728C9E /* JBTeamSummaryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E476BDAD1A92E66200728C9E /* JBTeamSummaryTableViewCell.m */; };
 		E476BDB41A92FC1900728C9E /* JBTeamAboutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E476BDB31A92FC1900728C9E /* JBTeamAboutTableViewCell.m */; };
+		E4A18D1C1A96BB6D0086D70A /* JBTeamsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */; };
 		E4E6C1D11A94E41600D138EA /* JBTeamStatsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6C1D01A94E41600D138EA /* JBTeamStatsTableViewCell.m */; };
 		E4E6C1D41A952CC600D138EA /* JBTeamProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6C1D31A952CC600D138EA /* JBTeamProfileViewController.m */; };
 		E4E6C1D71A9570F600D138EA /* JBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6C1D61A9570F600D138EA /* JBMapViewController.m */; };
@@ -132,6 +133,8 @@
 		E476BDAD1A92E66200728C9E /* JBTeamSummaryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamSummaryTableViewCell.m; sourceTree = "<group>"; };
 		E476BDB21A92FC1900728C9E /* JBTeamAboutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamAboutTableViewCell.h; sourceTree = "<group>"; };
 		E476BDB31A92FC1900728C9E /* JBTeamAboutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamAboutTableViewCell.m; sourceTree = "<group>"; };
+		E4A18D1A1A96BB6D0086D70A /* JBTeamsMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamsMapViewController.h; sourceTree = "<group>"; };
+		E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamsMapViewController.m; sourceTree = "<group>"; };
 		E4E6C1CF1A94E41600D138EA /* JBTeamStatsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamStatsTableViewCell.h; sourceTree = "<group>"; };
 		E4E6C1D01A94E41600D138EA /* JBTeamStatsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamStatsTableViewCell.m; sourceTree = "<group>"; };
 		E4E6C1D21A952CC600D138EA /* JBTeamProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamProfileViewController.h; sourceTree = "<group>"; };
@@ -252,8 +255,6 @@
 		E41448E31A769551002EB3AB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E4E6C1D51A9570F600D138EA /* JBMapViewController.h */,
-				E4E6C1D61A9570F600D138EA /* JBMapViewController.m */,
 				E41448F41A76E0DA002EB3AB /* JBBaseTableViewController.h */,
 				E41448F51A76E0DA002EB3AB /* JBBaseTableViewController.m */,
 				E41448EE1A76DE04002EB3AB /* JBBaseViewController.h */,
@@ -262,8 +263,12 @@
 				E46EFDB01A8EB741002EFCB7 /* JBDonatePopoverViewController.m */,
 				E41448F71A76E787002EB3AB /* JBFeedTableViewController.h */,
 				E41448F81A76E787002EB3AB /* JBFeedTableViewController.m */,
+				E4E6C1D51A9570F600D138EA /* JBMapViewController.h */,
+				E4E6C1D61A9570F600D138EA /* JBMapViewController.m */,
 				E4E6C1D21A952CC600D138EA /* JBTeamProfileViewController.h */,
 				E4E6C1D31A952CC600D138EA /* JBTeamProfileViewController.m */,
+				E4A18D1A1A96BB6D0086D70A /* JBTeamsMapViewController.h */,
+				E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */,
 				E45E01221A803CB30034CA28 /* JBTeamsTableViewController.h */,
 				E45E01231A803CB30034CA28 /* JBTeamsTableViewController.m */,
 			);
@@ -492,6 +497,7 @@
 				E457006F1A795D8B00A36ACD /* JBAPIManager.m in Sources */,
 				E4070AF91A9289B3007E3CBB /* JBMapTableViewCell.m in Sources */,
 				E41448ED1A76A78F002EB3AB /* JBUser.m in Sources */,
+				E4A18D1C1A96BB6D0086D70A /* JBTeamsMapViewController.m in Sources */,
 				E4474A221A92A74D005557B1 /* JBAnnotation.m in Sources */,
 				E476BDAE1A92E66200728C9E /* JBTeamSummaryTableViewCell.m in Sources */,
 				E43EFEEF1A8BE61600B93D05 /* JBButton.m in Sources */,

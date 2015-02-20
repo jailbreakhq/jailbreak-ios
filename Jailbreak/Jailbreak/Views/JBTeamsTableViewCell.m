@@ -42,7 +42,7 @@
     
     [self.donateButton addTarget:self action:@selector(didTapDonateButton:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarLargeURL
+    [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarURL
                                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                                   if (!image)
                                                   {

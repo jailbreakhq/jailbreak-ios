@@ -19,13 +19,13 @@
     options.size = size;
     
     // https://github.com/Wave39/BPMapSnapshotter/blob/master/BPMapSnapshotter.m
-    NSString *key = [NSString stringWithFormat:@"%f %f %f %f %f | %@ | %f %f %f %f | %d",
+    NSString *key = [NSString stringWithFormat:@"%f %f %f %f %f | %@ | %f %f %f %f | %@ %f | %d",
                      options.camera.centerCoordinate.latitude, options.camera.centerCoordinate.longitude,
                      options.camera.heading, options.camera.pitch, options.camera.altitude,
                      MKStringFromMapRect(options.mapRect),
                      options.region.center.latitude, options.region.center.longitude,
                      options.region.span.latitudeDelta, options.region.span.longitudeDelta,
-                     (int)options.mapType];
+                     NSStringFromCGSize(options.size), options.scale, (int)options.mapType];
     
     UIImage *snapshotImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:key];
     if (snapshotImage)

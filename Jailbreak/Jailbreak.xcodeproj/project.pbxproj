@@ -46,6 +46,7 @@
 		E46EFDB11A8EB741002EFCB7 /* JBDonatePopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E46EFDB01A8EB741002EFCB7 /* JBDonatePopoverViewController.m */; };
 		E476BDAE1A92E66200728C9E /* JBTeamSummaryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E476BDAD1A92E66200728C9E /* JBTeamSummaryTableViewCell.m */; };
 		E476BDB41A92FC1900728C9E /* JBTeamAboutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E476BDB31A92FC1900728C9E /* JBTeamAboutTableViewCell.m */; };
+		E49E05A21A9A441000E4A319 /* JBPost.m in Sources */ = {isa = PBXBuildFile; fileRef = E49E05A11A9A441000E4A319 /* JBPost.m */; };
 		E4A18D1C1A96BB6D0086D70A /* JBTeamsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */; };
 		E4E6C1D11A94E41600D138EA /* JBTeamStatsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6C1D01A94E41600D138EA /* JBTeamStatsTableViewCell.m */; };
 		E4E6C1D41A952CC600D138EA /* JBTeamProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6C1D31A952CC600D138EA /* JBTeamProfileViewController.m */; };
@@ -139,6 +140,8 @@
 		E476BDAD1A92E66200728C9E /* JBTeamSummaryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamSummaryTableViewCell.m; sourceTree = "<group>"; };
 		E476BDB21A92FC1900728C9E /* JBTeamAboutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamAboutTableViewCell.h; sourceTree = "<group>"; };
 		E476BDB31A92FC1900728C9E /* JBTeamAboutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamAboutTableViewCell.m; sourceTree = "<group>"; };
+		E49E05A01A9A441000E4A319 /* JBPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPost.h; sourceTree = "<group>"; };
+		E49E05A11A9A441000E4A319 /* JBPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPost.m; sourceTree = "<group>"; };
 		E4A18D1A1A96BB6D0086D70A /* JBTeamsMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamsMapViewController.h; sourceTree = "<group>"; };
 		E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamsMapViewController.m; sourceTree = "<group>"; };
 		E4E6C1CF1A94E41600D138EA /* JBTeamStatsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamStatsTableViewCell.h; sourceTree = "<group>"; };
@@ -284,6 +287,8 @@
 		E41448E41A769551002EB3AB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E49E05A01A9A441000E4A319 /* JBPost.h */,
+				E49E05A11A9A441000E4A319 /* JBPost.m */,
 				E4474A201A92A74D005557B1 /* JBAnnotation.h */,
 				E4474A211A92A74D005557B1 /* JBAnnotation.m */,
 				E46A92711A79CA2A002EF3A3 /* JBChallenge.h */,
@@ -516,6 +521,7 @@
 				E41448E81A76968D002EB3AB /* JBTeam.m in Sources */,
 				E45E01201A802E0D0034CA28 /* CERoundProgressView.m in Sources */,
 				E4E6C1D71A9570F600D138EA /* JBMapViewController.m in Sources */,
+				E49E05A21A9A441000E4A319 /* JBPost.m in Sources */,
 				E4E6C1D11A94E41600D138EA /* JBTeamStatsTableViewCell.m in Sources */,
 				E41448F61A76E0DA002EB3AB /* JBBaseTableViewController.m in Sources */,
 				E46A92731A79CA2A002EF3A3 /* JBChallenge.m in Sources */,

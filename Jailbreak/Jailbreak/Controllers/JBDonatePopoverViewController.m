@@ -225,12 +225,11 @@ static const NSUInteger kMinimumDonationAmount = 5;
     switch (status)
     {
         case STPPaymentStatusSuccess:
-        case STPPaymentStatusUserCancelled:
             if ([self.delegate respondsToSelector:@selector(donatePopoverViewControllerDidSuccessfullyCharge)])
             {
                 [self.delegate donatePopoverViewControllerDidSuccessfullyCharge];
             }
-            
+        case STPPaymentStatusUserCancelled:
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             break;
         case STPPaymentStatusError:

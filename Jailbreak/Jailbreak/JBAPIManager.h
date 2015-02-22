@@ -20,6 +20,10 @@ typedef void (^HTTPRequestFailure)(AFHTTPRequestOperation *operation, NSError *e
                           success:(HTTPRequestSuccess)success
                           failure:(HTTPRequestFailure)failure;
 
+- (void)getTeamWithId:(NSUInteger)teamId
+              success:(HTTPRequestSuccess)success
+              failure:(HTTPRequestFailure)failure;
+
 - (void)getCheckinsForTeamWithId:(NSUInteger)teamId
                          success:(HTTPRequestSuccess)success
                          failure:(HTTPRequestFailure)failure;

@@ -176,8 +176,6 @@
 
 - (void)refresh
 {
-    [self.refreshControl beginRefreshing];
-    
     [[JBAPIManager manager] getAllTeamsWithParameters:nil
                                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                   [self.teams removeAllObjects];

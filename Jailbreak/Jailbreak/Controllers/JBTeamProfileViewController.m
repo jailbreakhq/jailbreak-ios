@@ -287,20 +287,20 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     __weak typeof(self) weakSelf = self;
     
     // Refresh team data to update raised amount and donations
-    [[JBAPIManager manager] getAllTeamsWithParameters:@{@"filters": [@{@"teamNumber": @(self.team.number)} jsonString]}
-                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                  weakSelf.team = [[JBTeam alloc] initWithJSON:[responseObject firstObject]];
-                                                  weakSelf.team.distanceToX = [weakSelf.team.currentLocation distanceFromLocation:weakSelf.service.finalLocation];
-                                                  weakSelf.team.distanceTravelled = [weakSelf.service.startLocation distanceFromLocation:weakSelf.team.currentLocation];
-                                                  [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-                                                  
-                                                  NSUInteger index = weakSelf.navigationController.viewControllers.count - 2;
-                                                  JBTeamsTableViewController *vc = (JBTeamsTableViewController *)weakSelf.navigationController.viewControllers[index];
-                                                  vc.teams[weakSelf.teamSectionIndex] = weakSelf.team;
-                                                  [vc.tableView reloadData];
-                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                  
-                                              }];
+    [[JBAPIManager manager] getTeamWithId:self.team.ID
+                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                      weakSelf.team = [[JBTeam alloc] initWithJSON:responseObject];
+                                      weakSelf.team.distanceToX = [weakSelf.team.currentLocation distanceFromLocation:weakSelf.service.finalLocation];
+                                      weakSelf.team.distanceTravelled = [weakSelf.service.startLocation distanceFromLocation:weakSelf.team.currentLocation];
+                                      [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                                      
+                                      NSUInteger index = weakSelf.navigationController.viewControllers.count - 2;
+                                      JBTeamsTableViewController *vc = (JBTeamsTableViewController *)weakSelf.navigationController.viewControllers[index];
+                                      vc.teams[weakSelf.teamSectionIndex] = weakSelf.team;
+                                      [vc.tableView reloadData];
+                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                      
+                                  }];
     
     [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString]}
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {

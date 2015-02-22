@@ -61,8 +61,16 @@
                           success:(HTTPRequestSuccess)success
                           failure:(HTTPRequestFailure)failure
 {
-    [self GET:[NSString stringWithFormat:@"teams"]
+    [self GET:@"teams"
    parameters:parameters
+      success:SuccessBlockWithJSONOperation
+      failure:FailureBlockWithJSONOperation];
+}
+
+- (void)getTeamWithId:(NSUInteger)teamId success:(HTTPRequestSuccess)success failure:(HTTPRequestFailure)failure
+{
+    [self GET:[NSString stringWithFormat:@"teams/%@", @(teamId)]
+   parameters:nil
       success:SuccessBlockWithJSONOperation
       failure:FailureBlockWithJSONOperation];
 }

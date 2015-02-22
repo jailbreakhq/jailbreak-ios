@@ -8,6 +8,7 @@
 
 #import "JBPost.h"
 #import "JBDonation.h"
+#import <NSDate+DateTools.h>
 #import <JTSImageViewController.h>
 #import "JBFeedBaseTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
@@ -22,6 +23,7 @@ static NSString * const kImageCellIdentifier        = @"ImageCell";
 @interface JBFeedTableViewController () <JBFeedImageTableViewCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *posts;
+@property (nonatomic, weak) NSTimer *timer;
 
 @end
 
@@ -73,6 +75,34 @@ static NSString * const kImageCellIdentifier        = @"ImageCell";
     [self.posts addObject:post];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    // Just to be extra safe!
+    if (!self.timer)
+    {
+        NSTimer *timer = [[NSTimer alloc] initWithFireDate:[NSDate date]
+                                                  interval:1.0
+                                                    target:self
+                                                  selector:@selector(updateCellTimeAgoLabel:)
+                                                  userInfo:nil
+                                                   repeats:YES];
+        self.timer = timer;
+        
+        // To update while scrolling the table view
+        [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [self.timer invalidate];
+    self.timer = nil;
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -100,7 +130,6 @@ static NSString * const kImageCellIdentifier        = @"ImageCell";
             cell = [tableView dequeueReusableCellWithIdentifier:kImageCellIdentifier forIndexPath:indexPath];
         }
         
-        [cell.thumbnailImageView sd_setImageWithProgressAndURL:[self.posts[indexPath.row] mediaURL]];
         cell.delegate = self;
     }
     else
@@ -108,26 +137,7 @@ static NSString * const kImageCellIdentifier        = @"ImageCell";
         cell = [tableView dequeueReusableCellWithIdentifier:kTextCellIdentifier forIndexPath:indexPath];
     }
     
-    switch ([self.posts[indexPath.row] socialNetwork])
-    {
-        case JBPostSocialNetworkFacebook:
-            cell.socialNetworkImageView.image = [UIImage imageNamed:@"facebookLogo"];
-            break;
-        case JBPostSocialNetworkInstagram:
-            cell.socialNetworkImageView.image = [UIImage imageNamed:@"instagramLogo"];
-            break;
-        case JBPostSocialNetworkTwitter:
-            cell.socialNetworkImageView.image = [UIImage imageNamed:@"twitterLogo"];
-            break;
-        case JBPostSocialNetworkVine:
-            cell.socialNetworkImageView.image = [UIImage imageNamed:@"vineLogo"];
-            break;
-    }
-
-    [cell.avatarImageView sd_setImageWithProgressAndURL:[self.posts[indexPath.row] teamAvatarURL]];
-    cell.titleLabel.text = [self.posts[indexPath.row] teamName];
-    cell.bodyLabel.text = [self.posts[indexPath.row] body];
-    cell.timeLabel.text = @"20m";
+    [cell configureCellWithPost:self.posts[indexPath.row]];
     
     return cell;
 }
@@ -153,6 +163,17 @@ static NSString * const kImageCellIdentifier        = @"ImageCell";
 }
 
 #pragma mark - Helper Methods
+
+- (void)updateCellTimeAgoLabel:(NSTimer *)timer
+{
+    NSArray *indexPathsForVisibleRows = [self.tableView indexPathsForVisibleRows];
+    NSArray *visibleCells = [self.tableView visibleCells];
+    
+    for (int i = 0; i < visibleCells.count; i++)
+    {
+        [visibleCells[i] timeLabel].text = [[self.posts[[indexPathsForVisibleRows[i] row]] timeCreated] shortTimeAgoSinceNow];
+    }
+}
 
 - (void)refresh
 {

@@ -21,9 +21,11 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - BSKeyboardControls (2.2)
+  - DateTools (1.5.0)
   - JTSHardwareInfo (0.0.1)
   - JTSImageViewController (1.4)
   - JVFloatLabeledTextField (1.0.2)
+  - SAMRateLimit (0.2.0)
   - SDWebImage (3.7.1):
     - SDWebImage/Core (= 3.7.1)
   - SDWebImage/Core (3.7.1)
@@ -40,9 +42,11 @@ PODS:
 DEPENDENCIES:
   - AFNetworking
   - BSKeyboardControls
+  - DateTools
   - JTSHardwareInfo
   - JTSImageViewController
   - JVFloatLabeledTextField
+  - SAMRateLimit
   - SDWebImage
   - Shimmer
   - SIAlertView
@@ -55,9 +59,11 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
   BSKeyboardControls: c9aa1bdbb5ecd454aa3d0b2279f79c5dc4b6c6ad
+  DateTools: 7df78f0c4719eb28cfd2d58a90fafd036e73156c
   JTSHardwareInfo: 4dcdb13d5d877e4a8b7bfdad7860fb6043347792
   JTSImageViewController: 9fe6402194b7679f0e28d0c1002d6164301fc34a
   JVFloatLabeledTextField: c1ad6b4b5bd77115cfe6c71ba4c023866df5c4cf
+  SAMRateLimit: f47a9961333e2d44fe189ef2233cee48012905ee
   SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
   Shimmer: 057fcfe9c1c978d69d50b64fce93a61080cd08ec
   SIAlertView: d00609a1faa9d82f17b9f0b4eede64e84a577b10

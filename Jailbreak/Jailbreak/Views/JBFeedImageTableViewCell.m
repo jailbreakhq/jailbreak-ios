@@ -7,8 +7,11 @@
 //
 
 #import "JBFeedImageTableViewCell.h"
+#import "UIImageView+WebCacheWithProgress.h"
 
 @implementation JBFeedImageTableViewCell
+
+#pragma mark - Initialisers
 
 - (void)awakeFromNib
 {
@@ -61,6 +64,15 @@
     }
     
     return self;
+}
+
+#pragma mark - Helper Methods
+
+- (void)configureCellWithPost:(JBPost *)post
+{
+    [super configureCellWithPost:post];
+    
+    [self.thumbnailImageView sd_setImageWithProgressAndURL:post.mediaURL];
 }
 
 - (void)configure

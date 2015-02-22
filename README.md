@@ -19,6 +19,8 @@ Development
 - [**SpinKit**](https://github.com/raymondjavaxx/SpinKit-ObjC)
 - [**TPKeyboardAvoiding**](https://github.com/michaeltyson/TPKeyboardAvoiding)
 - [**JTSHardwareInfo**](https://github.com/jaredsinclair/JTSHardwareInfo)
+- [**DateTools**](https://github.com/MatthewYork/DateTools)
+- [**SAMRateLimit**](https://github.com/soffes/SAMRateLimit)
 
 ###Installing Dependencies
 

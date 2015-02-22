@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import "JBPost.h"
 #import <UIKit/UIKit.h>
 
 @interface JBFeedBaseTableViewCell : UITableViewCell
@@ -15,5 +16,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *bodyLabel;
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
+
+- (void)configureCellWithPost:(JBPost *)post;
 
 @end

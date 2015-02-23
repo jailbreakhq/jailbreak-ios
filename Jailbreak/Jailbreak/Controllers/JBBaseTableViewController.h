@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import <TSMessage.h>
 #import <UIKit/UIKit.h>
 #import "JBAPIManager.h"
 #import <RTSpinKitView.h>

@@ -10,7 +10,7 @@
 
 @interface JBPost (Private)
 
-- (JBPostSocialNetwork)getPostTypeFromString:(NSString *)string;
+- (JBPostType)getPostTypeFromString:(NSString *)string;
 
 @end
 
@@ -32,7 +32,8 @@
         self.mediaURL = [aDecoder decodeObjectForKey:@"mediaURL"];
         self.timeCreated = [aDecoder decodeObjectForKey:@"timeCreated"];
         self.username = [aDecoder decodeObjectForKey:@"username"];
-        self.socialNetwork = [aDecoder decodeIntegerForKey:@"socialNetwork"];
+        self.postType = [aDecoder decodeIntegerForKey:@"socialNetwork"];
+        self.postId = [aDecoder decodeIntegerForKey:@"postId"];
     }
     
     return self;
@@ -48,7 +49,8 @@
     [aCoder encodeObject:self.mediaURL forKey:@"mediaURL"];
     [aCoder encodeObject:self.timeCreated forKey:@"timeCreated"];
     [aCoder encodeObject:self.username forKey:@"username"];
-    [aCoder encodeInteger:self.socialNetwork forKey:@"socialNetwork"];
+    [aCoder encodeInteger:self.postType forKey:@"socialNetwork"];
+    [aCoder encodeInteger:self.postId forKey:@"postId"];
 }
 
 #pragma mark - Initialiser
@@ -67,7 +69,8 @@
         self.mediaURL = [NSURL URLWithString:json[@"media"]];
         self.timeCreated = [NSDate date];
         self.username = json[@"username"];
-        self.socialNetwork = [self getPostTypeFromString:json[@"network"]];
+        self.postType = [self getPostTypeFromString:json[@"network"]];
+        self.postId = [json[@"postId"] unsignedIntegerValue];
     }
     
     return self;
@@ -75,11 +78,12 @@
 
 #pragma mark - Helper Methods
 
-- (JBPostSocialNetwork)getPostTypeFromString:(NSString *)string
+- (JBPostType)getPostTypeFromString:(NSString *)string
 {
-    NSDictionary *lookup = @{@"twitter": @0, @"instagram": @1, @"facebook": @2, @"vine": @3};
+    NSDictionary *lookup = @{@"twitter": @0, @"instagram": @1, @"facebook": @2, @"vine": @3,
+                             @"donate": @4, @"link": @5, @"checkin": @6};
     
-    return (JBPostSocialNetwork)[lookup[string.lowercaseString] unsignedIntegerValue];
+    return (JBPostType)[lookup[string.lowercaseString] unsignedIntegerValue];
 }
 
 @end

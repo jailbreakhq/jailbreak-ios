@@ -21,6 +21,7 @@ Development
 - [**JTSHardwareInfo**](https://github.com/jaredsinclair/JTSHardwareInfo)
 - [**DateTools**](https://github.com/MatthewYork/DateTools)
 - [**SAMRateLimit**](https://github.com/soffes/SAMRateLimit)
+- [**TSMessages**](https://github.com/Shayanzadeh/TSMessages)
 
 ###Installing Dependencies
 

@@ -22,7 +22,7 @@ static NSString * const kImageCellIdentifier        = @"ImageCell";
 static NSString * const kSAMBlockName               = @"Refreshing";
 static NSString * const kPostsArchiveKey            = @"Posts-JBFeedTableViewController";
 
-static const NSTimeInterval kIntervalBetweenRefreshing = 10.0;
+static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 
 @interface JBFeedTableViewController () <JBFeedImageTableViewCellDelegate>
 
@@ -54,7 +54,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 10.0;
     JBPost *post;
     
     post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Arca was definitely a hater.", @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png",
-                                   @"network": @"Twitter"}];
+                                   @"network": @"Twitter", @"postId": @569875563017576449}];
     [self.posts addObject:post];
     
     post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Had a bunch of black guys in a twerk circle is probably the two releases that got me properly into techno",
@@ -142,7 +142,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 10.0;
     
     if ([self.posts[indexPath.row] mediaURL])
     {
-        if ([self.posts[indexPath.row] socialNetwork] == JBPostSocialNetworkInstagram)
+        if ([self.posts[indexPath.row] postType] == JBPostTypeInstagram)
         {
             cell = [tableView dequeueReusableCellWithIdentifier:kInstagramCellIdentifier forIndexPath:indexPath];
         }
@@ -231,6 +231,8 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 10.0;
     contentOffsetBefore.y += [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:numberOfNewPosts inSection:0]].origin.y;
     [self.tableView setContentOffset:contentOffsetBefore animated:YES];
     [self.refreshControl endRefreshing];
+    
+    [TSMessage displayMessageWithTitle:[NSString stringWithFormat:@"%@ new posts", @(numberOfNewPosts)] subtitle:nil type:TSMessageTypeDefault];
 }
 
 @end

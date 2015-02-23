@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import <TSMessage.h>
 #import <BSKeyboardControls.h>
 #import "JBDonatePopoverViewController.h"
 
@@ -67,10 +68,10 @@ static const NSUInteger kMinimumDonationAmount = 5;
     self.cancelButton.activeBorderColor = [UIColor whiteColor];
     self.cancelButton.borderWidth = 1.0;
     
-    self.checkoutOptions.companyName = [NSString stringWithFormat:@"\"%@\"", self.team.name];
+    self.checkoutOptions.companyName = @"Jailbreak HQ";
     self.checkoutOptions.logoURL = self.team.avatarURL;
     self.checkoutOptions.logoColor = self.team.universityColor;
-    self.checkoutOptions.purchaseDescription = @"Thanks for supporting Amnesty & SVP!";
+    self.checkoutOptions.purchaseDescription = [NSString stringWithFormat:@"\"%@\"", self.team.name];
     self.checkoutOptions.purchaseLabel = @"Pay";
     self.checkoutOptions.purchaseCurrency = @"EUR";
     
@@ -119,17 +120,17 @@ static const NSUInteger kMinimumDonationAmount = 5;
     // Alert if all required fields aren't filled in
     if (!self.emailTextField.text.length || (!self.fullNameTextField.text.length && !self.anonymousSwitch.isOn) || !self.previousTextPlain.length)
     {
-        
+        [TSMessage displayMessageWithTitle:@"Fields not filled in" subtitle:@"Please fill in all the fields to continue" type:TSMessageTypeWarning];
     }
     // Alert if donation is less than minimum
     else if ([self.previousTextPlain integerValue] < kMinimumDonationAmount)
     {
-        NSLog(@"bad amount");
+        [TSMessage displayMessageWithTitle:@"Minimum donation is €5" subtitle:nil type:TSMessageTypeWarning];
     }
     // Alert if email is invalid (Stripe Checkout will validate but can't get address back for API call so...)
     else if (![self isValidEmail:self.emailTextField.text])
     {
-        NSLog(@"bad email");
+        [TSMessage displayMessageWithTitle:@"Invalid Email" subtitle:@"Please enter a valid email to continue" type:TSMessageTypeError];
     }
     else
     {
@@ -230,16 +231,13 @@ static const NSUInteger kMinimumDonationAmount = 5;
                 [self.delegate donatePopoverViewControllerDidSuccessfullyCharge];
             }
         case STPPaymentStatusUserCancelled:
+            [TSMessage displayMessageWithTitle:@"€5 donation succeeded!" subtitle:@"Thank you so much 😘" type:TSMessageTypeSuccess];
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             break;
         case STPPaymentStatusError:
         {
             [self dismissViewControllerAnimated:YES completion:^{
-                [[[UIAlertView alloc] initWithTitle:@"Oops"
-                                            message:error.localizedDescription
-                                           delegate:self
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil] show];
+                [TSMessage displayMessageWithTitle:nil subtitle:error.localizedDescription type:TSMessageTypeError];
             }];
             break;
         }

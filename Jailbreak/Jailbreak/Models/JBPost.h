@@ -8,12 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, JBPostSocialNetwork)
+typedef NS_ENUM(NSUInteger, JBPostType)
 {
-    JBPostSocialNetworkTwitter = 0,
-    JBPostSocialNetworkInstagram,
-    JBPostSocialNetworkFacebook,
-    JBPostSocialNetworkVine,
+    JBPostTypeTwitter = 0,
+    JBPostTypeInstagram,
+    JBPostTypeFacebook,
+    JBPostTypeVine,
+    JBPostTypeDonate,
+    JBPostTypeLink,
+    JBPostTypeCheckin,
 };
 
 @interface JBPost : NSObject <NSCoding>
@@ -26,7 +29,8 @@ typedef NS_ENUM(NSUInteger, JBPostSocialNetwork)
 @property (nonatomic, strong) NSURL *mediaURL;
 @property (nonatomic, strong) NSDate *timeCreated;
 @property (nonatomic, strong) NSString *username;
-@property (nonatomic, assign) JBPostSocialNetwork socialNetwork;
+@property (nonatomic, assign) JBPostType postType;
+@property (nonatomic, assign) NSUInteger postId;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
 

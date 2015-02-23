@@ -19,18 +19,18 @@
     self.timeLabel.text = [post.timeCreated shortTimeAgoSinceNow];
     [self.avatarImageView sd_setImageWithProgressAndURL:post.teamAvatarURL];
     
-    switch (post.socialNetwork)
+    switch (post.postType)
     {
-        case JBPostSocialNetworkFacebook:
+        case JBPostTypeFacebook:
             self.socialNetworkImageView.image = [UIImage imageNamed:@"facebookLogo"];
             break;
-        case JBPostSocialNetworkInstagram:
+        case JBPostTypeInstagram:
             self.socialNetworkImageView.image = [UIImage imageNamed:@"instagramLogo"];
             break;
-        case JBPostSocialNetworkTwitter:
+        case JBPostTypeTwitter:
             self.socialNetworkImageView.image = [UIImage imageNamed:@"twitterLogo"];
             break;
-        case JBPostSocialNetworkVine:
+        case JBPostTypeVine:
             self.socialNetworkImageView.image = [UIImage imageNamed:@"vineLogo"];
             break;
     }

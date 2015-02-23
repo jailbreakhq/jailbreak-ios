@@ -37,6 +37,7 @@ PODS:
   - Stripe/Core (3.1.0)
   - SVPullToRefresh (0.4.1)
   - TPKeyboardAvoiding (1.2.6)
+  - TSMessages (1.0)
   - XCDYouTubeKit (2.1.0)
 
 DEPENDENCIES:
@@ -54,7 +55,18 @@ DEPENDENCIES:
   - Stripe
   - SVPullToRefresh
   - TPKeyboardAvoiding
+  - TSMessages (from `https://github.com/Shayanzadeh/TSMessages`, branch `jailbreak`)
   - XCDYouTubeKit
+
+EXTERNAL SOURCES:
+  TSMessages:
+    :branch: jailbreak
+    :git: https://github.com/Shayanzadeh/TSMessages
+
+CHECKOUT OPTIONS:
+  TSMessages:
+    :commit: 38e95be8332c8ae92ba63b4a4893927edd1b4505
+    :git: https://github.com/Shayanzadeh/TSMessages
 
 SPEC CHECKSUMS:
   AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
@@ -71,6 +83,7 @@ SPEC CHECKSUMS:
   Stripe: aaa174b50fac40a16958cbc892457a241d0b4b08
   SVPullToRefresh: d5161ebc833a38b465364412e5e307ca80bbb190
   TPKeyboardAvoiding: 0797ad5f2366e2435e605202b01f3b7cff5d82cd
+  TSMessages: 76809620fd0e599012f3aea30febb0e9513feb74
   XCDYouTubeKit: 0c6f5b28d27b0646989b7c42edd165997ec52299
 
 COCOAPODS: 0.35.0

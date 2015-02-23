@@ -8,6 +8,7 @@
 
 #import "JBPost.h"
 #import "JBDonation.h"
+#import <SAMRateLimit.h>
 #import <NSDate+DateTools.h>
 #import <JTSImageViewController.h>
 #import "JBFeedBaseTableViewCell.h"
@@ -18,7 +19,10 @@
 static NSString * const kTextCellIdentifier         = @"TextCell";
 static NSString * const kInstagramCellIdentifier    = @"InstagramCell";
 static NSString * const kImageCellIdentifier        = @"ImageCell";
+static NSString * const kSAMBlockName               = @"Refreshing";
+static NSString * const kPostsArchiveKey            = @"Posts-JBFeedTableViewController";
 
+static const NSTimeInterval kIntervalBetweenRefreshing = 10.0;
 
 @interface JBFeedTableViewController () <JBFeedImageTableViewCellDelegate>
 
@@ -75,6 +79,13 @@ static NSString * const kImageCellIdentifier        = @"ImageCell";
     [self.posts addObject:post];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -93,6 +104,16 @@ static NSString * const kImageCellIdentifier        = @"ImageCell";
         // To update while scrolling the table view
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     }
+    
+    if (!self.posts.count)
+    {
+        self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
+    }
+    
+    [SAMRateLimit executeBlock:^{
+        [self refresh];
+        NSLog(@"refresh");
+    } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -163,6 +184,16 @@ static NSString * const kImageCellIdentifier        = @"ImageCell";
 }
 
 #pragma mark - Helper Methods
+
+// Leaving out refreshing when handling active notification because of contentOffset issues
+
+- (void)handleApplicationDidEnterBackgroundNotification
+{
+    if (self.posts.count)
+    {
+        [self saveToArchiveObject:self.posts withKey:kPostsArchiveKey];
+    }
+}
 
 - (void)updateCellTimeAgoLabel:(NSTimer *)timer
 {

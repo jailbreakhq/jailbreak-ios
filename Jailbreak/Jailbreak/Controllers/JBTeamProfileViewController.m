@@ -65,7 +65,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     JBTeamVideoTableViewCell *cell = (JBTeamVideoTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:kYouTubeCellIdentifier];
     cell.youTubeVideoId = self.team.videoID;
     
-    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString]}
+    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(20)}
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                       for (NSDictionary *donation in responseObject)
                                                       {
@@ -302,7 +302,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                       
                                   }];
     
-    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString]}
+    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(20)}
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                       
                                                       [weakSelf.donations removeAllObjects];

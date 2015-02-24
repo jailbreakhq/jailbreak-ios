@@ -9,7 +9,9 @@
 #import "JBPost.h"
 #import "JBDonation.h"
 #import <SAMRateLimit.h>
+#import <Social/Social.h>
 #import <NSDate+DateTools.h>
+#import <Accounts/Accounts.h>
 #import "UIColor+JBAdditions.h"
 #import <JTSImageViewController.h>
 #import "JBFeedBaseTableViewCell.h"
@@ -59,7 +61,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     [self.posts addObject:post];
     
     post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Had a bunch of black guys in a twerk circle is probably the two releases that got me properly into techno",
-                                          @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"Twitter", @"teamUniversity": @"ucd"}];
+                                          @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"Twitter", @"teamUniversity": @"ucd", @"postId": @"570034304950140928"}];
     [self.posts addObject:post];
     
     post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Working on this British Shorthair today. #YearOfTheFat #FatFriends https://instagram.com/p/zVcJQ7LClQ/",
@@ -225,17 +227,108 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    JBPost *selectedPost = self.posts[indexPath.row];
     __weak typeof(self) weakSelf = self;
     
     UITableViewRowAction *favouriteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Fave" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+
+        ACAccountStore *accountStore = [ACAccountStore new];
+        ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+        
+        [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+            if (granted)
+            {
+                ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
+                
+                if (account)
+                {
+                    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                                            requestMethod:SLRequestMethodPOST
+                                                                      URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/favorites/create.json"]
+                                                               parameters:@{@"id": selectedPost.postId}];
+                    request.account = account;
+                    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                        if (error)
+                        {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedDescription type:TSMessageTypeError];
+                            });
+                        }
+                    }];
+                }
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [TSMessage displayMessageWithTitle:@"Twitter Account Access Not Granted" subtitle:@"Go into settings and allow this app to use your account" type:TSMessageTypeError];
+                });
+            }
+        }];
+        
         [weakSelf.tableView setEditing:NO animated:YES];
     }];
     
     UITableViewRowAction *retweetAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Retweet" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        
+        ACAccountStore *accountStore = [ACAccountStore new];
+        ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+        
+        [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+            if (granted)
+            {
+                ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
+                
+                if (account)
+                {
+                    NSURL *retweetURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/statuses/retweet/%@.json", selectedPost.postId]];
+                    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:retweetURL parameters:nil];
+                    request.account = account;
+                    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                        if (error)
+                        {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedDescription type:TSMessageTypeError];
+                            });
+                        }
+                        else
+                        {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [TSMessage displayMessageWithTitle:@"Retweeted!" subtitle:nil type:TSMessageTypeSuccess];
+                            });
+                        }
+                    }];
+                }
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [TSMessage displayMessageWithTitle:@"Twitter Account Access Not Granted" subtitle:@"Go into settings and allow this app to use your account" type:TSMessageTypeError];
+                });
+            }
+        }];
+        
         [weakSelf.tableView setEditing:NO animated:YES];
     }];
     
     UITableViewRowAction *replyAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Reply" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+
+        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tweetbot://"]])
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tweetbot:///status/%@", selectedPost.postId]]];
+        }
+        else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitterrific://"]])
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitterrific:///tweet?id=%@", selectedPost.postId]]];
+        }
+        else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]])
+        {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitter://status?id=%@", selectedPost.postId]]];
+        }
+        else
+        {
+            [TSMessage displayMessageWithTitle:@"No Twitter App Installed" subtitle:@"Please install a Twitter app to open tweets in" type:TSMessageTypeWarning];
+        }
+        
         [weakSelf.tableView setEditing:NO animated:YES];
     }];
     

@@ -10,6 +10,7 @@
 #import "JBDonation.h"
 #import <SAMRateLimit.h>
 #import <Social/Social.h>
+#import <TSMessageView.h>
 #import <NSDate+DateTools.h>
 #import <Accounts/Accounts.h>
 #import "UIColor+JBAdditions.h"
@@ -180,6 +181,11 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     UIColor *baseColor = [JBTeam colorForUniversity:[self.posts[indexPath.row] teamUniversity]];
     __weak typeof(self) weakSelf = self;
     
+    UITableViewRowAction *viewAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"View" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        [self openPostInApp:selectedPost];
+        [weakSelf.tableView setEditing:NO animated:YES];
+    }];
+
     if (selectedPost.postType == JBPostTypeTwitter)
     {
         UITableViewRowAction *favouriteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Fave" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
@@ -192,16 +198,11 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
             [weakSelf.tableView setEditing:NO animated:YES];
         }];
         
-        UITableViewRowAction *replyAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Reply" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            [self openPostInApp:selectedPost];
-            [weakSelf.tableView setEditing:NO animated:YES];
-        }];
-        
-        replyAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
+        viewAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
         favouriteAction.backgroundColor = baseColor;
         retweetAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:10];
         
-        actions = @[replyAction, favouriteAction, retweetAction];
+        actions = @[viewAction, favouriteAction, retweetAction];
     }
     else if (selectedPost.postType == JBPostTypeFacebook)
     {
@@ -210,19 +211,15 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
             [weakSelf.tableView setEditing:NO animated:YES];
         }];
         
+        viewAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
         likeAction.backgroundColor = baseColor;
         
-        actions = @[likeAction];
+        actions = @[viewAction, likeAction];
     }
     else
     {
-        UITableViewRowAction *fakeAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:nil handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            [weakSelf.tableView setEditing:NO animated:YES];
-        }];
-        
-        fakeAction.backgroundColor = [UIColor clearColor];
-
-        actions = @[fakeAction];
+        viewAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
+        actions = @[viewAction];
     }
 
     return actions;
@@ -496,7 +493,9 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     [self.tableView setContentOffset:contentOffsetBefore animated:YES];
     [self.refreshControl endRefreshing];
     
-    [TSMessage displayMessageWithTitle:[NSString stringWithFormat:@"%@ new posts", @(numberOfNewPosts)] subtitle:nil type:TSMessageTypeDefault];
+    TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ new posts", @(numberOfNewPosts)] subtitle:nil type:TSMessageTypeDefault];
+    messageView.duration = 1.0;
+    [TSMessage displayOrEnqueueMessage:messageView];
 }
 
 @end

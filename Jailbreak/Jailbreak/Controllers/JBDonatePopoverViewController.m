@@ -47,7 +47,7 @@ static const NSUInteger kMinimumDonationAmount = 5;
     self.emailSeparatorView.backgroundColor = self.team.universityColor;
     self.amountTextField.textColor = [UIColor whiteColor];
     self.amountTextField.tintColor = [UIColor whiteColor];
-    self.amountTextField.placeholder = [[self priceFormatter] stringFromNumber:@(kMinimumDonationAmount)];
+    self.amountTextField.placeholder = @"Amount";
     self.fullNameTextField.textColor = self.team.universityColor;
     self.fullNameTextField.tintColor = self.team.universityColor;
     self.emailTextField.textColor = self.team.universityColor;
@@ -120,12 +120,12 @@ static const NSUInteger kMinimumDonationAmount = 5;
     // Alert if all required fields aren't filled in
     if (!self.emailTextField.text.length || (!self.fullNameTextField.text.length && !self.anonymousSwitch.isOn) || !self.previousTextPlain.length)
     {
-        [TSMessage displayMessageWithTitle:@"Fields not filled in" subtitle:@"Please fill in all the fields to continue" type:TSMessageTypeWarning];
+        [TSMessage displayMessageWithTitle:@"You Skipped Some Required Fields!" subtitle:@"Please fill in all the fields to continue" type:TSMessageTypeWarning];
     }
     // Alert if donation is less than minimum
     else if ([self.previousTextPlain integerValue] < kMinimumDonationAmount)
     {
-        [TSMessage displayMessageWithTitle:@"Minimum donation is €5" subtitle:nil type:TSMessageTypeWarning];
+        [TSMessage displayMessageWithTitle:[NSString stringWithFormat:@"Minimum Donation is €%@", @(kMinimumDonationAmount)] subtitle:nil type:TSMessageTypeWarning];
     }
     // Alert if email is invalid (Stripe Checkout will validate but can't get address back for API call so...)
     else if (![self isValidEmail:self.emailTextField.text])
@@ -226,12 +226,15 @@ static const NSUInteger kMinimumDonationAmount = 5;
     switch (status)
     {
         case STPPaymentStatusSuccess:
+        {
             if ([self.delegate respondsToSelector:@selector(donatePopoverViewControllerDidSuccessfullyCharge)])
             {
                 [self.delegate donatePopoverViewControllerDidSuccessfullyCharge];
             }
+            NSString *messageTitle = [NSString stringWithFormat:@"%@ Donation Successful 🎉", [[self priceFormatter] stringFromNumber:@(self.checkoutOptions.purchaseAmount/100.0)]];
+            [TSMessage displayMessageWithTitle:messageTitle subtitle:@"Thank you so much for supporting Amnesty & SVP 😘" type:TSMessageTypeSuccess];
+        }
         case STPPaymentStatusUserCancelled:
-            [TSMessage displayMessageWithTitle:@"€5 donation succeeded!" subtitle:@"Thank you so much 😘" type:TSMessageTypeSuccess];
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             break;
         case STPPaymentStatusError:

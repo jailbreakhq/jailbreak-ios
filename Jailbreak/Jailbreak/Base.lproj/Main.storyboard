@@ -545,9 +545,8 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DZF-ds-Zaf">
                                                     <rect key="frame" x="68" y="12" width="65" height="100"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MOl-TZ-xl1">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="donationIcon" translatesAutoresizingMaskIntoConstraints="NO" id="MOl-TZ-xl1">
                                                             <rect key="frame" x="13" y="0.0" width="40" height="40"/>
-                                                            <color key="backgroundColor" red="0.82799267768859863" green="0.83894944190979004" blue="0.86512517929077148" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="40" id="6Yd-hR-Kvq"/>
                                                                 <constraint firstAttribute="width" constant="40" id="UK4-cD-jw1"/>
@@ -585,9 +584,8 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvH-oA-oRS">
                                                     <rect key="frame" x="201" y="12" width="65" height="100"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QzG-r8-Fhl">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="countriesIcon" translatesAutoresizingMaskIntoConstraints="NO" id="QzG-r8-Fhl">
                                                             <rect key="frame" x="13" y="0.0" width="40" height="40"/>
-                                                            <color key="backgroundColor" red="0.82799267768859863" green="0.83894944190979004" blue="0.86512517929077148" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="40" id="fT9-c5-LbC"/>
                                                                 <constraint firstAttribute="width" constant="40" id="fxo-fP-Xeh"/>
@@ -625,9 +623,8 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RZF-Sm-2Rv">
                                                     <rect key="frame" x="334" y="12" width="65" height="100"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9vQ-rc-Jys">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="transportIcon" translatesAutoresizingMaskIntoConstraints="NO" id="9vQ-rc-Jys">
                                                             <rect key="frame" x="13" y="0.0" width="40" height="40"/>
-                                                            <color key="backgroundColor" red="0.82799267768859863" green="0.83894944190979004" blue="0.86512517929077148" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="RzR-p4-RCd"/>
                                                                 <constraint firstAttribute="height" constant="40" id="SeX-og-6S5"/>
@@ -665,9 +662,8 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azW-dk-Hg6">
                                                     <rect key="frame" x="467" y="12" width="65" height="100"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="647-ej-bXd">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="challengesIcon" translatesAutoresizingMaskIntoConstraints="NO" id="647-ej-bXd">
                                                             <rect key="frame" x="13" y="0.0" width="40" height="40"/>
-                                                            <color key="backgroundColor" red="0.82799267768859863" green="0.83894944190979004" blue="0.86512517929077148" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="QDK-zW-Khj"/>
                                                                 <constraint firstAttribute="height" constant="40" id="vbT-ws-WHb"/>
@@ -1357,9 +1353,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="challengesIcon" width="40" height="40"/>
+        <image name="countriesIcon" width="40" height="40"/>
+        <image name="donationIcon" width="40" height="40"/>
         <image name="instagramLogo" width="15" height="15"/>
+        <image name="transportIcon" width="40" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9w9-i5-qG4"/>
+        <segue reference="P01-pM-zMM"/>
     </inferredMetricsTieBreakers>
 </document>

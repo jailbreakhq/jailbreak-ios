@@ -170,175 +170,62 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    JBPost *selectedPost = self.posts[indexPath.row];
-    
-    switch (selectedPost.postType)
-    {
-        case JBPostTypeCheckin:
-            break;
-        case JBPostTypeDonate:
-            break;
-        case JBPostTypeFacebook:
-            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]])
-            {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"fb://post/%@", selectedPost.postId]]];
-            }
-            else
-            {
-                [TSMessage displayMessageWithTitle:@"Facebook App Not Installed" subtitle:@"Please install the Facebook app to open posts in" type:TSMessageTypeWarning];
-            }
-            break;
-        case JBPostTypeInstagram:
-            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://"]])
-            {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"instagram://media?id=%@", selectedPost.postId]]];
-            }
-            else
-            {
-                [TSMessage displayMessageWithTitle:@"Instagram App Not Installed" subtitle:@"Please install the Instagram app to open images in" type:TSMessageTypeWarning];
-            }
-            break;
-        case JBPostTypeLink:
-            break;
-        case JBPostTypeTwitter:
-        {
-            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tweetbot://"]])
-            {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tweetbot:///status/%@", selectedPost.postId]]];
-            }
-            else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitterrific://"]])
-            {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitterrific:///tweet?id=%@", selectedPost.postId]]];
-            }
-            else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]])
-            {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitter://status?id=%@", selectedPost.postId]]];
-            }
-            else
-            {
-                [TSMessage displayMessageWithTitle:@"No Twitter App Installed" subtitle:@"Please install a Twitter app to open tweets in" type:TSMessageTypeWarning];
-            }
-            break;
-        }
-        case JBPostTypeVine:
-            break;
-    }
+    [self openPostInApp:self.posts[indexPath.row]];
 }
 
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSArray *actions;
     JBPost *selectedPost = self.posts[indexPath.row];
+    UIColor *baseColor = [JBTeam colorForUniversity:[self.posts[indexPath.row] teamUniversity]];
     __weak typeof(self) weakSelf = self;
     
-    UITableViewRowAction *favouriteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Fave" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-
-        ACAccountStore *accountStore = [ACAccountStore new];
-        ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-        
-        [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
-            if (granted)
-            {
-                ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
-                
-                if (account)
-                {
-                    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
-                                                            requestMethod:SLRequestMethodPOST
-                                                                      URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/favorites/create.json"]
-                                                               parameters:@{@"id": selectedPost.postId}];
-                    request.account = account;
-                    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                        if (error)
-                        {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedDescription type:TSMessageTypeError];
-                            });
-                        }
-                    }];
-                }
-            }
-            else
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [TSMessage displayMessageWithTitle:@"Twitter Account Access Not Granted" subtitle:@"Go into settings and allow this app to use your account" type:TSMessageTypeError];
-                });
-            }
+    if (selectedPost.postType == JBPostTypeTwitter)
+    {
+        UITableViewRowAction *favouriteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Fave" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            [self favoritePost:selectedPost];
+            [weakSelf.tableView setEditing:NO animated:YES];
         }];
         
-        [weakSelf.tableView setEditing:NO animated:YES];
-    }];
-    
-    UITableViewRowAction *retweetAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Retweet" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        
-        ACAccountStore *accountStore = [ACAccountStore new];
-        ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-        
-        [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
-            if (granted)
-            {
-                ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
-                
-                if (account)
-                {
-                    NSURL *retweetURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/statuses/retweet/%@.json", selectedPost.postId]];
-                    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:retweetURL parameters:nil];
-                    request.account = account;
-                    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                        if (error)
-                        {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedDescription type:TSMessageTypeError];
-                            });
-                        }
-                        else
-                        {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [TSMessage displayMessageWithTitle:@"Retweeted!" subtitle:nil type:TSMessageTypeSuccess];
-                            });
-                        }
-                    }];
-                }
-            }
-            else
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [TSMessage displayMessageWithTitle:@"Twitter Account Access Not Granted" subtitle:@"Go into settings and allow this app to use your account" type:TSMessageTypeError];
-                });
-            }
+        UITableViewRowAction *retweetAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Retweet" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            [self retweetPost:selectedPost];
+            [weakSelf.tableView setEditing:NO animated:YES];
         }];
         
-        [weakSelf.tableView setEditing:NO animated:YES];
-    }];
-    
-    UITableViewRowAction *replyAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Reply" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-
-        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tweetbot://"]])
-        {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tweetbot:///status/%@", selectedPost.postId]]];
-        }
-        else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitterrific://"]])
-        {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitterrific:///tweet?id=%@", selectedPost.postId]]];
-        }
-        else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]])
-        {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitter://status?id=%@", selectedPost.postId]]];
-        }
-        else
-        {
-            [TSMessage displayMessageWithTitle:@"No Twitter App Installed" subtitle:@"Please install a Twitter app to open tweets in" type:TSMessageTypeWarning];
-        }
+        UITableViewRowAction *replyAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Reply" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            [self openPostInApp:selectedPost];
+            [weakSelf.tableView setEditing:NO animated:YES];
+        }];
         
-        [weakSelf.tableView setEditing:NO animated:YES];
-    }];
-    
-    UIColor *baseColor = [JBTeam colorForUniversity:[self.posts[indexPath.row] teamUniversity]];
-    
-    favouriteAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
-    retweetAction.backgroundColor = baseColor;
-    replyAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:10];
+        replyAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
+        favouriteAction.backgroundColor = baseColor;
+        retweetAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:10];
+        
+        actions = @[replyAction, favouriteAction, retweetAction];
+    }
+    else if (selectedPost.postType == JBPostTypeFacebook)
+    {
+        UITableViewRowAction *likeAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Like" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            [self likePost:selectedPost];
+            [weakSelf.tableView setEditing:NO animated:YES];
+        }];
+        
+        likeAction.backgroundColor = baseColor;
+        
+        actions = @[likeAction];
+    }
+    else
+    {
+        UITableViewRowAction *fakeAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:nil handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            [weakSelf.tableView setEditing:NO animated:YES];
+        }];
+        
+        fakeAction.backgroundColor = [UIColor clearColor];
 
-    return @[favouriteAction, retweetAction, replyAction];
+        actions = @[fakeAction];
+    }
+
+    return actions;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -358,9 +245,206 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     
     JTSImageViewController *imageViewController = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
                                                                                                mode:JTSImageViewControllerMode_Image
-                                                                                    backgroundStyle:JTSImageViewControllerBackgroundOption_None];
+                                                                                    backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
     
     [imageViewController showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+}
+
+#pragma mark - Twitter Helper Methods
+
+- (void)favoritePost:(JBPost *)post
+{
+    ACAccountStore *accountStore = [ACAccountStore new];
+    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    
+    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+        if (granted)
+        {
+            ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
+            
+            if (account)
+            {
+                SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                                        requestMethod:SLRequestMethodPOST
+                                                                  URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/favorites/create.json"]
+                                                           parameters:@{@"id": post.postId}];
+                request.account = account;
+                [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    NSString *errorMessage = [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode];
+                    
+                    if ([errorMessage isEqualToString:@"no error"])
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [TSMessage displayMessageWithTitle:@"Favourited Tweet!" subtitle:nil type:TSMessageTypeSuccess];
+                        });
+                    }
+                    else
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [TSMessage displayMessageWithTitle:errorMessage subtitle:error.localizedDescription type:TSMessageTypeError];
+                        });
+                    }
+                }];
+            }
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [TSMessage displayMessageWithTitle:@"Twitter Account Access Not Granted" subtitle:@"Go into settings and allow this app to use your account" type:TSMessageTypeError];
+            });
+        }
+    }];
+}
+
+- (void)retweetPost:(JBPost *)post
+{
+    ACAccountStore *accountStore = [ACAccountStore new];
+    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    
+    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+        if (granted)
+        {
+            ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
+            
+            if (account)
+            {
+                NSURL *retweetURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/statuses/retweet/%@.json", post.postId]];
+                SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:retweetURL parameters:nil];
+                request.account = account;
+                [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    NSString *errorMessage = [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode];
+                    
+                    if ([errorMessage isEqualToString:@"no error"])
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [TSMessage displayMessageWithTitle:@"Retweeted!" subtitle:nil type:TSMessageTypeSuccess];
+                        });
+                    }
+                    else
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [TSMessage displayMessageWithTitle:errorMessage subtitle:error.localizedDescription type:TSMessageTypeError];
+                        });
+                    }
+                }];
+            }
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [TSMessage displayMessageWithTitle:@"Twitter Account Access Not Granted" subtitle:error.localizedDescription type:TSMessageTypeError];
+            });
+        }
+    }];
+}
+
+- (void)openPostInApp:(JBPost *)post
+{
+    switch (post.postType)
+    {
+        case JBPostTypeCheckin:
+            break;
+        case JBPostTypeDonate:
+            break;
+        case JBPostTypeFacebook:
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"fb://post/%@", post.postId]]];
+            }
+            else
+            {
+                [TSMessage displayMessageWithTitle:@"Facebook App Not Installed" subtitle:@"Please install the Facebook app to open posts in" type:TSMessageTypeWarning];
+            }
+            break;
+        case JBPostTypeInstagram:
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"instagram://media?id=%@", post.postId]]];
+            }
+            else
+            {
+                [TSMessage displayMessageWithTitle:@"Instagram App Not Installed" subtitle:@"Please install the Instagram app to open images in" type:TSMessageTypeWarning];
+            }
+            break;
+        case JBPostTypeLink:
+            break;
+        case JBPostTypeTwitter:
+        {
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tweetbot://"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tweetbot:///status/%@", post.postId]]];
+            }
+            else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitterrific://"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitterrific:///tweet?id=%@", post.postId]]];
+            }
+            else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitter://status?id=%@", post.postId]]];
+            }
+            else
+            {
+                [TSMessage displayMessageWithTitle:@"No Twitter App Installed" subtitle:@"Please install a Twitter app to open tweets in" type:TSMessageTypeWarning];
+            }
+            break;
+        }
+        case JBPostTypeVine:
+            break;
+    }
+}
+
+#pragma mark - Facebook Helper Methods
+
+- (void)likePost:(JBPost *)post
+{
+    ACAccountStore *accountStore = [ACAccountStore new];
+    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
+    NSDictionary *readOptions = @{ACFacebookAppIdKey: @"893612184039371", ACFacebookPermissionsKey: @[@"email"], ACFacebookAudienceKey: ACFacebookAudienceEveryone};
+    
+    [accountStore requestAccessToAccountsWithType:accountType options:readOptions completion:^(BOOL granted, NSError *error) {
+        if (granted)
+        {
+            NSDictionary *writeOptions = @{ACFacebookAppIdKey: @"893612184039371", ACFacebookPermissionsKey: @[@"publish_actions"], ACFacebookAudienceKey: ACFacebookAudienceEveryone};
+            [accountStore requestAccessToAccountsWithType:accountType options:writeOptions completion:^(BOOL granted, NSError *error) {
+                ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
+                
+                if (account)
+                {
+                    NSURL *likeURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/v2.2/%@/likes", post.postId]];
+                    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodPOST URL:likeURL parameters:nil];
+                    request.account = account;
+                    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                        NSString *errorMessage = [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode];
+                        
+                        if ([errorMessage isEqualToString:@"no error"])
+                        {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [TSMessage displayMessageWithTitle:@"Retweeted!" subtitle:nil type:TSMessageTypeSuccess];
+                            });
+                        }
+                        else
+                        {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [TSMessage displayMessageWithTitle:errorMessage subtitle:error.localizedDescription type:TSMessageTypeError];
+                            });
+                        }
+                    }];
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [TSMessage displayMessageWithTitle:@"Facebook Account Access Not Granted" subtitle:error.localizedDescription type:TSMessageTypeError];
+                    });
+                }
+            }];
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [TSMessage displayMessageWithTitle:@"Facebook Account Access Not Granted" subtitle:error.localizedDescription type:TSMessageTypeError];
+            });
+        }
+    }];
 }
 
 #pragma mark - Helper Methods

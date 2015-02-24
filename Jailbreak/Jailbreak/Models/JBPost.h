@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import "JBTeam.h"
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, JBPostType)
@@ -30,7 +31,8 @@ typedef NS_ENUM(NSUInteger, JBPostType)
 @property (nonatomic, strong) NSDate *timeCreated;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, assign) JBPostType postType;
-@property (nonatomic, assign) NSUInteger postId;
+@property (nonatomic, strong) NSString *postId;
+@property (nonatomic, assign) University teamUniversity;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
 

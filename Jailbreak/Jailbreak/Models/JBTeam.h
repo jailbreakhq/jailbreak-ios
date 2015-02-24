@@ -52,7 +52,9 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, strong) UIColor *universityColor;
 @property (nonatomic, assign) NSUInteger position;
 
-
 - (instancetype)initWithJSON:(NSDictionary *)json;
+
++ (UIColor *)colorForUniversity:(University)university;
++ (University)universityFromString:(NSString *)string;
 
 @end

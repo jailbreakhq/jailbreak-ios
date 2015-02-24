@@ -10,6 +10,16 @@
 
 @implementation UIColor (JBAdditions)
 
+- (instancetype)colorWithBrightnessChangedBy:(NSInteger)brightnessChange
+{
+    CGFloat hue, saturation, brightness, alpha;
+    CGFloat change = brightnessChange / 255.0;
+    
+    [self getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+    
+    return [UIColor colorWithHue:hue saturation:saturation brightness:MIN(MAX(brightness+change, 0.0), 1.0) alpha:alpha];
+}
+
 + (instancetype)colorWithHexString:(NSString *)hexString
 {
     unsigned int hexValue;

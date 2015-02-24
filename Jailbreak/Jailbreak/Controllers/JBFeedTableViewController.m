@@ -10,6 +10,7 @@
 #import "JBDonation.h"
 #import <SAMRateLimit.h>
 #import <NSDate+DateTools.h>
+#import "UIColor+JBAdditions.h"
 #import <JTSImageViewController.h>
 #import "JBFeedBaseTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
@@ -54,27 +55,27 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     JBPost *post;
     
     post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Arca was definitely a hater.", @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png",
-                                   @"network": @"Twitter", @"postId": @569875563017576449}];
+                                   @"network": @"Twitter", @"postId": @"569875563017576449", @"teamUniversity": @"TCD"}];
     [self.posts addObject:post];
     
     post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Had a bunch of black guys in a twerk circle is probably the two releases that got me properly into techno",
-                                          @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"Twitter"}];
+                                          @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"Twitter", @"teamUniversity": @"ucd"}];
     [self.posts addObject:post];
     
     post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Working on this British Shorthair today. #YearOfTheFat #FatFriends https://instagram.com/p/zVcJQ7LClQ/",
-                                          @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"FACEBOOK",
-                                          @"media": @"http://scontent-a.cdninstagram.com/hphotos-xaf1/t51.2885-15/e15/11015502_1399670580341952_1221936374_n.jpg"}];
+                                          @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"FACEBOOK", @"postId": @"1405577633076859",
+                                          @"media": @"http://scontent-a.cdninstagram.com/hphotos-xaf1/t51.2885-15/e15/11015502_1399670580341952_1221936374_n.jpg", @"teamUniversity": @"nuig"}];
     [self.posts addObject:post];
     
     post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Thanks so much to everyone for liking the page, we really appreciate your support and enthusiasm 😊 Looking forward to seeing all those of you who live in Dublin at our bakesale next week, and at some other fun events we have planned for the near future. However, we still need your help to raise as much money as possible for SVP and Amnesty international, so if you have any loose change rattling around at the bottom of your pockets, please direct it our way here: https://jailbreakhq.org/teams/team-74 Thanks guys x",
-                                          @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"facebook"}];
+                                          @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"facebook", @"teamUniversity": @"ucc"}];
     [self.posts addObject:post];
     
     post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"iNstagraM",
-                                          @"media": @"http://scontent-b.cdninstagram.com/hphotos-xaf1/t51.2885-15/e15/10932646_593864644091568_589300573_n.jpg"}];
+                                          @"media": @"http://scontent-b.cdninstagram.com/hphotos-xaf1/t51.2885-15/e15/10932646_593864644091568_589300573_n.jpg", @"teamUniversity": @"tcd"}];
     [self.posts addObject:post];
     
-    post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Ive watched so may Liam Neeson movies. Another two long days of progress.", @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png",
+    post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Ive watched so may Liam Neeson movies. Another two long days of progress.", @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"postId": @"924146301657348311_217584541", @"teamUniversity": @"UCd",
                                           @"network": @"instagram", @"media": @"http://scontent-b.cdninstagram.com/hphotos-xap1/t51.2885-15/e15/10296704_1778125709080310_1766583521_n.jpg"}];
     [self.posts addObject:post];
 }
@@ -164,6 +165,92 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 }
 
 #pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    JBPost *selectedPost = self.posts[indexPath.row];
+    
+    switch (selectedPost.postType)
+    {
+        case JBPostTypeCheckin:
+            break;
+        case JBPostTypeDonate:
+            break;
+        case JBPostTypeFacebook:
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"fb://post/%@", selectedPost.postId]]];
+            }
+            else
+            {
+                [TSMessage displayMessageWithTitle:@"Facebook App Not Installed" subtitle:@"Please install the Facebook app to open posts in" type:TSMessageTypeWarning];
+            }
+            break;
+        case JBPostTypeInstagram:
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"instagram://media?id=%@", selectedPost.postId]]];
+            }
+            else
+            {
+                [TSMessage displayMessageWithTitle:@"Instagram App Not Installed" subtitle:@"Please install the Instagram app to open images in" type:TSMessageTypeWarning];
+            }
+            break;
+        case JBPostTypeLink:
+            break;
+        case JBPostTypeTwitter:
+        {
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tweetbot://"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tweetbot:///status/%@", selectedPost.postId]]];
+            }
+            else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitterrific://"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitterrific:///tweet?id=%@", selectedPost.postId]]];
+            }
+            else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitter://status?id=%@", selectedPost.postId]]];
+            }
+            else
+            {
+                [TSMessage displayMessageWithTitle:@"No Twitter App Installed" subtitle:@"Please install a Twitter app to open tweets in" type:TSMessageTypeWarning];
+            }
+            break;
+        }
+        case JBPostTypeVine:
+            break;
+    }
+}
+
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    __weak typeof(self) weakSelf = self;
+    
+    UITableViewRowAction *favouriteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Fave" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        [weakSelf.tableView setEditing:NO animated:YES];
+    }];
+    
+    UITableViewRowAction *retweetAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Retweet" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        [weakSelf.tableView setEditing:NO animated:YES];
+    }];
+    
+    UITableViewRowAction *replyAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Reply" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        [weakSelf.tableView setEditing:NO animated:YES];
+    }];
+    
+    UIColor *baseColor = [JBTeam colorForUniversity:[self.posts[indexPath.row] teamUniversity]];
+    
+    favouriteAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
+    retweetAction.backgroundColor = baseColor;
+    replyAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:10];
+
+    return @[favouriteAction, retweetAction, replyAction];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+}
 
 #pragma mark - JBFeedImageTableViewCellDelegate
 

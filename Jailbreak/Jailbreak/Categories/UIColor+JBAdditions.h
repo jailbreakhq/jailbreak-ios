@@ -10,6 +10,7 @@
 
 @interface UIColor (JBAdditions)
 
+- (instancetype)colorWithBrightnessChangedBy:(NSInteger)brightnessChange;
 + (instancetype)colorWithHexString:(NSString *)hexString;
 
 @end

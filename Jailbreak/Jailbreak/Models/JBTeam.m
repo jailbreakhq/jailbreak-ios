@@ -11,9 +11,7 @@
 
 @interface JBTeam ()
 
-- (University)getUniversityFromString:(NSString *)string;
 - (NSString *)getUniversityString;
-- (UIColor *)getUniversityColor;
 
 @end
 
@@ -104,7 +102,7 @@
         CLLocationDegrees lat = [json[@"currentLat"] doubleValue];
         CLLocationDegrees lon = [json[@"currentLon"] doubleValue];
         self.currentLocation = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
-        self.university = [self getUniversityFromString:json[@"university"]];
+        self.university = [JBTeam universityFromString:json[@"university"]];
         self.universityString = [self getUniversityString];
         self.amountRaisedOnline = [json[@"amountRaisedOnline"] unsignedIntegerValue];
         self.amountRaisedOffline = [json[@"amountRaisedOffline"] unsignedIntegerValue];
@@ -114,7 +112,7 @@
         self.donationsURL = [NSURL URLWithString:json[@"donationsUrl"]];
         self.featured = [json[@"featured"] boolValue];
         self.videoID = json[@"video"];
-        self.universityColor = [self getUniversityColor];
+        self.universityColor = [JBTeam colorForUniversity:self.university];
         self.position = [json[@"position"] unsignedIntegerValue];
         
         NSMutableArray *tempChallenges = [NSMutableArray new];
@@ -139,7 +137,7 @@
 
 #pragma mark - Private Methods
 
-- (University)getUniversityFromString:(NSString *)string
++ (University)universityFromString:(NSString *)string
 {
     NSDictionary *lookup = @{@"tcd": @0, @"ucd": @1, @"ucc": @2, @"nuig": @3,
                              @"nuim": @4, @"cit": @5, @"nci": @6, @"gmit": @7,
@@ -148,9 +146,9 @@
     return (University)[lookup[string.lowercaseString] unsignedIntegerValue];
 }
 
-- (UIColor *)getUniversityColor
++ (UIColor *)colorForUniversity:(University)university
 {
-    switch (self.university)
+    switch (university)
     {
         case TCD:
             return [UIColor colorWithHexString:@"#85387C"];

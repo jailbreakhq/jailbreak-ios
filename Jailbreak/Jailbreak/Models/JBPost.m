@@ -33,7 +33,8 @@
         self.timeCreated = [aDecoder decodeObjectForKey:@"timeCreated"];
         self.username = [aDecoder decodeObjectForKey:@"username"];
         self.postType = [aDecoder decodeIntegerForKey:@"socialNetwork"];
-        self.postId = [aDecoder decodeIntegerForKey:@"postId"];
+        self.postId = [aDecoder decodeObjectForKey:@"postId"];
+        self.teamUniversity = [aDecoder decodeIntegerForKey:@"teamUniversity"];
     }
     
     return self;
@@ -50,7 +51,8 @@
     [aCoder encodeObject:self.timeCreated forKey:@"timeCreated"];
     [aCoder encodeObject:self.username forKey:@"username"];
     [aCoder encodeInteger:self.postType forKey:@"socialNetwork"];
-    [aCoder encodeInteger:self.postId forKey:@"postId"];
+    [aCoder encodeObject:self.postId forKey:@"postId"];
+    [aCoder encodeInteger:self.teamUniversity forKey:@"teamUniversity"];
 }
 
 #pragma mark - Initialiser
@@ -70,7 +72,8 @@
         self.timeCreated = [NSDate date];
         self.username = json[@"username"];
         self.postType = [self getPostTypeFromString:json[@"network"]];
-        self.postId = [json[@"postId"] unsignedIntegerValue];
+        self.postId = json[@"postId"];
+        self.teamUniversity = [JBTeam universityFromString:json[@"teamUniversity"]];
     }
     
     return self;

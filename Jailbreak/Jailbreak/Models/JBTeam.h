@@ -20,9 +20,7 @@ typedef NS_ENUM(NSUInteger, University)
     NUIM,
     CIT,
     NCI,
-    GMIT,
     ITT,
-    ITC
 };
 
 @interface JBTeam : NSObject <NSCoding>

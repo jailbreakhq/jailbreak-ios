@@ -140,8 +140,7 @@
 + (University)universityFromString:(NSString *)string
 {
     NSDictionary *lookup = @{@"tcd": @0, @"ucd": @1, @"ucc": @2, @"nuig": @3,
-                             @"nuim": @4, @"cit": @5, @"nci": @6, @"gmit": @7,
-                             @"itt": @8, @"itc": @9};
+                             @"nuim": @4, @"cit": @5, @"nci": @6, @"itt": @7};
     
     return (University)[lookup[string.lowercaseString] unsignedIntegerValue];
 }
@@ -155,19 +154,24 @@
         case UCD:
             return [UIColor colorWithHexString:@"#388085"];
         case UCC:
-            return [UIColor colorWithHexString:@"#C94242"];
+            return [UIColor colorWithHexString:@"#2980B9"];
+        case NUIM:
+            return [UIColor colorWithHexString:@"#34495E"];
         case NUIG:
-            return [UIColor colorWithHexString:@"#1EC971"];
-        default:
-            return [UIColor colorWithHexString:@"#4672A6"];
+            return [UIColor colorWithHexString:@"#E67E22"];
+        case NCI:
+            return [UIColor colorWithHexString:@"#27AE60"];
+        case CIT:
+            return [UIColor colorWithHexString:@"#C0392B"];
+        case ITT:
+            return [UIColor colorWithHexString:@"#F39C12"];
     }
 }
 
 - (NSString *)getUniversityString
 {
     NSDictionary *lookup = @{@0: @"TCD", @1: @"UCD", @2: @"UCC", @3: @"NUIG",
-                             @4: @"NUIM", @5: @"CIT", @6: @"NCI", @7: @"GMIT",
-                             @8: @"ITT", @9: @"ITC"};
+                             @4: @"NUIM", @5: @"CIT", @6: @"NCI", @7: @"ITT"};
     
     return lookup[@(self.university)];
 }

@@ -49,7 +49,7 @@
 - (void)setup
 {
     UIButton *playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [playButton setImage:[UIImage imageNamed:@"playButton"] forState:UIControlStateNormal];
+    [playButton setImage:[UIImage imageNamed:@"youtubePlayButton"] forState:UIControlStateNormal];
     playButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.playButton = playButton;
 

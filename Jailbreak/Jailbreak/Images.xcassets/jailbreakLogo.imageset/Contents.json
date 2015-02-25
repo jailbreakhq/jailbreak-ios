@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "playButton.png"
+      "filename" : "jailbreakLogo.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "playButton@2x.png"
+      "filename" : "jailbreakLogo-1.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "playButton@3x.png"
+      "filename" : "jailbreakLogo-1-1.png"
     }
   ],
   "info" : {

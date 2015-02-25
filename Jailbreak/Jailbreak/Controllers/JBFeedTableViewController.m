@@ -14,15 +14,19 @@
 #import <NSDate+DateTools.h>
 #import <Accounts/Accounts.h>
 #import "UIColor+JBAdditions.h"
+#import <AFURLSessionManager.h>
 #import <JTSImageViewController.h>
 #import "JBFeedBaseTableViewCell.h"
+#import "JBFeedVineTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
 #import "JBFeedImageTableViewCell.h"
 #import "JBFeedTableViewController.h"
+#import "JBPostTableViewController.h"
 
 static NSString * const kTextCellIdentifier         = @"TextCell";
 static NSString * const kInstagramCellIdentifier    = @"InstagramCell";
 static NSString * const kImageCellIdentifier        = @"ImageCell";
+static NSString * const kVineCellIdentifier         = @"VineCell";
 static NSString * const kSAMBlockName               = @"Refreshing";
 static NSString * const kPostsArchiveKey            = @"Posts-JBFeedTableViewController";
 
@@ -57,25 +61,35 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     
     self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
     
-    [[JBAPIManager manager] getEventsWithParameters:nil
-                                            success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                for (NSDictionary *event in responseObject)
-                                                {
-                                                    if ([JBPost getPostTypeFromString:event[@"type"]] != JBPostTypeUndefined)
+    if (!self.posts.count)
+    {
+        [self startLoadingIndicator];
+        
+        [[JBAPIManager manager] getEventsWithParameters:nil
+                                                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                    for (NSDictionary *event in responseObject)
                                                     {
-                                                        [self.posts addObject:[[JBPost alloc] initWithJSON:event]];
+                                                        if ([JBPost getPostTypeFromString:event[@"type"]] != JBPostTypeUndefined)
+                                                        {
+                                                            [self.posts addObject:[[JBPost alloc] initWithJSON:event]];
+                                                        }
                                                     }
-                                                }
-                                                [self.tableView reloadData];
-                                            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                [TSMessage displayMessageWithTitle:@"Oops" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
-                                            }];
+                                                    [self.tableView reloadData];
+                                                    [self stopLoadingIndicator];
+                                                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                    [TSMessage displayMessageWithTitle:@"Oops" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+                                                    [self stopLoadingIndicator];
+                                                }];
+    }
+    else
+    {
+        [self.tableView reloadData];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     
 }
 
@@ -117,6 +131,15 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     self.timer = nil;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showPost"])
+    {
+        JBPostTableViewController *dvc = (JBPostTableViewController *)segue.destinationViewController;
+        dvc.post = self.posts[[sender row]];
+    }
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -139,6 +162,10 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
         {
             cell = [tableView dequeueReusableCellWithIdentifier:kInstagramCellIdentifier forIndexPath:indexPath];
         }
+        else if ([self.posts[indexPath.row] postType] == JBPostTypeVine)
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:kVineCellIdentifier forIndexPath:indexPath];
+        }
         else
         {
             cell = [tableView dequeueReusableCellWithIdentifier:kImageCellIdentifier forIndexPath:indexPath];
@@ -160,7 +187,15 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self openPostInApp:self.posts[indexPath.row]];
+    if ([self.posts[indexPath.row] postType] != JBPostTypeVine)
+    {
+        [self performSegueWithIdentifier:@"showPost" sender:indexPath];
+    }
+    else
+    {
+        JBFeedVineTableViewCell *cell = (JBFeedVineTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];        
+        [cell playOrStopVine];
+    }
 }
 
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -487,8 +522,8 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 //    
 //    contentOffsetBefore.y += [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:numberOfNewPosts inSection:0]].origin.y;
 //    [self.tableView setContentOffset:contentOffsetBefore animated:YES];
-//    [self.refreshControl endRefreshing];
-//    
+    [self.refreshControl endRefreshing];
+//
 //    TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ new posts", @(numberOfNewPosts)] subtitle:nil type:TSMessageTypeDefault];
 //    messageView.duration = 1.0;
 //    [TSMessage displayOrEnqueueMessage:messageView];

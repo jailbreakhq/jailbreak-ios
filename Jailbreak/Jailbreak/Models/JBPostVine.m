@@ -21,6 +21,8 @@
         self.vineDescription = [aDecoder decodeObjectForKey:@"vineDescription"];
         self.vineURL = [aDecoder decodeObjectForKey:@"vineURL"];
         self.thumbnailURL = [aDecoder decodeObjectForKey:@"thumbnailURL"];
+        self.remoteVideoURL = [aDecoder decodeObjectForKey:@"remoteVideoURL"];
+        self.localVideoURL = [aDecoder decodeObjectForKey:@"localVideoURL"];
         self.authorUsername = [aDecoder decodeObjectForKey:@"authorUsername"];
         self.authorURL = [aDecoder decodeObjectForKey:@"authorURL"];
         self.teamId = [aDecoder decodeIntegerForKey:@"teamId"];
@@ -35,6 +37,8 @@
     [aCoder encodeObject:self.vineDescription forKey:@"vineDescription"];
     [aCoder encodeObject:self.vineURL forKey:@"vineURL"];
     [aCoder encodeObject:self.thumbnailURL forKey:@"thumbnailURL"];
+    [aCoder encodeObject:self.remoteVideoURL forKey:@"remoteVideoURL"];
+    [aCoder encodeObject:self.localVideoURL forKey:@"localVideoURL"];
     [aCoder encodeObject:self.authorUsername forKey:@"authorUsername"];
     [aCoder encodeObject:self.authorURL forKey:@"authorURL"];
     [aCoder encodeInteger:self.teamId forKey:@"teamId"];
@@ -59,6 +63,17 @@
         if (json[@"team"])
         {
             self.limitedTeam = [[JBTeam alloc] initWithJSON:json[@"team"]];
+        }
+        
+        NSString *urlString = json[@"thumbnailUrl"];
+        NSRange range = [urlString rangeOfString:@".jpg"];
+        
+        if (range.location != NSNotFound)
+        {
+            range.length = range.location;
+            range.location = 0;
+            urlString = [urlString substringWithRange:range];
+            self.remoteVideoURL = [NSURL URLWithString:urlString];
         }
     }
     

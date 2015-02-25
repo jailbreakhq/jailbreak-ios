@@ -13,6 +13,8 @@
 @property (nonatomic, strong) NSString *vineDescription;
 @property (nonatomic, strong) NSURL *vineURL;
 @property (nonatomic, strong) NSURL *thumbnailURL;
+@property (nonatomic, strong) NSURL *remoteVideoURL;
+@property (nonatomic, strong) NSURL *localVideoURL;
 @property (nonatomic, strong) NSString *authorUsername;
 @property (nonatomic, strong) NSURL *authorURL;
 @property (nonatomic, assign) NSUInteger teamId;

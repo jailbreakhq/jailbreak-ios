@@ -22,6 +22,7 @@ Development
 - [**DateTools**](https://github.com/MatthewYork/DateTools)
 - [**SAMRateLimit**](https://github.com/soffes/SAMRateLimit)
 - [**TSMessages**](https://github.com/Shayanzadeh/TSMessages)
+- [**TMCache**](https://github.com/tumblr/TMCache)
 
 ###Installing Dependencies
 

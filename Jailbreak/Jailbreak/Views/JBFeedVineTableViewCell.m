@@ -117,13 +117,14 @@
 
 - (void)play
 {
-    [UIView animateWithDuration:0.3
+    self.moviePlayerController.contentURL = self.post.vine.localVideoURL;
+    [self.moviePlayerController play];
+
+    [UIView animateWithDuration:0.4
                      animations:^{
                          self.thumbnailImageView.alpha = 0.0;
                      } completion:^(BOOL finished) {
                          self.thumbnailImageView.hidden = YES;
-                         self.moviePlayerController.contentURL = [NSURL fileURLWithPath:@"file:///var/mobile/Containers/Data/Application/E5881FE8-4036-4F5F-A10C-B35D758477BD/Documents/0E5065263D1178619109542338560_3fe49b4a48d.1.5.17171678278430680810.mp4"];
-                         [self.moviePlayerController play];
                      }];
 }
 
@@ -202,13 +203,6 @@
                                                                          attribute:NSLayoutAttributeBottom
                                                                         multiplier:1.0
                                                                           constant:0.0]];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:MPMoviePlayerPlaybackDidFinishNotification
-                                                      object:nil
-                                                       queue:[NSOperationQueue mainQueue]
-                                                  usingBlock:^(NSNotification *note) {
-                                                      NSLog(@"%@", [note.userInfo[@"error"] localizedDescription]);
-                                                  }];
 }
 
 @end

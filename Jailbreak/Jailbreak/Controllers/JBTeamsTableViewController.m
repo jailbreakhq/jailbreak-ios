@@ -78,9 +78,13 @@
                                                       [self stopLoadingIndicator];
                                                       [self.tableView reloadData];
                                                   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                      [TSMessage displayMessageWithTitle:@"Failed To Get Teams" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
                                                       [self stopLoadingIndicator];
                                                   }];
-    } failure:nil];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [TSMessage displayMessageWithTitle:@"Oops" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+        [self stopLoadingIndicator];
+    }];
     
     // Configure TableView
 //    self.tableView.estimatedRowHeight = 30.0;
@@ -192,6 +196,7 @@
                                                   [self.refreshControl endRefreshing];
                                                   [self.tableView reloadData];
                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                  [TSMessage displayMessageWithTitle:@"Failed To Refresh Teams" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
                                                   [self stopLoadingIndicator];
                                                   [self.refreshControl endRefreshing];
                                               }];

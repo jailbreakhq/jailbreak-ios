@@ -7,6 +7,7 @@
 //
 
 #import "JBTeamsTableViewCell.h"
+#import "TTTOrdinalNumberFormatter.h"
 #import "UIImageView+WebCacheWithProgress.h"
 
 @implementation JBTeamsTableViewCell
@@ -20,7 +21,7 @@
     self.namesLabel.text = self.team.membersNames;
     self.teamNameLabel.text = self.team.name;
     self.collegeLabel.text = self.team.universityString;
-    self.rankLabel.text = @"42nd";
+    self.rankLabel.text = [[self ordinalFormatter] stringFromNumber:@(self.team.position)];
     self.distanceToXLabel.text = [[self lengthFormatter] stringFromMeters:self.team.distanceToX];
     self.checkinLabel.text = @"Collins Barracks";
     self.placeholderLabel.hidden = YES;
@@ -66,6 +67,19 @@
 {
     NSArray *names = [[string stringByReplacingOccurrencesOfString:@" " withString:@""] componentsSeparatedByString:@"&"];
     return [NSString stringWithFormat:@"%@&%@", [names[0] substringToIndex:1], [names[1] substringToIndex:1]];
+}
+
+- (TTTOrdinalNumberFormatter *)ordinalFormatter
+{
+    static TTTOrdinalNumberFormatter *_ordinalFormatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _ordinalFormatter = [TTTOrdinalNumberFormatter new];
+        [_ordinalFormatter setLocale:[NSLocale currentLocale]];
+        [_ordinalFormatter setGrammaticalGender:TTTOrdinalNumberFormatterMaleGender];
+    });
+    
+    return _ordinalFormatter;
 }
 
 - (NSNumberFormatter *)priceFormatter

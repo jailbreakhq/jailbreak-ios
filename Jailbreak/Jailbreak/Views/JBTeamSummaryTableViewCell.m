@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import "TTTOrdinalNumberFormatter.h"
 #import "JBTeamSummaryTableViewCell.h"
 #import "UIImageView+WebCacheWithProgress.h"
 
@@ -34,7 +35,7 @@
                                                   }
                                               }];
     self.teamMemberNamesLabel.text = self.team.membersNames;
-    self.teamRankLabel.text = @"42nd Place";
+    self.teamRankLabel.text = [NSString stringWithFormat:@"%@ Place", [[self ordinalFormatter] stringFromNumber:@(self.team.position)]];
     self.teamUniversityLabel.text = self.team.universityString;
     self.teamUniversityLabel.textColor = self.team.universityColor;
     self.teamTaglineLabel.text = self.team.tagLine;
@@ -52,6 +53,19 @@
 {
     NSArray *names = [[string stringByReplacingOccurrencesOfString:@" " withString:@""] componentsSeparatedByString:@"&"];
     return [NSString stringWithFormat:@"%@&%@", [names[0] substringToIndex:1], [names[1] substringToIndex:1]];
+}
+
+- (TTTOrdinalNumberFormatter *)ordinalFormatter
+{
+    static TTTOrdinalNumberFormatter *_ordinalFormatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _ordinalFormatter = [TTTOrdinalNumberFormatter new];
+        [_ordinalFormatter setLocale:[NSLocale currentLocale]];
+        [_ordinalFormatter setGrammaticalGender:TTTOrdinalNumberFormatterMaleGender];
+    });
+    
+    return _ordinalFormatter;
 }
 
 @end

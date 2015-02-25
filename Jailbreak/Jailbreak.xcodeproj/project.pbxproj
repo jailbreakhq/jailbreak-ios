@@ -53,6 +53,7 @@
 		E4B54A431A9CDD5400AB9481 /* JBPostTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A421A9CDD5400AB9481 /* JBPostTwitter.m */; };
 		E4B54A461A9CE0D500AB9481 /* JBPostFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A451A9CE0D500AB9481 /* JBPostFacebook.m */; };
 		E4B54A491A9CE30C00AB9481 /* JBPost.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A481A9CE30C00AB9481 /* JBPost.m */; };
+		E4B54A4C1A9D636400AB9481 /* TTTOrdinalNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A4B1A9D636400AB9481 /* TTTOrdinalNumberFormatter.m */; };
 		E4DFCCA11A9C0CDD00E8D9B9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DFCCA01A9C0CDD00E8D9B9 /* Social.framework */; };
 		E4DFCCA31A9C1AE200E8D9B9 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DFCCA21A9C1AE200E8D9B9 /* Accounts.framework */; };
 		E4E6C1D11A94E41600D138EA /* JBTeamStatsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6C1D01A94E41600D138EA /* JBTeamStatsTableViewCell.m */; };
@@ -161,6 +162,8 @@
 		E4B54A451A9CE0D500AB9481 /* JBPostFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPostFacebook.m; sourceTree = "<group>"; };
 		E4B54A471A9CE30C00AB9481 /* JBPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPost.h; sourceTree = "<group>"; };
 		E4B54A481A9CE30C00AB9481 /* JBPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPost.m; sourceTree = "<group>"; };
+		E4B54A4A1A9D636400AB9481 /* TTTOrdinalNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTOrdinalNumberFormatter.h; sourceTree = "<group>"; };
+		E4B54A4B1A9D636400AB9481 /* TTTOrdinalNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTOrdinalNumberFormatter.m; sourceTree = "<group>"; };
 		E4DFCCA01A9C0CDD00E8D9B9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		E4DFCCA21A9C1AE200E8D9B9 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		E4E6C1CF1A94E41600D138EA /* JBTeamStatsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamStatsTableViewCell.h; sourceTree = "<group>"; };
@@ -253,6 +256,8 @@
 				E41448C71A768EAF002EB3AB /* Main.storyboard */,
 				E41448E41A769551002EB3AB /* Models */,
 				E41448BD1A768EAF002EB3AB /* Supporting Files */,
+				E4B54A4A1A9D636400AB9481 /* TTTOrdinalNumberFormatter.h */,
+				E4B54A4B1A9D636400AB9481 /* TTTOrdinalNumberFormatter.m */,
 				E41448E51A769551002EB3AB /* Views */,
 			);
 			path = Jailbreak;
@@ -534,6 +539,7 @@
 				E418A7B81A9962F800AC02A2 /* JBFeedImageTableViewCell.m in Sources */,
 				E43EFEE61A8AC6BE00B93D05 /* JBYouTubeView.m in Sources */,
 				E45E01181A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.m in Sources */,
+				E4B54A4C1A9D636400AB9481 /* TTTOrdinalNumberFormatter.m in Sources */,
 				E45E01241A803CB30034CA28 /* JBTeamsTableViewController.m in Sources */,
 				E418A7B51A99562C00AC02A2 /* JBFeedBaseTableViewCell.m in Sources */,
 				E4B54A3D1A9CDA2E00AB9481 /* JBPostCheckin.m in Sources */,

@@ -75,7 +75,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                                       [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
                                                   }
                                                   failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                      
+                                                      [TSMessage displayMessageWithTitle:@"Failed To Get Donations" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
                                                   }];
     
     // Lower space for header and footer
@@ -298,9 +298,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                       JBTeamsTableViewController *vc = (JBTeamsTableViewController *)weakSelf.navigationController.viewControllers[index];
                                       vc.teams[weakSelf.teamSectionIndex] = weakSelf.team;
                                       [vc.tableView reloadData];
-                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                      
-                                  }];
+                                  } failure:nil];
     
     [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(15)}
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -314,9 +312,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                                       
                                                       [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
                                                       
-                                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                      
-                                                  }];
+                                                  } failure:nil];
 }
 
 #pragma mark - Helper Methods

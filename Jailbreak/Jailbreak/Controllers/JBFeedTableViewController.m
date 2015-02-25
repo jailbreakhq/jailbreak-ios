@@ -55,6 +55,8 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     self.tableView.estimatedRowHeight = 65.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
+    self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
+    
     [[JBAPIManager manager] getEventsWithParameters:nil
                                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                 for (NSDictionary *event in responseObject)
@@ -100,7 +102,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 //    {
 //        self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
 //    }
-//    
+//
 //    [SAMRateLimit executeBlock:^{
 //        [self refresh];
 //        NSLog(@"refresh");
@@ -372,6 +374,14 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
             break;
         }
         case JBPostTypeVine:
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vine://"]])
+            {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"vine://post/%@", @1153945031292469248]]];
+            }
+            else
+            {
+                [TSMessage displayMessageWithTitle:@"Vine App Not Installed" subtitle:@"Please install the Vine app to open videos in" type:TSMessageTypeWarning];
+            }
             break;
     }
 }
@@ -434,13 +444,13 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 
 // Leaving out refreshing when handling active notification because of contentOffset issues
 
-//- (void)handleApplicationDidEnterBackgroundNotification
-//{
-//    if (self.posts.count)
-//    {
-//        [self saveToArchiveObject:self.posts withKey:kPostsArchiveKey];
-//    }
-//}
+- (void)handleApplicationDidEnterBackgroundNotification
+{
+    if (self.posts.count)
+    {
+        [self saveToArchiveObject:self.posts withKey:kPostsArchiveKey];
+    }
+}
 
 - (void)updateCellTimeAgoLabel:(NSTimer *)timer
 {

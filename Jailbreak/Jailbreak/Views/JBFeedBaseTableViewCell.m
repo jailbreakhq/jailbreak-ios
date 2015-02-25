@@ -67,7 +67,7 @@
                 break;
             case JBPostTypeFacebook:
                 self.titleLabel.text = @"";
-                [self.avatarImageView sd_setImageWithProgressAndURL:post.limitedTeam.avatarURL];
+                self.avatarImageView.image = nil;
                 break;
             case JBPostTypeInstagram:
                 self.titleLabel.text = [NSString stringWithFormat:@"@%@", post.instagram.authorUsername];

@@ -31,7 +31,7 @@ typedef NS_ENUM(NSUInteger, JBPostType)
 @property (nonatomic, assign) NSUInteger postId;
 @property (nonatomic, assign) JBPostType postType;
 @property (nonatomic, assign) BOOL containsThumbnail;
-#warning ??!!
+
 // For convenice have weak references to these for quick access
 @property (nonatomic, weak) JBTeam *limitedTeam;
 @property (nonatomic, weak) NSDate *createdTime;

@@ -23,6 +23,12 @@
         self.containsThumbnail = [aDecoder decodeBoolForKey:@"containsThumbnail"];
         self.limitedTeam = [aDecoder decodeObjectForKey:@"limitedTeam"];
         self.createdTime = [aDecoder decodeObjectForKey:@"createdTime"];
+        self.checkin = [aDecoder decodeObjectForKey:@"checkin"];
+        self.link = [aDecoder decodeObjectForKey:@"link"];
+        self.vine = [aDecoder decodeObjectForKey:@"vine"];
+        self.twitter = [aDecoder decodeObjectForKey:@"twitter"];
+        self.facebook = [aDecoder decodeObjectForKey:@"facebook"];
+        self.instagram = [aDecoder decodeObjectForKey:@"instagram"];
     }
     
     return self;
@@ -35,6 +41,12 @@
     [aCoder encodeBool:self.containsThumbnail forKey:@"containsThumbnail"];
     [aCoder encodeObject:self.limitedTeam forKey:@"limitedTeam"];
     [aCoder encodeObject:self.createdTime forKey:@"createdTime"];
+    [aCoder encodeObject:self.checkin forKey:@"checkin"];
+    [aCoder encodeObject:self.link forKey:@"link"];
+    [aCoder encodeObject:self.vine forKey:@"vine"];
+    [aCoder encodeObject:self.twitter forKey:@"twitter"];
+    [aCoder encodeObject:self.facebook forKey:@"facebook"];
+    [aCoder encodeObject:self.instagram forKey:@"instagram"];
 }
 
 #pragma mark - Initialiser

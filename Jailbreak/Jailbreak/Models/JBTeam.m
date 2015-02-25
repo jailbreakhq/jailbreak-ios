@@ -162,9 +162,9 @@
         case NCI:
             return [UIColor colorWithHexString:@"#27AE60"];
         case CIT:
-            return [UIColor colorWithHexString:@"#C0392B"];
+            return [UIColor colorWithHexString:@"#3F51B5"];
         case ITT:
-            return [UIColor colorWithHexString:@"#F39C12"];
+            return [UIColor colorWithHexString:@"#E91E63"];
     }
 }
 

@@ -302,7 +302,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                       
                                   }];
     
-    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(20)}
+    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(15)}
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                       
                                                       [weakSelf.donations removeAllObjects];

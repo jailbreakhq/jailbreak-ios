@@ -123,7 +123,7 @@
         self.challenges = [tempChallenges copy];
 
         
-        if (!self.videoID || ![self.videoID isEqual:[NSNull null]])
+        if (self.videoID || ![self.videoID isEqual:[NSNull null]])
         {
             self.videoID = [[self.videoID componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] objectAtIndex:1];
             self.videoID = [[self.videoID componentsSeparatedByString:@"/"] lastObject];

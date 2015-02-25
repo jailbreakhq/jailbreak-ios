@@ -25,6 +25,7 @@
         self.longitude = [aDecoder decodeDoubleForKey:@"longitude"];
         self.time = [aDecoder decodeIntegerForKey:@"time"];
         self.teamID = [aDecoder decodeIntegerForKey:@"teamID"];
+        self.limitedTeam = [aDecoder decodeObjectForKey:@"limitedTeam"];
     }
     
     return self;
@@ -39,6 +40,7 @@
     [aCoder encodeDouble:self.longitude forKey:@"longitude"];
     [aCoder encodeInteger:self.time forKey:@"time"];
     [aCoder encodeInteger:self.teamID forKey:@"teamID"];
+    [aCoder encodeObject:self.limitedTeam forKey:@"limitedTeam"];
 }
 
 #pragma mark - NSObject

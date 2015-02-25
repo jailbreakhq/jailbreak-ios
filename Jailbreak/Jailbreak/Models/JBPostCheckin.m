@@ -39,7 +39,12 @@
     
     if (self)
     {
-        self.checkin = [[JBCheckin alloc] initWithJSON:json];
+        self.checkin = [[JBCheckin alloc] initWithJSON:json[@"checkin"]];
+        
+        if (json[@"checkin"][@"team"])
+        {
+            self.checkin.limitedTeam = [[JBTeam alloc] initWithJSON:json[@"checkin"][@"team"]];
+        }
     }
     
     return self;

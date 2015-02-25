@@ -43,12 +43,14 @@
 {
     self = [super initWithJSON:json];
     
+    NSDictionary *linkJSON = json[@"link"];
+    
     if (self)
     {
-        self.url = [NSURL URLWithString:json[@"url"]];
-        self.linkText = json[@"linkText"];
-        self.linkDescription = json[@"description"];
-        self.photoURL = [NSURL URLWithString:json[@"photoUrl"]];
+        self.url = [NSURL URLWithString:linkJSON[@"url"]];
+        self.linkText = linkJSON[@"linkText"];
+        self.linkDescription = linkJSON[@"description"];
+        self.photoURL = [NSURL URLWithString:linkJSON[@"photoUrl"]];
     }
     
     return self;

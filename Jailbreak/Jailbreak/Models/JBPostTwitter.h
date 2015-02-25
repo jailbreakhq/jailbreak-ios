@@ -21,6 +21,6 @@
 @property (nonatomic, strong) NSString *twitterUsername;
 @property (nonatomic, strong) NSURL *twitterUserPhotoURL;
 @property (nonatomic, assign) NSUInteger teamId; // optional
-@property (nonatomic, strong) JBTeam *team; // optional
+@property (nonatomic, strong) JBTeam *limitedTeam; // optional
 
 @end

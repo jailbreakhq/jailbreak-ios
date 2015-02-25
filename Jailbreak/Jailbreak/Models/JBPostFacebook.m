@@ -17,11 +17,13 @@
     if (self)
     {
         self.facebookPostId = [aDecoder decodeIntegerForKey:@"facebookPostId"];
+        self.facebookPostURL = [aDecoder decodeObjectForKey:@"facebookPostURL"];
         self.facebookPostBody = [aDecoder decodeObjectForKey:@"facebookPostBody"];
         self.linkURL = [aDecoder decodeObjectForKey:@"linkURL"];
         self.createdTime = [aDecoder decodeObjectForKey:@"createdTime"];
+        self.facebookPageName = [aDecoder decodeObjectForKey:@"facebookPageName"];
         self.teamId = [aDecoder decodeIntegerForKey:@"teamId"];
-        self.team = [aDecoder decodeObjectForKey:@"team"];
+        self.limitedTeam = [aDecoder decodeObjectForKey:@"limitedTeam"];
     }
     
     return self;
@@ -32,11 +34,13 @@
     [super encodeWithCoder:aCoder];
     
     [aCoder encodeInteger:self.facebookPostId forKey:@"facebookPostId"];
+    [aCoder encodeObject:self.facebookPostURL forKey:@"facebookPostURL"];
     [aCoder encodeObject:self.facebookPostBody forKey:@"facebookPostBody"];
     [aCoder encodeObject:self.linkURL forKey:@"linkURL"];
     [aCoder encodeObject:self.createdTime forKey:@"createdTime"];
+    [aCoder encodeObject:self.facebookPageName forKey:@"facebookPageName"];
     [aCoder encodeInteger:self.teamId forKey:@"teamId"];
-    [aCoder encodeObject:self.team forKey:@"team"];
+    [aCoder encodeObject:self.limitedTeam forKey:@"limitedTeam"];
 }
 
 #pragma mark - Initialiser
@@ -48,12 +52,17 @@
     if (self)
     {
         self.facebookPostId = [json[@"facebookId"] unsignedIntegerValue];
+        self.facebookPostURL = [NSURL URLWithString:json[@"url"]];
         self.facebookPostBody = json[@"message"];
-#warning kevin did you forget to camel case this?
-        self.linkURL = [NSURL URLWithString:json[@"link_url"]];
+        self.linkURL = [NSURL URLWithString:json[@"linkUrl"]];
         self.createdTime = [NSDate dateWithTimeIntervalSince1970:[json[@"time"] doubleValue]];
+        self.facebookPageName = json[@"pageName"];
         self.teamId = [json[@"teamId"] unsignedIntegerValue];
-        self.team = [[JBTeam alloc] initWithJSON:json];
+        
+        if (json[@"team"])
+        {
+            self.limitedTeam = [[JBTeam alloc] initWithJSON:json[@"team"]];
+        }
     }
     
     return self;

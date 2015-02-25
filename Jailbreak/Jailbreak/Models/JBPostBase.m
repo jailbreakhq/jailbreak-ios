@@ -50,8 +50,8 @@
 
 + (JBPostType)getPostTypeFromString:(NSString *)string
 {
-    NSDictionary *lookup = @{@"twitter": @0, @"instagram": @1, @"facebook": @2, @"vine": @3,
-                             @"donate": @4, @"link": @5, @"checkin": @6};
+    NSDictionary *lookup = @{@"twitter": @1, @"instagram": @2, @"facebook": @3, @"vine": @4,
+                             @"donate": @5, @"link": @6, @"checkin": @7};    
     
     return (JBPostType)[lookup[string.lowercaseString] unsignedIntegerValue];
 }

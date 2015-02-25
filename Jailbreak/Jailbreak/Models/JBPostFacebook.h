@@ -12,10 +12,12 @@
 @interface JBPostFacebook : JBPostBase
 
 @property (nonatomic, assign) NSUInteger facebookPostId;
+@property (nonatomic, strong) NSURL *facebookPostURL;
 @property (nonatomic,strong) NSString *facebookPostBody;
 @property (nonatomic, strong) NSURL *linkURL; // optional
 @property (nonatomic, strong) NSDate *createdTime;
+@property (nonatomic, strong) NSString *facebookPageName; // optional
 @property (nonatomic, assign) NSUInteger teamId; // optional
-@property (nonatomic, strong) JBTeam *team; // optional
+@property (nonatomic, strong) JBTeam *limitedTeam; // optional
 
 @end

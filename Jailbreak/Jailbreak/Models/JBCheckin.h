@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import "JBTeam.h"
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
@@ -18,6 +19,7 @@
 @property (nonatomic, assign) CLLocationDegrees longitude;
 @property (nonatomic, assign) NSUInteger time;
 @property (nonatomic, assign) NSUInteger teamID;
+@property (nonatomic, strong) JBTeam *limitedTeam;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
 

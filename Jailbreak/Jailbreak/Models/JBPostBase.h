@@ -10,7 +10,8 @@
 
 typedef NS_ENUM(NSUInteger, JBPostType)
 {
-    JBPostTypeTwitter = 0,
+    JBPostTypeUndefined = 0,
+    JBPostTypeTwitter,
     JBPostTypeInstagram,
     JBPostTypeFacebook,
     JBPostTypeVine,

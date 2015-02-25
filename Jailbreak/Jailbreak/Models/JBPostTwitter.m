@@ -28,7 +28,7 @@
         self.twitterUsername = [aDecoder decodeObjectForKey:@"twitterUsername"];
         self.twitterUserPhotoURL = [aDecoder decodeObjectForKey:@"twitterUserPhotoURL"];
         self.teamId = [aDecoder decodeIntegerForKey:@"teamId"];
-        self.team = [aDecoder decodeObjectForKey:@"team"];
+        self.limitedTeam = [aDecoder decodeObjectForKey:@"limitedTeam"];
     }
     
     return self;
@@ -48,7 +48,7 @@
     [aCoder encodeObject:self.twitterUsername forKey:@"twitterUsername"];
     [aCoder encodeObject:self.twitterUserPhotoURL forKey:@"twitterUserPhotoURL"];
     [aCoder encodeInteger:self.teamId forKey:@"teamId"];
-    [aCoder encodeObject:self.team forKey:@"team"];
+    [aCoder encodeObject:self.limitedTeam forKey:@"limitedTeam"];
 }
 
 #pragma mark - Initialiser
@@ -57,20 +57,25 @@
 {
     self = [super initWithJSON:json];
     
+    NSDictionary *twitterJSON = json[@"twitter"];
+    
     if (self)
     {
-        self.tweetId = [json[@"tweetId"] unsignedIntegerValue];
-        self.tweetBodyPlain = json[@"tweet"];
-        self.tweetBodyHTML = json[@"tweetHtml"];
-        self.createdTime = [NSDate dateWithTimeIntervalSince1970:[json[@"time"] doubleValue]];
-        self.photoUrl = [NSURL URLWithString:json[@"photoUrl"]];
-        self.inReplyToTwitterUsername = json[@"inReplyTo"];
-        self.twitterUserId = [json[@"twitterUserId"] unsignedIntegerValue];
-#warning possible typo by kevin?
-        self.twitterUsername = json[@"twitterUserName"];
-        self.twitterUserPhotoURL = [NSURL URLWithString:json[@"twitterUserPhoto"]];
-        self.teamId = [json[@"teamId"] unsignedIntegerValue];
-        self.team = [[JBTeam alloc] initWithJSON:json];
+        self.tweetId = [twitterJSON[@"tweetId"] unsignedIntegerValue];
+        self.tweetBodyPlain = twitterJSON[@"tweet"];
+        self.tweetBodyHTML = twitterJSON[@"tweetHtml"];
+        self.createdTime = [NSDate dateWithTimeIntervalSince1970:[twitterJSON[@"time"] doubleValue]];
+        self.photoUrl = [NSURL URLWithString:twitterJSON[@"photoUrl"]];
+        self.inReplyToTwitterUsername = twitterJSON[@"inReplyTo"];
+        self.twitterUserId = [twitterJSON[@"twitterUserId"] unsignedIntegerValue];
+        self.twitterUsername = twitterJSON[@"twitterUserName"];
+        self.twitterUserPhotoURL = [NSURL URLWithString:twitterJSON[@"twitterUserPhoto"]];
+        self.teamId = [twitterJSON[@"teamId"] unsignedIntegerValue];
+        
+        if (twitterJSON[@"team"])
+        {
+            self.limitedTeam = [[JBTeam alloc] initWithJSON:twitterJSON[@"team"]];
+        }
     }
     
     return self;

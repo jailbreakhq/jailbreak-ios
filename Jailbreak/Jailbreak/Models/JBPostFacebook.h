@@ -7,9 +7,8 @@
 //
 
 #import "JBTeam.h"
-#import "JBPostBase.h"
 
-@interface JBPostFacebook : JBPostBase
+@interface JBPostFacebook : NSObject <NSCoding>
 
 @property (nonatomic, assign) NSUInteger facebookPostId;
 @property (nonatomic, strong) NSURL *facebookPostURL;
@@ -19,5 +18,7 @@
 @property (nonatomic, strong) NSString *facebookPageName; // optional
 @property (nonatomic, assign) NSUInteger teamId; // optional
 @property (nonatomic, strong) JBTeam *limitedTeam; // optional
+
+- (instancetype)initWithJSON:(NSDictionary *)json;
 
 @end

@@ -46,13 +46,11 @@
 		E46EFDB11A8EB741002EFCB7 /* JBDonatePopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E46EFDB01A8EB741002EFCB7 /* JBDonatePopoverViewController.m */; };
 		E476BDAE1A92E66200728C9E /* JBTeamSummaryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E476BDAD1A92E66200728C9E /* JBTeamSummaryTableViewCell.m */; };
 		E476BDB41A92FC1900728C9E /* JBTeamAboutTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E476BDB31A92FC1900728C9E /* JBTeamAboutTableViewCell.m */; };
-		E49E05A21A9A441000E4A319 /* JBPostBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E49E05A11A9A441000E4A319 /* JBPostBase.m */; };
+		E49E05A21A9A441000E4A319 /* JBPost.m in Sources */ = {isa = PBXBuildFile; fileRef = E49E05A11A9A441000E4A319 /* JBPost.m */; };
 		E4A18D1C1A96BB6D0086D70A /* JBTeamsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */; };
-		E4B54A3D1A9CDA2E00AB9481 /* JBPostCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A3C1A9CDA2E00AB9481 /* JBPostCheckin.m */; };
 		E4B54A401A9CDBDF00AB9481 /* JBPostLink.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A3F1A9CDBDF00AB9481 /* JBPostLink.m */; };
 		E4B54A431A9CDD5400AB9481 /* JBPostTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A421A9CDD5400AB9481 /* JBPostTwitter.m */; };
 		E4B54A461A9CE0D500AB9481 /* JBPostFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A451A9CE0D500AB9481 /* JBPostFacebook.m */; };
-		E4B54A491A9CE30C00AB9481 /* JBPost.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A481A9CE30C00AB9481 /* JBPost.m */; };
 		E4B54A4C1A9D636400AB9481 /* TTTOrdinalNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A4B1A9D636400AB9481 /* TTTOrdinalNumberFormatter.m */; };
 		E4B54A4F1A9D766C00AB9481 /* JBPostVine.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A4E1A9D766C00AB9481 /* JBPostVine.m */; };
 		E4B54A521A9D795400AB9481 /* JBPostInstagram.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A511A9D795400AB9481 /* JBPostInstagram.m */; };
@@ -150,20 +148,16 @@
 		E476BDAD1A92E66200728C9E /* JBTeamSummaryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamSummaryTableViewCell.m; sourceTree = "<group>"; };
 		E476BDB21A92FC1900728C9E /* JBTeamAboutTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamAboutTableViewCell.h; sourceTree = "<group>"; };
 		E476BDB31A92FC1900728C9E /* JBTeamAboutTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamAboutTableViewCell.m; sourceTree = "<group>"; };
-		E49E05A01A9A441000E4A319 /* JBPostBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPostBase.h; sourceTree = "<group>"; };
-		E49E05A11A9A441000E4A319 /* JBPostBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPostBase.m; sourceTree = "<group>"; };
+		E49E05A01A9A441000E4A319 /* JBPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPost.h; sourceTree = "<group>"; };
+		E49E05A11A9A441000E4A319 /* JBPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPost.m; sourceTree = "<group>"; };
 		E4A18D1A1A96BB6D0086D70A /* JBTeamsMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamsMapViewController.h; sourceTree = "<group>"; };
 		E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamsMapViewController.m; sourceTree = "<group>"; };
-		E4B54A3B1A9CDA2E00AB9481 /* JBPostCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPostCheckin.h; sourceTree = "<group>"; };
-		E4B54A3C1A9CDA2E00AB9481 /* JBPostCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPostCheckin.m; sourceTree = "<group>"; };
 		E4B54A3E1A9CDBDF00AB9481 /* JBPostLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPostLink.h; sourceTree = "<group>"; };
 		E4B54A3F1A9CDBDF00AB9481 /* JBPostLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPostLink.m; sourceTree = "<group>"; };
 		E4B54A411A9CDD5400AB9481 /* JBPostTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPostTwitter.h; sourceTree = "<group>"; };
 		E4B54A421A9CDD5400AB9481 /* JBPostTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPostTwitter.m; sourceTree = "<group>"; };
 		E4B54A441A9CE0D500AB9481 /* JBPostFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPostFacebook.h; sourceTree = "<group>"; };
 		E4B54A451A9CE0D500AB9481 /* JBPostFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPostFacebook.m; sourceTree = "<group>"; };
-		E4B54A471A9CE30C00AB9481 /* JBPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPost.h; sourceTree = "<group>"; };
-		E4B54A481A9CE30C00AB9481 /* JBPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPost.m; sourceTree = "<group>"; };
 		E4B54A4A1A9D636400AB9481 /* TTTOrdinalNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTOrdinalNumberFormatter.h; sourceTree = "<group>"; };
 		E4B54A4B1A9D636400AB9481 /* TTTOrdinalNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTOrdinalNumberFormatter.m; sourceTree = "<group>"; };
 		E4B54A4D1A9D766C00AB9481 /* JBPostVine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPostVine.h; sourceTree = "<group>"; };
@@ -329,12 +323,8 @@
 				E457006B1A7959AC00A36ACD /* JBCheckin.m */,
 				E46A92741A79CC2D002EF3A3 /* JBDonation.h */,
 				E46A92751A79CC2D002EF3A3 /* JBDonation.m */,
-				E4B54A471A9CE30C00AB9481 /* JBPost.h */,
-				E4B54A481A9CE30C00AB9481 /* JBPost.m */,
-				E49E05A01A9A441000E4A319 /* JBPostBase.h */,
-				E49E05A11A9A441000E4A319 /* JBPostBase.m */,
-				E4B54A3B1A9CDA2E00AB9481 /* JBPostCheckin.h */,
-				E4B54A3C1A9CDA2E00AB9481 /* JBPostCheckin.m */,
+				E49E05A01A9A441000E4A319 /* JBPost.h */,
+				E49E05A11A9A441000E4A319 /* JBPost.m */,
 				E4B54A441A9CE0D500AB9481 /* JBPostFacebook.h */,
 				E4B54A451A9CE0D500AB9481 /* JBPostFacebook.m */,
 				E4B54A501A9D795400AB9481 /* JBPostInstagram.h */,
@@ -552,7 +542,6 @@
 				E4B54A4C1A9D636400AB9481 /* TTTOrdinalNumberFormatter.m in Sources */,
 				E45E01241A803CB30034CA28 /* JBTeamsTableViewController.m in Sources */,
 				E418A7B51A99562C00AC02A2 /* JBFeedBaseTableViewCell.m in Sources */,
-				E4B54A3D1A9CDA2E00AB9481 /* JBPostCheckin.m in Sources */,
 				E41448C31A768EAF002EB3AB /* JBAppDelegate.m in Sources */,
 				E4F45FBC1A8F98DE003A4997 /* NSDictionary+JBAdditions.m in Sources */,
 				E46A92761A79CC2D002EF3A3 /* JBDonation.m in Sources */,
@@ -566,14 +555,13 @@
 				E41448ED1A76A78F002EB3AB /* JBUser.m in Sources */,
 				E4A18D1C1A96BB6D0086D70A /* JBTeamsMapViewController.m in Sources */,
 				E4474A221A92A74D005557B1 /* JBAnnotation.m in Sources */,
-				E4B54A491A9CE30C00AB9481 /* JBPost.m in Sources */,
 				E4B54A4F1A9D766C00AB9481 /* JBPostVine.m in Sources */,
 				E476BDAE1A92E66200728C9E /* JBTeamSummaryTableViewCell.m in Sources */,
 				E43EFEEF1A8BE61600B93D05 /* JBButton.m in Sources */,
 				E41448E81A76968D002EB3AB /* JBTeam.m in Sources */,
 				E45E01201A802E0D0034CA28 /* CERoundProgressView.m in Sources */,
 				E4E6C1D71A9570F600D138EA /* JBMapViewController.m in Sources */,
-				E49E05A21A9A441000E4A319 /* JBPostBase.m in Sources */,
+				E49E05A21A9A441000E4A319 /* JBPost.m in Sources */,
 				E4B54A431A9CDD5400AB9481 /* JBPostTwitter.m in Sources */,
 				E4E6C1D11A94E41600D138EA /* JBTeamStatsTableViewCell.m in Sources */,
 				E4B54A521A9D795400AB9481 /* JBPostInstagram.m in Sources */,

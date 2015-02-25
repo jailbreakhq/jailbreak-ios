@@ -7,9 +7,8 @@
 //
 
 #import "JBTeam.h"
-#import "JBPostBase.h"
 
-@interface JBPostVine : JBPostBase
+@interface JBPostVine : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSString *vineDescription;
 @property (nonatomic, strong) NSURL *vineURL;
@@ -18,5 +17,7 @@
 @property (nonatomic, strong) NSURL *authorURL;
 @property (nonatomic, assign) NSUInteger teamId;
 @property (nonatomic, strong) JBTeam *limitedTeam;
+
+- (instancetype)initWithJSON:(NSDictionary *)json;
 
 @end

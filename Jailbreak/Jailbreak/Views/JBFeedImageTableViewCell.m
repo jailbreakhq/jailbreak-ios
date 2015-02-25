@@ -72,7 +72,32 @@
 {
     [super configureCellWithPost:post];
     
-    [self.thumbnailImageView sd_setImageWithProgressAndURL:post.mediaURL];
+    switch (post.postType)
+    {
+        case JBPostTypeUndefined:
+        case JBPostTypeCheckin:
+        case JBPostTypeDonate:
+        case JBPostTypeFacebook:
+            self.thumbnailImageView.image = nil;
+            break;
+        case JBPostTypeLink:
+            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.link.photoURL];
+            break;
+        case JBPostTypeInstagram:
+            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.instagram.thumbnailURL];
+            break;
+        case JBPostTypeTwitter:
+            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.twitter.photoUrl];
+            break;
+        case JBPostTypeVine:
+            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.vine.thumbnailURL];
+            break;
+    }
+    
+    if (post.limitedTeam)
+    {
+        self.thumbnailImageView.progressColor = post.limitedTeam.universityColor;
+    }
 }
 
 - (void)configure

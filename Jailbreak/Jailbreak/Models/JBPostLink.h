@@ -6,13 +6,15 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
-#import "JBPostBase.h"
+#import <Foundation/Foundation.h>
 
-@interface JBPostLink : JBPostBase
+@interface JBPostLink : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, strong) NSString *linkText;
 @property (nonatomic, strong) NSString *linkDescription;
-@property (nonatomic, strong) NSURL *photoURL;
+@property (nonatomic, strong) NSURL *photoURL; // optional
+
+- (instancetype)initWithJSON:(NSDictionary *)json;
 
 @end

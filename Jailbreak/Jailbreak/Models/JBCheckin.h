@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSString *status;
 @property (nonatomic, assign) CLLocationDegrees latitude;
 @property (nonatomic, assign) CLLocationDegrees longitude;
-@property (nonatomic, assign) NSUInteger time;
+@property (nonatomic, strong) NSDate *createdTime;
 @property (nonatomic, assign) NSUInteger teamID;
 @property (nonatomic, strong) JBTeam *limitedTeam;
 

@@ -12,7 +12,7 @@
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithCoder:aDecoder];
+    self = [super init];
     
     if (self)
     {
@@ -31,8 +31,6 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [super encodeWithCoder:aCoder];
-    
     [aCoder encodeInteger:self.facebookPostId forKey:@"facebookPostId"];
     [aCoder encodeObject:self.facebookPostURL forKey:@"facebookPostURL"];
     [aCoder encodeObject:self.facebookPostBody forKey:@"facebookPostBody"];
@@ -47,7 +45,7 @@
 
 - (instancetype)initWithJSON:(NSDictionary *)json
 {
-    self = [super initWithJSON:json];
+    self = [super init];
     
     if (self)
     {

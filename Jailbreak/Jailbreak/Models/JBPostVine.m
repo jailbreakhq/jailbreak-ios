@@ -14,7 +14,7 @@
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithCoder:aDecoder];
+    self = [super init];
     
     if (self)
     {
@@ -32,8 +32,6 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [super encodeWithCoder:aCoder];
-    
     [aCoder encodeObject:self.vineDescription forKey:@"vineDescription"];
     [aCoder encodeObject:self.vineURL forKey:@"vineURL"];
     [aCoder encodeObject:self.thumbnailURL forKey:@"thumbnailURL"];
@@ -47,22 +45,20 @@
 
 - (instancetype)initWithJSON:(NSDictionary *)json
 {
-    self = [super initWithJSON:json];
-    
-    NSDictionary *vineJSON = json[@"vine"];
+    self = [super init];
     
     if (self)
     {
-        self.vineDescription = vineJSON[@"description"];
-        self.vineURL = [NSURL URLWithString:vineJSON[@"url"]];
-        self.thumbnailURL = [NSURL URLWithString:vineJSON[@"thumbnailUrl"]];
-        self.authorUsername = vineJSON[@"authorUrl"];
-        self.authorURL = [NSURL URLWithString:vineJSON[@"authorUrl"]];
-        self.teamId = [vineJSON[@"teamId"] unsignedIntegerValue];
+        self.vineDescription = json[@"description"];
+        self.vineURL = [NSURL URLWithString:json[@"url"]];
+        self.thumbnailURL = [NSURL URLWithString:json[@"thumbnailUrl"]];
+        self.authorUsername = json[@"authorName"];
+        self.authorURL = [NSURL URLWithString:json[@"authorUrl"]];
+        self.teamId = [json[@"teamId"] unsignedIntegerValue];
         
-        if (vineJSON[@"team"])
+        if (json[@"team"])
         {
-            self.limitedTeam = [[JBTeam alloc] initWithJSON:vineJSON[@"team"]];
+            self.limitedTeam = [[JBTeam alloc] initWithJSON:json[@"team"]];
         }
     }
     

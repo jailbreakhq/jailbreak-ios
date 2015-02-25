@@ -55,32 +55,19 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     self.tableView.estimatedRowHeight = 65.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
-    JBPost *post;
-    
-    post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Arca was definitely a hater.", @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png",
-                                   @"network": @"Twitter", @"postId": @"569875563017576449", @"teamUniversity": @"TCD"}];
-    [self.posts addObject:post];
-    
-    post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Had a bunch of black guys in a twerk circle is probably the two releases that got me properly into techno",
-                                          @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"Twitter", @"teamUniversity": @"ucd", @"postId": @"570034304950140928"}];
-    [self.posts addObject:post];
-    
-    post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Working on this British Shorthair today. #YearOfTheFat #FatFriends https://instagram.com/p/zVcJQ7LClQ/",
-                                          @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"FACEBOOK", @"postId": @"1405577633076859",
-                                          @"media": @"http://scontent-a.cdninstagram.com/hphotos-xaf1/t51.2885-15/e15/11015502_1399670580341952_1221936374_n.jpg", @"teamUniversity": @"nuig"}];
-    [self.posts addObject:post];
-    
-    post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Thanks so much to everyone for liking the page, we really appreciate your support and enthusiasm 😊 Looking forward to seeing all those of you who live in Dublin at our bakesale next week, and at some other fun events we have planned for the near future. However, we still need your help to raise as much money as possible for SVP and Amnesty international, so if you have any loose change rattling around at the bottom of your pockets, please direct it our way here: https://jailbreakhq.org/teams/team-74 Thanks guys x",
-                                          @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"facebook", @"teamUniversity": @"ucc"}];
-    [self.posts addObject:post];
-    
-    post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"network": @"iNstagraM",
-                                          @"media": @"http://scontent-b.cdninstagram.com/hphotos-xaf1/t51.2885-15/e15/10932646_593864644091568_589300573_n.jpg", @"teamUniversity": @"tcd"}];
-    [self.posts addObject:post];
-    
-    post = [[JBPost alloc] initWithJSON:@{@"teamName": @"Benedict & Thomas", @"body": @"Ive watched so may Liam Neeson movies. Another two long days of progress.", @"teamAvatar": @"https://static.jailbreakhq.org/avatars/small/team-50.png", @"postId": @"924146301657348311_217584541", @"teamUniversity": @"UCd",
-                                          @"network": @"instagram", @"media": @"http://scontent-b.cdninstagram.com/hphotos-xap1/t51.2885-15/e15/10296704_1778125709080310_1766583521_n.jpg"}];
-    [self.posts addObject:post];
+    [[JBAPIManager manager] getEventsWithParameters:nil
+                                            success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                for (NSDictionary *event in responseObject)
+                                                {
+                                                    if ([JBPost getPostTypeFromString:event[@"type"]] != JBPostTypeUndefined)
+                                                    {
+                                                        [self.posts addObject:[[JBPost alloc] initWithJSON:event]];
+                                                    }
+                                                }
+                                                [self.tableView reloadData];
+                                            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                [TSMessage displayMessageWithTitle:@"Oops" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+                                            }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -109,15 +96,15 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     }
     
-    if (!self.posts.count)
-    {
-        self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
-    }
-    
-    [SAMRateLimit executeBlock:^{
-        [self refresh];
-        NSLog(@"refresh");
-    } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
+//    if (!self.posts.count)
+//    {
+//        self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
+//    }
+//    
+//    [SAMRateLimit executeBlock:^{
+//        [self refresh];
+//        NSLog(@"refresh");
+//    } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -144,7 +131,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 {
     JBFeedImageTableViewCell *cell;
     
-    if ([self.posts[indexPath.row] mediaURL])
+    if ([self.posts[indexPath.row] containsThumbnail])
     {
         if ([self.posts[indexPath.row] postType] == JBPostTypeInstagram)
         {
@@ -178,7 +165,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 {
     NSArray *actions;
     JBPost *selectedPost = self.posts[indexPath.row];
-    UIColor *baseColor = [JBTeam colorForUniversity:[self.posts[indexPath.row] teamUniversity]];
+    UIColor *baseColor = [JBTeam colorForUniversity:[[self.posts[indexPath.row] limitedTeam] university]] ?: [UIColor colorWithHexString:@"#85387C"];
     __weak typeof(self) weakSelf = self;
     
     UITableViewRowAction *viewAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"View" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
@@ -264,7 +251,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
                 SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
                                                         requestMethod:SLRequestMethodPOST
                                                                   URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/favorites/create.json"]
-                                                           parameters:@{@"id": post.postId}];
+                                                           parameters:@{@"id": @(post.twitter.tweetId)}];
                 request.account = account;
                 [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                     NSString *errorMessage = [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode];
@@ -305,7 +292,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
             
             if (account)
             {
-                NSURL *retweetURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/statuses/retweet/%@.json", post.postId]];
+                NSURL *retweetURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/statuses/retweet/%@.json", @(post.twitter.tweetId)]];
                 SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:retweetURL parameters:nil];
                 request.account = account;
                 [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
@@ -340,13 +327,14 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     switch (post.postType)
     {
         case JBPostTypeCheckin:
-            break;
         case JBPostTypeDonate:
+        case JBPostTypeUndefined:
+        case JBPostTypeLink:
             break;
         case JBPostTypeFacebook:
             if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]])
             {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"fb://post/%@", post.postId]]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"fb://post/%@", @(post.facebook.facebookPostId)]]];
             }
             else
             {
@@ -356,28 +344,26 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
         case JBPostTypeInstagram:
             if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://"]])
             {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"instagram://media?id=%@", post.postId]]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"instagram://media?id=%@", post.instagram.instagramMediaId]]];
             }
             else
             {
                 [TSMessage displayMessageWithTitle:@"Instagram App Not Installed" subtitle:@"Please install the Instagram app to open images in" type:TSMessageTypeWarning];
             }
             break;
-        case JBPostTypeLink:
-            break;
         case JBPostTypeTwitter:
         {
             if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tweetbot://"]])
             {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tweetbot:///status/%@", post.postId]]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tweetbot:///status/%@", @(post.twitter.tweetId)]]];
             }
             else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitterrific://"]])
             {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitterrific:///tweet?id=%@", post.postId]]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitterrific:///tweet?id=%@", @(post.twitter.tweetId)]]];
             }
             else if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"twitter://"]])
             {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitter://status?id=%@", post.postId]]];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"twitter://status?id=%@", @(post.twitter.tweetId)]]];
             }
             else
             {
@@ -407,7 +393,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
                 
                 if (account)
                 {
-                    NSURL *likeURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/v2.2/%@/likes", post.postId]];
+                    NSURL *likeURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/v2.2/%@/likes", @(post.facebook.facebookPostId)]];
                     SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodPOST URL:likeURL parameters:nil];
                     request.account = account;
                     [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
@@ -448,13 +434,13 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 
 // Leaving out refreshing when handling active notification because of contentOffset issues
 
-- (void)handleApplicationDidEnterBackgroundNotification
-{
-    if (self.posts.count)
-    {
-        [self saveToArchiveObject:self.posts withKey:kPostsArchiveKey];
-    }
-}
+//- (void)handleApplicationDidEnterBackgroundNotification
+//{
+//    if (self.posts.count)
+//    {
+//        [self saveToArchiveObject:self.posts withKey:kPostsArchiveKey];
+//    }
+//}
 
 - (void)updateCellTimeAgoLabel:(NSTimer *)timer
 {
@@ -463,39 +449,39 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     
     for (int i = 0; i < visibleCells.count; i++)
     {
-        [visibleCells[i] timeLabel].text = [[self.posts[[indexPathsForVisibleRows[i] row]] timeCreated] shortTimeAgoSinceNow];
+        [visibleCells[i] timeLabel].text = [[self.posts[[indexPathsForVisibleRows[i] row]] createdTime] shortTimeAgoSinceNow];
     }
 }
 
 - (void)refresh
 {
-    NSUInteger numberOfNewPosts = 3;
-    
-    for (int i = 0; i < numberOfNewPosts; i++)
-    {
-        [self.posts insertObject:self.posts[self.posts.count-1-i] atIndex:0];
-    }
-    
-    CGPoint contentOffsetBefore = self.tableView.contentOffset;
-    
-    // If < -64 (when pulling down to refresh) use -64, otherwise use the current value
-    contentOffsetBefore.y = fmaxf(-[self.topLayoutGuide length], contentOffsetBefore.y);
-    
-    [self.tableView reloadData];
-    
-    // For some reason you need to get the rects before hand or the values will be wrong
-    for (int i = 0; i < numberOfNewPosts; i++)
-    {
-        [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-    }
-    
-    contentOffsetBefore.y += [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:numberOfNewPosts inSection:0]].origin.y;
-    [self.tableView setContentOffset:contentOffsetBefore animated:YES];
-    [self.refreshControl endRefreshing];
-    
-    TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ new posts", @(numberOfNewPosts)] subtitle:nil type:TSMessageTypeDefault];
-    messageView.duration = 1.0;
-    [TSMessage displayOrEnqueueMessage:messageView];
+//    NSUInteger numberOfNewPosts = 3;
+//    
+//    for (int i = 0; i < numberOfNewPosts; i++)
+//    {
+//        [self.posts insertObject:self.posts[self.posts.count-1-i] atIndex:0];
+//    }
+//    
+//    CGPoint contentOffsetBefore = self.tableView.contentOffset;
+//    
+//    // If < -64 (when pulling down to refresh) use -64, otherwise use the current value
+//    contentOffsetBefore.y = fmaxf(-[self.topLayoutGuide length], contentOffsetBefore.y);
+//    
+//    [self.tableView reloadData];
+//    
+//    // For some reason you need to get the rects before hand or the values will be wrong
+//    for (int i = 0; i < numberOfNewPosts; i++)
+//    {
+//        [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+//    }
+//    
+//    contentOffsetBefore.y += [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:numberOfNewPosts inSection:0]].origin.y;
+//    [self.tableView setContentOffset:contentOffsetBefore animated:YES];
+//    [self.refreshControl endRefreshing];
+//    
+//    TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ new posts", @(numberOfNewPosts)] subtitle:nil type:TSMessageTypeDefault];
+//    messageView.duration = 1.0;
+//    [TSMessage displayOrEnqueueMessage:messageView];
 }
 
 @end

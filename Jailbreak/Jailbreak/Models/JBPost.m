@@ -8,12 +8,6 @@
 
 #import "JBPost.h"
 
-@interface JBPost (Private)
-
-- (JBPostType)getPostTypeFromString:(NSString *)string;
-
-@end
-
 @implementation JBPost
 
 #pragma mark - NSCoding
@@ -24,17 +18,11 @@
     
     if (self)
     {
-        self.teamId = [aDecoder decodeIntegerForKey:@"teamId"];
-        self.teamName = [aDecoder decodeObjectForKey:@"teamName"];
-        self.teamMembersNames = [aDecoder decodeObjectForKey:@"teamMembersNames"];
-        self.teamAvatarURL = [aDecoder decodeObjectForKey:@"teamAvatarURL"];
-        self.body = [aDecoder decodeObjectForKey:@"body"];
-        self.mediaURL = [aDecoder decodeObjectForKey:@"mediaURL"];
-        self.timeCreated = [aDecoder decodeObjectForKey:@"timeCreated"];
-        self.username = [aDecoder decodeObjectForKey:@"username"];
-        self.postType = [aDecoder decodeIntegerForKey:@"socialNetwork"];
-        self.postId = [aDecoder decodeObjectForKey:@"postId"];
-        self.teamUniversity = [aDecoder decodeIntegerForKey:@"teamUniversity"];
+        self.postId = [aDecoder decodeIntegerForKey:@"postId"];
+        self.postType = [aDecoder decodeIntegerForKey:@"postType"];
+        self.containsThumbnail = [aDecoder decodeBoolForKey:@"containsThumbnail"];
+        self.limitedTeam = [aDecoder decodeObjectForKey:@"limitedTeam"];
+        self.createdTime = [aDecoder decodeObjectForKey:@"createdTime"];
     }
     
     return self;
@@ -42,17 +30,11 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeInteger:self.teamId forKey:@"teamId"];
-    [aCoder encodeObject:self.teamName forKey:@"teamName"];
-    [aCoder encodeObject:self.teamMembersNames forKey:@"teamMembersNames"];
-    [aCoder encodeObject:self.teamAvatarURL forKey:@"teamAvatarURL"];
-    [aCoder encodeObject:self.body forKey:@"body"];
-    [aCoder encodeObject:self.mediaURL forKey:@"mediaURL"];
-    [aCoder encodeObject:self.timeCreated forKey:@"timeCreated"];
-    [aCoder encodeObject:self.username forKey:@"username"];
-    [aCoder encodeInteger:self.postType forKey:@"socialNetwork"];
-    [aCoder encodeObject:self.postId forKey:@"postId"];
-    [aCoder encodeInteger:self.teamUniversity forKey:@"teamUniversity"];
+    [aCoder encodeInteger:self.postId forKey:@"postId"];
+    [aCoder encodeInteger:self.postType forKey:@"postType"];
+    [aCoder encodeBool:self.containsThumbnail forKey:@"containsThumbnail"];
+    [aCoder encodeObject:self.limitedTeam forKey:@"limitedTeam"];
+    [aCoder encodeObject:self.createdTime forKey:@"createdTime"];
 }
 
 #pragma mark - Initialiser
@@ -63,28 +45,58 @@
     
     if (self)
     {
-        self.teamId = [json[@"teamId"] unsignedIntegerValue];
-        self.teamName = json[@"teamName"];
-        self.teamMembersNames = json[@"teamMembersNames"];
-        self.teamAvatarURL = [NSURL URLWithString:json[@"teamAvatar"]];
-        self.body = json[@"body"];
-        self.mediaURL = [NSURL URLWithString:json[@"media"]];
-        self.timeCreated = [NSDate date];
-        self.username = json[@"username"];
-        self.postType = [self getPostTypeFromString:json[@"network"]];
-        self.postId = json[@"postId"];
-        self.teamUniversity = [JBTeam universityFromString:json[@"teamUniversity"]];
+        self.postId = [json[@"id"] unsignedIntegerValue];
+        self.postType = [JBPost getPostTypeFromString:json[@"type"]];
+        self.containsThumbnail = NO;
+
+        switch (self.postType)
+        {
+            case JBPostTypeCheckin:
+                self.checkin = [[JBCheckin alloc] initWithJSON:json[@"checkin"]];
+                self.limitedTeam = self.checkin.limitedTeam ?: nil;
+                self.createdTime = self.checkin.createdTime;
+                break;
+            case JBPostTypeDonate:
+                break;
+            case JBPostTypeFacebook:
+                self.facebook = [[JBPostFacebook alloc] initWithJSON:json[@"facebook"]];
+                self.limitedTeam = self.facebook.limitedTeam ?: nil;
+                self.createdTime = self.facebook.createdTime;
+                break;
+            case JBPostTypeInstagram:
+                self.instagram = [[JBPostInstagram alloc] initWithJSON:json[@"instagram"]];
+                self.containsThumbnail = YES;
+                self.limitedTeam = self.instagram.limitedTeam ?: nil;
+                break;
+            case JBPostTypeLink:
+                self.link = [[JBPostLink alloc] initWithJSON:json[@"link"]];
+                self.containsThumbnail = self.link.photoURL != nil;
+                break;
+            case JBPostTypeTwitter:
+                self.twitter = [[JBPostTwitter alloc] initWithJSON:json[@"twitter"]];
+                self.containsThumbnail = self.twitter.photoUrl != nil;
+                self.limitedTeam = self.twitter.limitedTeam ?: nil;
+                self.createdTime = self.twitter.createdTime;
+                break;
+            case JBPostTypeVine:
+                self.vine = [[JBPostVine alloc] initWithJSON:json[@"vine"]];
+                self.containsThumbnail = YES;
+                self.limitedTeam = self.vine.limitedTeam ?: nil;
+                break;
+            case JBPostTypeUndefined:
+                break;
+        }
     }
     
     return self;
 }
 
-#pragma mark - Helper Methods
+#pragma mark - Class Methods
 
-- (JBPostType)getPostTypeFromString:(NSString *)string
++ (JBPostType)getPostTypeFromString:(NSString *)string
 {
-    NSDictionary *lookup = @{@"twitter": @0, @"instagram": @1, @"facebook": @2, @"vine": @3,
-                             @"donate": @4, @"link": @5, @"checkin": @6};
+    NSDictionary *lookup = @{@"twitter": @1, @"instagram": @2, @"facebook": @3, @"vine": @4,
+                             @"donate": @5, @"link": @6, @"checkin": @7};
     
     return (JBPostType)[lookup[string.lowercaseString] unsignedIntegerValue];
 }

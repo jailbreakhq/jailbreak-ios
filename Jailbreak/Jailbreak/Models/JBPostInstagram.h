@@ -7,9 +7,8 @@
 //
 
 #import "JBTeam.h"
-#import "JBPostBase.h"
 
-@interface JBPostInstagram : JBPostBase
+@interface JBPostInstagram : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSString *instagramMediaId;
 @property (nonatomic, strong) NSString *instagramDescription;
@@ -19,5 +18,7 @@
 @property (nonatomic, strong) NSURL *authorURL;
 @property (nonatomic, assign) NSUInteger teamId;
 @property (nonatomic, strong) JBTeam *limitedTeam;
+
+- (instancetype)initWithJSON:(NSDictionary *)json;
 
 @end

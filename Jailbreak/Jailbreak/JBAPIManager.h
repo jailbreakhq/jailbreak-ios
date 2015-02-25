@@ -36,5 +36,9 @@ typedef void (^HTTPRequestFailure)(AFHTTPRequestOperation *operation, NSError *e
                            success:(HTTPRequestSuccess)success
                            failure:(HTTPRequestFailure)failure;
 
+- (void)getEventsWithParameters:(NSDictionary *)parameters
+                        success:(HTTPRequestSuccess)success
+                        failure:(HTTPRequestFailure)failure;
+
 
 @end

@@ -7,9 +7,8 @@
 //
 
 #import "JBTeam.h"
-#import "JBPostBase.h"
 
-@interface JBPostTwitter : JBPostBase
+@interface JBPostTwitter : NSObject <NSCoding>
 
 @property (nonatomic, assign) NSUInteger tweetId;
 @property (nonatomic, strong) NSString *tweetBodyPlain;
@@ -22,5 +21,7 @@
 @property (nonatomic, strong) NSURL *twitterUserPhotoURL;
 @property (nonatomic, assign) NSUInteger teamId; // optional
 @property (nonatomic, strong) JBTeam *limitedTeam; // optional
+
+- (instancetype)initWithJSON:(NSDictionary *)json;
 
 @end

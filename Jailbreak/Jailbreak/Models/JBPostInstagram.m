@@ -14,7 +14,7 @@
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithCoder:aDecoder];
+    self = [super init];
     
     if (self)
     {
@@ -33,8 +33,6 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [super encodeWithCoder:aCoder];
-
     [aCoder encodeObject:self.instagramMediaId forKey:@"instagramMediaId"];
     [aCoder encodeObject:self.instagramDescription forKey:@"instagramDescription"];
     [aCoder encodeObject:self.instagramURL forKey:@"instagramURL"];
@@ -49,23 +47,21 @@
 
 - (instancetype)initWithJSON:(NSDictionary *)json
 {
-    self = [super initWithJSON:json];
-    
-    NSDictionary *instagramJSON = json[@"instagram"];
+    self = [super init];
     
     if (self)
     {
-        self.instagramMediaId = instagramJSON[@"instagramId"];
-        self.instagramDescription = instagramJSON[@"description"];
-        self.instagramURL = [NSURL URLWithString:instagramJSON[@"url"]];
-        self.thumbnailURL = [NSURL URLWithString:instagramJSON[@"thumbnailUrl"]];
-        self.authorUsername = instagramJSON[@"authorUrl"];
-        self.authorURL = [NSURL URLWithString:instagramJSON[@"authorUrl"]];
-        self.teamId = [instagramJSON[@"teamId"] unsignedIntegerValue];
+        self.instagramMediaId = json[@"instagramId"];
+        self.instagramDescription = json[@"description"];
+        self.instagramURL = [NSURL URLWithString:json[@"url"]];
+        self.thumbnailURL = [NSURL URLWithString:json[@"thumbnailUrl"]];
+        self.authorUsername = json[@"authorName"];
+        self.authorURL = [NSURL URLWithString:json[@"authorUrl"]];
+        self.teamId = [json[@"teamId"] unsignedIntegerValue];
         
-        if (instagramJSON[@"team"])
+        if (json[@"team"])
         {
-            self.limitedTeam = [[JBTeam alloc] initWithJSON:instagramJSON[@"team"]];
+            self.limitedTeam = [[JBTeam alloc] initWithJSON:json[@"team"]];
         }
     }
     

@@ -9,7 +9,7 @@
 #import "JBAPIManager.h"
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
-#define BASE_URL @"https://jbapi.net"
+#define BASE_URL @"http://private-anon-5ab11e309-jailbreakapi.apiary-mock.com"
 
 #define SuccessBlockWithJSONOperation                           \
     ^(AFHTTPRequestOperation *operation, id responseObject) {   \
@@ -103,6 +103,16 @@
     parameters:parameters
        success:SuccessBlockWithJSONOperation
        failure:FailureBlockWithJSONOperation];
+}
+
+- (void)getEventsWithParameters:(NSDictionary *)parameters
+                        success:(HTTPRequestSuccess)success
+                        failure:(HTTPRequestFailure)failure
+{
+    [self GET:@"events"
+   parameters:parameters
+      success:SuccessBlockWithJSONOperation
+      failure:FailureBlockWithJSONOperation];
 }
 
 @end

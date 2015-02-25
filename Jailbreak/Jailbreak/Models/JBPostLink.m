@@ -14,7 +14,7 @@
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithCoder:aDecoder];
+    self = [super init];
     
     if (self)
     {
@@ -29,8 +29,6 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [super encodeWithCoder:aCoder];
-    
     [aCoder encodeObject:self.url forKey:@"url"];
     [aCoder encodeObject:self.linkText forKey:@"linkText"];
     [aCoder encodeObject:self.linkDescription forKey:@"linkDescription"];
@@ -41,16 +39,14 @@
 
 - (instancetype)initWithJSON:(NSDictionary *)json
 {
-    self = [super initWithJSON:json];
-    
-    NSDictionary *linkJSON = json[@"link"];
+    self = [super init];
     
     if (self)
     {
-        self.url = [NSURL URLWithString:linkJSON[@"url"]];
-        self.linkText = linkJSON[@"linkText"];
-        self.linkDescription = linkJSON[@"description"];
-        self.photoURL = [NSURL URLWithString:linkJSON[@"photoUrl"]];
+        self.url = [NSURL URLWithString:json[@"url"]];
+        self.linkText = json[@"linkText"];
+        self.linkDescription = json[@"description"];
+        self.photoURL = [NSURL URLWithString:json[@"photoUrl"]];
     }
     
     return self;

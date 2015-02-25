@@ -23,7 +23,7 @@
         self.status = [aDecoder decodeObjectForKey:@"status"];
         self.latitude = [aDecoder decodeDoubleForKey:@"latitude"];
         self.longitude = [aDecoder decodeDoubleForKey:@"longitude"];
-        self.time = [aDecoder decodeIntegerForKey:@"time"];
+        self.createdTime = [aDecoder decodeObjectForKey:@"createdTime"];
         self.teamID = [aDecoder decodeIntegerForKey:@"teamID"];
         self.limitedTeam = [aDecoder decodeObjectForKey:@"limitedTeam"];
     }
@@ -38,7 +38,7 @@
     [aCoder encodeObject:self.status forKey:@"status"];
     [aCoder encodeDouble:self.latitude forKey:@"latitude"];
     [aCoder encodeDouble:self.longitude forKey:@"longitude"];
-    [aCoder encodeInteger:self.time forKey:@"time"];
+    [aCoder encodeObject:self.createdTime forKey:@"createdTime"];
     [aCoder encodeInteger:self.teamID forKey:@"teamID"];
     [aCoder encodeObject:self.limitedTeam forKey:@"limitedTeam"];
 }
@@ -56,8 +56,13 @@
         self.status = json[@"status"];
         self.latitude = [json[@"lat"] doubleValue];
         self.longitude = [json[@"lon"] doubleValue];
-        self.time = [json[@"time"] unsignedIntegerValue];
+        self.createdTime = [NSDate dateWithTimeIntervalSince1970:[json[@"time"] unsignedIntegerValue]];
         self.teamID = [json[@"teamId"] unsignedIntegerValue];
+        
+        if (json[@"team"])
+        {
+            self.limitedTeam = [[JBTeam alloc] initWithJSON:json[@"team"]];
+        }
     }
     
     return self;

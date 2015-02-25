@@ -6,12 +6,18 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
-#import "JBTeam.h"
+#import "JBCheckin.h"
+#import "JBPostLink.h"
+#import "JBPostVine.h"
+#import "JBPostTwitter.h"
+#import "JBPostFacebook.h"
+#import "JBPostInstagram.h"
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, JBPostType)
 {
-    JBPostTypeTwitter = 0,
+    JBPostTypeUndefined = 0,
+    JBPostTypeTwitter,
     JBPostTypeInstagram,
     JBPostTypeFacebook,
     JBPostTypeVine,
@@ -22,18 +28,22 @@ typedef NS_ENUM(NSUInteger, JBPostType)
 
 @interface JBPost : NSObject <NSCoding>
 
-@property (nonatomic, assign) NSUInteger teamId;
-@property (nonatomic, strong) NSString *teamName;
-@property (nonatomic, strong) NSString *teamMembersNames;
-@property (nonatomic, strong) NSURL *teamAvatarURL;
-@property (nonatomic, strong) NSString *body;
-@property (nonatomic, strong) NSURL *mediaURL;
-@property (nonatomic, strong) NSDate *timeCreated;
-@property (nonatomic, strong) NSString *username;
+@property (nonatomic, assign) NSUInteger postId;
 @property (nonatomic, assign) JBPostType postType;
-@property (nonatomic, strong) NSString *postId;
-@property (nonatomic, assign) University teamUniversity;
+@property (nonatomic, assign) BOOL containsThumbnail;
+#warning ??!!
+// For convenice have weak references to these for quick access
+@property (nonatomic, weak) JBTeam *limitedTeam;
+@property (nonatomic, weak) NSDate *createdTime;
+
+@property (nonatomic, strong) JBCheckin *checkin;
+@property (nonatomic, strong) JBPostLink *link;
+@property (nonatomic, strong) JBPostVine *vine;
+@property (nonatomic, strong) JBPostTwitter *twitter;
+@property (nonatomic, strong) JBPostFacebook *facebook;
+@property (nonatomic, strong) JBPostInstagram *instagram;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
++ (JBPostType)getPostTypeFromString:(NSString *)string;
 
 @end

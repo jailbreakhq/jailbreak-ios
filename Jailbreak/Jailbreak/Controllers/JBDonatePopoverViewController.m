@@ -8,6 +8,7 @@
 
 #import <TSMessage.h>
 #import <BSKeyboardControls.h>
+#import "UIColor+JBAdditions.h"
 #import "JBDonatePopoverViewController.h"
 
 static const NSUInteger kMinimumDonationAmount = 5;
@@ -40,38 +41,40 @@ static const NSUInteger kMinimumDonationAmount = 5;
 {
     [super viewDidLoad];
     
-    self.anonymousSwitch.tintColor = self.team.universityColor;
-    self.anonymousSwitch.onTintColor = self.team.universityColor;
-    self.headerView.backgroundColor = self.team.universityColor;
-    self.fullNameSeparatorView.backgroundColor = self.team.universityColor;
-    self.emailSeparatorView.backgroundColor = self.team.universityColor;
+    UIColor *primaryColor = self.team.universityColor ?: [UIColor colorWithHexString:@"#85387C"];
+    
+    self.anonymousSwitch.tintColor = primaryColor;
+    self.anonymousSwitch.onTintColor = primaryColor;
+    self.headerView.backgroundColor = primaryColor;
+    self.fullNameSeparatorView.backgroundColor = primaryColor;
+    self.emailSeparatorView.backgroundColor = primaryColor;
     self.amountTextField.textColor = [UIColor whiteColor];
     self.amountTextField.tintColor = [UIColor whiteColor];
     self.amountTextField.placeholder = @"Amount";
-    self.fullNameTextField.textColor = self.team.universityColor;
-    self.fullNameTextField.tintColor = self.team.universityColor;
-    self.emailTextField.textColor = self.team.universityColor;
-    self.emailTextField.tintColor = self.team.universityColor;
-    self.anonymousLabel.textColor = self.team.universityColor;
-    self.payButton.normalTextColor = self.team.universityColor;
+    self.fullNameTextField.textColor = primaryColor;
+    self.fullNameTextField.tintColor = primaryColor;
+    self.emailTextField.textColor = primaryColor;
+    self.emailTextField.tintColor = primaryColor;
+    self.anonymousLabel.textColor = primaryColor;
+    self.payButton.normalTextColor = primaryColor;
     self.payButton.normalBackgroundColor = [UIColor clearColor];
-    self.payButton.normalBorderColor = self.team.universityColor;
+    self.payButton.normalBorderColor = primaryColor;
     self.payButton.activeTextColor = [UIColor whiteColor];
-    self.payButton.activeBackgroundColor = self.team.universityColor;
-    self.payButton.activeBorderColor = self.team.universityColor;
+    self.payButton.activeBackgroundColor = primaryColor;
+    self.payButton.activeBorderColor = primaryColor;
     self.payButton.borderWidth = 1.0;
     self.cancelButton.normalTextColor = [UIColor whiteColor];
     self.cancelButton.normalBackgroundColor = [UIColor clearColor];
     self.cancelButton.normalBorderColor = [UIColor whiteColor];
-    self.cancelButton.activeTextColor = self.team.universityColor;
+    self.cancelButton.activeTextColor = primaryColor;
     self.cancelButton.activeBackgroundColor = [UIColor whiteColor];
     self.cancelButton.activeBorderColor = [UIColor whiteColor];
     self.cancelButton.borderWidth = 1.0;
     
-    self.checkoutOptions.companyName = @"Jailbreak HQ";
-    self.checkoutOptions.logoURL = self.team.avatarURL;
-    self.checkoutOptions.logoColor = self.team.universityColor;
-    self.checkoutOptions.purchaseDescription = [NSString stringWithFormat:@"\"%@\"", self.team.name];
+    self.checkoutOptions.companyName = self.team.name ? [NSString stringWithFormat:@"\"%@\"", self.team.name] : @"Jailbreak HQ";
+    self.checkoutOptions.logoURL = self.team.avatarURL ?: [NSURL URLWithString:@"http://i.imgur.com/nOHv1UH.png"];
+    self.checkoutOptions.logoColor = primaryColor;
+    self.checkoutOptions.purchaseDescription = @"Supporting Amnesty & SVP";
     self.checkoutOptions.purchaseLabel = @"Pay";
     self.checkoutOptions.purchaseCurrency = @"EUR";
     

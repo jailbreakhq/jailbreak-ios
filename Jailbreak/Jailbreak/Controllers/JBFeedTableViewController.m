@@ -20,19 +20,22 @@
 #import "JBFeedVineTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
 #import "JBFeedImageTableViewCell.h"
+#import "JBFeedDonateTableViewCell.h"
 #import "JBFeedTableViewController.h"
 #import "JBPostTableViewController.h"
+#import "JBDonatePopoverViewController.h"
 
 static NSString * const kTextCellIdentifier         = @"TextCell";
 static NSString * const kInstagramCellIdentifier    = @"InstagramCell";
 static NSString * const kImageCellIdentifier        = @"ImageCell";
 static NSString * const kVineCellIdentifier         = @"VineCell";
+static NSString * const kDonateCellIdentifier       = @"DonateCell";
 static NSString * const kSAMBlockName               = @"Refreshing";
 static NSString * const kPostsArchiveKey            = @"Posts-JBFeedTableViewController";
 
 static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 
-@interface JBFeedTableViewController () <JBFeedImageTableViewCellDelegate>
+@interface JBFeedTableViewController () <JBFeedImageTableViewCellDelegate, JBFeedDonateTableViewCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *posts;
 @property (nonatomic, weak) NSTimer *timer;
@@ -59,7 +62,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     self.tableView.estimatedRowHeight = 65.0;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
-    self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
+//    self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
     
     if (!self.posts.count)
     {
@@ -138,6 +141,11 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
         JBPostTableViewController *dvc = (JBPostTableViewController *)segue.destinationViewController;
         dvc.post = self.posts[[sender row]];
     }
+    else if ([segue.identifier isEqualToString:@"showDonationPopover"])
+    {
+        JBDonatePopoverViewController *dvc = (JBDonatePopoverViewController *)segue.destinationViewController;
+        dvc.team = (JBTeam *)sender;
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -154,7 +162,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    JBFeedImageTableViewCell *cell;
+    id cell;
     
     if ([self.posts[indexPath.row] containsThumbnail])
     {
@@ -171,7 +179,12 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
             cell = [tableView dequeueReusableCellWithIdentifier:kImageCellIdentifier forIndexPath:indexPath];
         }
         
-        cell.delegate = self;
+        [(JBFeedImageTableViewCell *)cell setDelegate:self];
+    }
+    else if ([self.posts[indexPath.row] postType] == JBPostTypeDonate)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:kDonateCellIdentifier forIndexPath:indexPath];
+        [(JBFeedDonateTableViewCell *)cell setDelegate:self];
     }
     else
     {
@@ -269,6 +282,37 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
                                                                                     backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
     
     [imageViewController showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Remove seperator inset
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)])
+    {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    // Prevent the cell from inheriting the Table View's margin settings
+    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)])
+    {
+        [cell setPreservesSuperviewLayoutMargins:NO];
+    }
+    
+    // Explictly set your cell's layout margins
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)])
+    {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
+#pragma mark - JBFeedDonateTableViewCellDelegate
+
+- (void)didTapDonateButtonWithTeam:(JBTeam *)team
+{
+    if (team)
+    {
+        [self performSegueWithIdentifier:@"showDonationPopover" sender:team];
+    }
 }
 
 #pragma mark - Twitter Helper Methods
@@ -494,7 +538,10 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     
     for (int i = 0; i < visibleCells.count; i++)
     {
-        [visibleCells[i] timeLabel].text = [[self.posts[[indexPathsForVisibleRows[i] row]] createdTime] shortTimeAgoSinceNow];
+        if ([visibleCells[i] respondsToSelector:@selector(timeLabel)])
+        {
+            [visibleCells[i] timeLabel].text = [[self.posts[[indexPathsForVisibleRows[i] row]] createdTime] shortTimeAgoSinceNow];
+        }
     }
 }
 

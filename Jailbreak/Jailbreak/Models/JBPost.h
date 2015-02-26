@@ -9,6 +9,7 @@
 #import "JBCheckin.h"
 #import "JBPostLink.h"
 #import "JBPostVine.h"
+#import "JBPostDonate.h"
 #import "JBPostTwitter.h"
 #import "JBPostFacebook.h"
 #import "JBPostInstagram.h"
@@ -39,6 +40,7 @@ typedef NS_ENUM(NSUInteger, JBPostType)
 @property (nonatomic, strong) JBCheckin *checkin;
 @property (nonatomic, strong) JBPostLink *link;
 @property (nonatomic, strong) JBPostVine *vine;
+@property (nonatomic, strong) JBPostDonate *donate;
 @property (nonatomic, strong) JBPostTwitter *twitter;
 @property (nonatomic, strong) JBPostFacebook *facebook;
 @property (nonatomic, strong) JBPostInstagram *instagram;

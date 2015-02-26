@@ -26,6 +26,7 @@
         self.checkin = [aDecoder decodeObjectForKey:@"checkin"];
         self.link = [aDecoder decodeObjectForKey:@"link"];
         self.vine = [aDecoder decodeObjectForKey:@"vine"];
+        self.donate = [aDecoder decodeObjectForKey:@"donate"];
         self.twitter = [aDecoder decodeObjectForKey:@"twitter"];
         self.facebook = [aDecoder decodeObjectForKey:@"facebook"];
         self.instagram = [aDecoder decodeObjectForKey:@"instagram"];
@@ -44,6 +45,7 @@
     [aCoder encodeObject:self.checkin forKey:@"checkin"];
     [aCoder encodeObject:self.link forKey:@"link"];
     [aCoder encodeObject:self.vine forKey:@"vine"];
+    [aCoder encodeObject:self.donate forKey:@"donate"];
     [aCoder encodeObject:self.twitter forKey:@"twitter"];
     [aCoder encodeObject:self.facebook forKey:@"facebook"];
     [aCoder encodeObject:self.instagram forKey:@"instagram"];
@@ -69,6 +71,8 @@
                 self.createdTime = self.checkin.createdTime;
                 break;
             case JBPostTypeDonate:
+                self.donate = [[JBPostDonate alloc] initWithJSON:json[@"donate"]];
+                self.limitedTeam = self.donate.limitedTeam ?: nil;
                 break;
             case JBPostTypeFacebook:
                 self.facebook = [[JBPostFacebook alloc] initWithJSON:json[@"facebook"]];

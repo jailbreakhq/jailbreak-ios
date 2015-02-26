@@ -84,11 +84,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [TSMessage displayMessageWithTitle:@"Oops" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
         [self stopLoadingIndicator];
-    }];
-    
-    // Configure TableView
-//    self.tableView.estimatedRowHeight = 30.0;
-//    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    }];    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

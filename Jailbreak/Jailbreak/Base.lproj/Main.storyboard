@@ -807,10 +807,9 @@
             <objects>
                 <tableViewController id="zNC-dd-tqg" customClass="JBFeedTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="VFF-3g-33s">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="900"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.82793557643890381" green="0.83891397714614868" blue="0.86943817138671875" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <inset key="separatorInset" minX="65" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TextCell" rowHeight="77" id="IiS-cP-Gaw" customClass="JBFeedBaseTableViewCell">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -1040,7 +1039,7 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5rn-48-5PL" id="bjh-m8-c03">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GV8-2T-US2" customClass="JBCircularImageView">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GV8-2T-US2" customClass="JBCircularImageView">
                                             <rect key="frame" x="407" y="10" width="45" height="45"/>
                                             <color key="backgroundColor" red="0.82793557640000004" green="0.83891397710000004" blue="0.86943817140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
@@ -1048,7 +1047,7 @@
                                                 <constraint firstAttribute="height" constant="45" id="n3C-GK-N1U"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="41" placeholderIntrinsicHeight="20" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkv-DG-IaS" userLabel="Title">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" placeholderIntrinsicWidth="41" placeholderIntrinsicHeight="20" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkv-DG-IaS" userLabel="Title">
                                             <rect key="frame" x="462" y="10" width="58" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="DN7-Go-WT4"/>
@@ -1063,7 +1062,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" placeholderIntrinsicWidth="38" placeholderIntrinsicHeight="21" text="" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RPu-KR-xLg" userLabel="Body">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" misplaced="YES" placeholderIntrinsicWidth="38" placeholderIntrinsicHeight="21" text="" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RPu-KR-xLg" userLabel="Body">
                                             <rect key="frame" x="462" y="34" width="128" height="21"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1075,7 +1074,7 @@
                                                 <constraint firstAttribute="height" constant="15" id="qzd-jc-SQC"/>
                                             </constraints>
                                         </imageView>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sru-4s-9uR" userLabel="Video Container View">
+                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sru-4s-9uR" userLabel="Video Container View">
                                             <rect key="frame" x="462" y="65" width="128" height="128"/>
                                             <subviews>
                                                 <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LIa-KH-KcU" userLabel="Thumbnail">
@@ -1134,6 +1133,64 @@
                                     <outlet property="videoContrainerView" destination="sru-4s-9uR" id="tSZ-vy-fJU"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DonateCell" rowHeight="230" id="BqE-ed-oPA" customClass="JBFeedDonateTableViewCell">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BqE-ed-oPA" id="duz-0a-EBY">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sqp-cv-gcy" customClass="JBCircularImageView">
+                                            <rect key="frame" x="260" y="20" width="80" height="80"/>
+                                            <color key="backgroundColor" red="0.82793557643890381" green="0.83891397714614868" blue="0.86943817138671875" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="80" id="HSm-RE-od5"/>
+                                                <constraint firstAttribute="width" constant="80" id="WzI-Kq-wce"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="22" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VrZ-N1-3ad" userLabel="Title">
+                                            <rect key="frame" x="20" y="110" width="560" height="21"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" placeholderIntrinsicWidth="560" placeholderIntrinsicHeight="21" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7aN-H2-SZl" userLabel="Body">
+                                            <rect key="frame" x="20" y="133" width="560" height="21"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hv3-eU-2lX">
+                                            <rect key="frame" x="20" y="164" width="560" height="45"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="45" id="AQm-mG-Kde"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                                            <state key="normal">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="7aN-H2-SZl" firstAttribute="leading" secondItem="duz-0a-EBY" secondAttribute="leading" constant="20" id="0Ks-bl-CJo"/>
+                                        <constraint firstItem="sqp-cv-gcy" firstAttribute="top" secondItem="duz-0a-EBY" secondAttribute="top" constant="20" id="5Qt-Pc-c8S"/>
+                                        <constraint firstItem="Hv3-eU-2lX" firstAttribute="leading" secondItem="duz-0a-EBY" secondAttribute="leading" constant="20" id="6sr-S3-Z52"/>
+                                        <constraint firstItem="Hv3-eU-2lX" firstAttribute="top" secondItem="7aN-H2-SZl" secondAttribute="bottom" constant="10" id="JQW-Yv-aPp"/>
+                                        <constraint firstAttribute="bottom" secondItem="Hv3-eU-2lX" secondAttribute="bottom" constant="20" id="RFp-ni-RoB"/>
+                                        <constraint firstAttribute="centerX" secondItem="sqp-cv-gcy" secondAttribute="centerX" id="S43-Cg-MAM"/>
+                                        <constraint firstAttribute="trailing" secondItem="VrZ-N1-3ad" secondAttribute="trailing" constant="20" id="dRh-QG-owH"/>
+                                        <constraint firstItem="7aN-H2-SZl" firstAttribute="top" secondItem="VrZ-N1-3ad" secondAttribute="bottom" constant="2" id="iVR-bL-4iR"/>
+                                        <constraint firstItem="VrZ-N1-3ad" firstAttribute="leading" secondItem="duz-0a-EBY" secondAttribute="leading" constant="20" id="iag-vF-3K5"/>
+                                        <constraint firstItem="VrZ-N1-3ad" firstAttribute="top" secondItem="sqp-cv-gcy" secondAttribute="bottom" constant="10" id="ohe-70-aG5"/>
+                                        <constraint firstAttribute="trailing" secondItem="7aN-H2-SZl" secondAttribute="trailing" constant="20" id="ted-kP-S3a"/>
+                                        <constraint firstAttribute="trailing" secondItem="Hv3-eU-2lX" secondAttribute="trailing" constant="20" id="uXt-05-OTB"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="avatarImageView" destination="sqp-cv-gcy" id="hHt-w8-xzR"/>
+                                    <outlet property="bodyLabel" destination="7aN-H2-SZl" id="R4W-bY-s7Z"/>
+                                    <outlet property="button" destination="Hv3-eU-2lX" id="iae-x2-Xj7"/>
+                                    <outlet property="titleLabel" destination="VrZ-N1-3ad" id="uXh-JN-rfR"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="zNC-dd-tqg" id="KkG-k1-uCT"/>
@@ -1144,21 +1201,22 @@
                         <nil key="title"/>
                     </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="600" height="900"/>
+                    <size key="freeformSize" width="600" height="1500"/>
                     <connections>
                         <segue destination="m5h-Du-fC9" kind="show" identifier="showPost" id="04B-gY-sQl"/>
+                        <segue destination="Cde-vL-qyi" kind="presentation" identifier="showDonationPopover" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="vgD-FL-aQb"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ik6-kI-AkZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="929" y="1258"/>
+            <point key="canvasLocation" x="943" y="1506"/>
         </scene>
         <!--Post Table View Controller-->
         <scene sceneID="2VY-bz-5jt">
             <objects>
                 <tableViewController modalPresentationStyle="currentContext" id="m5h-Du-fC9" customClass="JBPostTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Ki3-xC-buo">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="900"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.82793557640000004" green="0.83891397710000004" blue="0.86943817140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <inset key="separatorInset" minX="65" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -1398,7 +1456,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aEU-WD-HTY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="929" y="2293"/>
+            <point key="canvasLocation" x="195" y="2899"/>
         </scene>
         <!--Donate Popover View Controller-->
         <scene sceneID="a1f-hW-lee">
@@ -1713,6 +1771,6 @@
         <image name="vineLogo" width="14" height="15"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="P01-pM-zMM"/>
+        <segue reference="vgD-FL-aQb"/>
     </inferredMetricsTieBreakers>
 </document>

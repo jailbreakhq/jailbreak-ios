@@ -13,10 +13,9 @@
 @interface JBCheckin : NSObject <NSCoding>
 
 @property (nonatomic, assign) NSUInteger ID;
-@property (nonatomic, strong) NSString *location;
+@property (nonatomic, strong) NSString *locationString;
 @property (nonatomic, strong) NSString *status;
-@property (nonatomic, assign) CLLocationDegrees latitude;
-@property (nonatomic, assign) CLLocationDegrees longitude;
+@property (nonatomic, strong) CLLocation *location;
 @property (nonatomic, strong) NSDate *createdTime;
 @property (nonatomic, assign) NSUInteger teamID;
 @property (nonatomic, strong) JBTeam *limitedTeam;

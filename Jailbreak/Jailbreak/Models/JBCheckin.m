@@ -19,10 +19,9 @@
     if (self)
     {
         self.ID = [aDecoder decodeIntegerForKey:@"ID"];
-        self.location = [aDecoder decodeObjectForKey:@"location"];
+        self.locationString = [aDecoder decodeObjectForKey:@"locationString"];
         self.status = [aDecoder decodeObjectForKey:@"status"];
-        self.latitude = [aDecoder decodeDoubleForKey:@"latitude"];
-        self.longitude = [aDecoder decodeDoubleForKey:@"longitude"];
+        self.location = [aDecoder decodeObjectForKey:@"location"];
         self.createdTime = [aDecoder decodeObjectForKey:@"createdTime"];
         self.teamID = [aDecoder decodeIntegerForKey:@"teamID"];
         self.limitedTeam = [aDecoder decodeObjectForKey:@"limitedTeam"];
@@ -34,10 +33,9 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeInteger:self.ID forKey:@"ID"];
-    [aCoder encodeObject:self.location forKey:@"location"];
+    [aCoder encodeObject:self.locationString forKey:@"locationString"];
     [aCoder encodeObject:self.status forKey:@"status"];
-    [aCoder encodeDouble:self.latitude forKey:@"latitude"];
-    [aCoder encodeDouble:self.longitude forKey:@"longitude"];
+    [aCoder encodeObject:self.location forKey:@"location"];
     [aCoder encodeObject:self.createdTime forKey:@"createdTime"];
     [aCoder encodeInteger:self.teamID forKey:@"teamID"];
     [aCoder encodeObject:self.limitedTeam forKey:@"limitedTeam"];
@@ -52,10 +50,10 @@
     if (self)
     {
         self.ID = [json[@"id"] unsignedIntegerValue];
-        self.location = json[@"location"];
+        self.locationString = json[@"location"];
         self.status = json[@"status"];
-        self.latitude = [json[@"lat"] doubleValue];
-        self.longitude = [json[@"lon"] doubleValue];
+        self.location = [[CLLocation alloc] initWithLatitude:[json[@"lat"] doubleValue]
+                                                   longitude:[json[@"lon"] doubleValue]];
         self.createdTime = [NSDate dateWithTimeIntervalSince1970:[json[@"time"] unsignedIntegerValue]];
         self.teamID = [json[@"teamId"] unsignedIntegerValue];
         

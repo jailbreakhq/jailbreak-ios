@@ -53,6 +53,7 @@
 		E49F8E981A9EA3B800B1B768 /* JBFeedDonateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E49F8E971A9EA3B800B1B768 /* JBFeedDonateTableViewCell.m */; };
 		E49F8E9B1A9EA47900B1B768 /* JBPostDonate.m in Sources */ = {isa = PBXBuildFile; fileRef = E49F8E9A1A9EA47900B1B768 /* JBPostDonate.m */; };
 		E49F8E9E1A9EC6EF00B1B768 /* JBFeedLinkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E49F8E9D1A9EC6EF00B1B768 /* JBFeedLinkTableViewCell.m */; };
+		E49F8EA11A9ED28700B1B768 /* JBFeedCheckinTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E49F8EA01A9ED28700B1B768 /* JBFeedCheckinTableViewCell.m */; };
 		E4A18D1C1A96BB6D0086D70A /* JBTeamsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */; };
 		E4B54A401A9CDBDF00AB9481 /* JBPostLink.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A3F1A9CDBDF00AB9481 /* JBPostLink.m */; };
 		E4B54A431A9CDD5400AB9481 /* JBPostTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A421A9CDD5400AB9481 /* JBPostTwitter.m */; };
@@ -167,6 +168,8 @@
 		E49F8E9A1A9EA47900B1B768 /* JBPostDonate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPostDonate.m; sourceTree = "<group>"; };
 		E49F8E9C1A9EC6EF00B1B768 /* JBFeedLinkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBFeedLinkTableViewCell.h; sourceTree = "<group>"; };
 		E49F8E9D1A9EC6EF00B1B768 /* JBFeedLinkTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBFeedLinkTableViewCell.m; sourceTree = "<group>"; };
+		E49F8E9F1A9ED28700B1B768 /* JBFeedCheckinTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBFeedCheckinTableViewCell.h; sourceTree = "<group>"; };
+		E49F8EA01A9ED28700B1B768 /* JBFeedCheckinTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBFeedCheckinTableViewCell.m; sourceTree = "<group>"; };
 		E4A18D1A1A96BB6D0086D70A /* JBTeamsMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamsMapViewController.h; sourceTree = "<group>"; };
 		E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamsMapViewController.m; sourceTree = "<group>"; };
 		E4B54A3E1A9CDBDF00AB9481 /* JBPostLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPostLink.h; sourceTree = "<group>"; };
@@ -381,6 +384,8 @@
 				E45E01141A8004300034CA28 /* JBCircularImageView.m */,
 				E418A7B31A99562C00AC02A2 /* JBFeedBaseTableViewCell.h */,
 				E418A7B41A99562C00AC02A2 /* JBFeedBaseTableViewCell.m */,
+				E49F8E9F1A9ED28700B1B768 /* JBFeedCheckinTableViewCell.h */,
+				E49F8EA01A9ED28700B1B768 /* JBFeedCheckinTableViewCell.m */,
 				E49F8E961A9EA3B800B1B768 /* JBFeedDonateTableViewCell.h */,
 				E49F8E971A9EA3B800B1B768 /* JBFeedDonateTableViewCell.m */,
 				E418A7B61A9962F700AC02A2 /* JBFeedImageTableViewCell.h */,
@@ -568,6 +573,7 @@
 				E476BDB41A92FC1900728C9E /* JBTeamAboutTableViewCell.m in Sources */,
 				E418A7B81A9962F800AC02A2 /* JBFeedImageTableViewCell.m in Sources */,
 				E49F8E9B1A9EA47900B1B768 /* JBPostDonate.m in Sources */,
+				E49F8EA11A9ED28700B1B768 /* JBFeedCheckinTableViewCell.m in Sources */,
 				E43EFEE61A8AC6BE00B93D05 /* JBYouTubeView.m in Sources */,
 				E45E01181A8010FC0034CA28 /* UIImageView+WebCacheWithProgress.m in Sources */,
 				E4B54A4C1A9D636400AB9481 /* TTTOrdinalNumberFormatter.m in Sources */,

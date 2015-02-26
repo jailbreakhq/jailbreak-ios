@@ -8,11 +8,13 @@
 
 #import "JBPost.h"
 #import "JBDonation.h"
+#import "JBAnnotation.h"
 #import <SAMRateLimit.h>
 #import <Social/Social.h>
 #import <TSMessageView.h>
 #import <NSDate+DateTools.h>
 #import <Accounts/Accounts.h>
+#import "JBMapViewController.h"
 #import "UIColor+JBAdditions.h"
 #import <AFURLSessionManager.h>
 #import <JTSImageViewController.h>
@@ -31,6 +33,7 @@ static NSString * const kImageCellIdentifier        = @"ImageCell";
 static NSString * const kVineCellIdentifier         = @"VineCell";
 static NSString * const kDonateCellIdentifier       = @"DonateCell";
 static NSString * const kLinkCellIdentifier         = @"LinkCell";
+static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
 static NSString * const kSAMBlockName               = @"Refreshing";
 static NSString * const kPostsArchiveKey            = @"Posts-JBFeedTableViewController";
 
@@ -191,6 +194,10 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
         cell = [tableView dequeueReusableCellWithIdentifier:kDonateCellIdentifier forIndexPath:indexPath];
         [(JBFeedDonateTableViewCell *)cell setDelegate:self];
     }
+    else if ([self.posts[indexPath.row] postType] == JBPostTypeCheckin)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:kCheckinCellIdentifier forIndexPath:indexPath];
+    }
     else
     {
         cell = [tableView dequeueReusableCellWithIdentifier:kTextCellIdentifier forIndexPath:indexPath];
@@ -205,14 +212,27 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.posts[indexPath.row] postType] != JBPostTypeVine)
+    if ([self.posts[indexPath.row] postType] == JBPostTypeCheckin)
     {
-        [self performSegueWithIdentifier:@"showPost" sender:indexPath];
+        JBAnnotation *annotation = [JBAnnotation new];
+        annotation.customCoordinate = [[self.posts[indexPath.row] checkin] location].coordinate;
+        annotation.customTitle = [[[self.posts[indexPath.row] checkin] createdTime] timeAgoSinceNow];
+        annotation.customSubtitle = @"(coming soon)km to go";
+        
+        JBMapViewController *dvc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"JBMapViewController"];
+        dvc.title = @"Map";
+        dvc.annotations = @[annotation];
+        
+        [self.navigationController pushViewController:dvc animated:YES];
     }
-    else
+    else if ([self.posts[indexPath.row] postType] == JBPostTypeVine)
     {
         JBFeedVineTableViewCell *cell = (JBFeedVineTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];        
         [cell playOrStopVine];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"showPost" sender:indexPath];
     }
 }
 
@@ -534,6 +554,19 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     {
         [self saveToArchiveObject:self.posts withKey:kPostsArchiveKey];
     }
+}
+
+- (NSLengthFormatter *)lengthFormatter
+{
+    static NSLengthFormatter *_lengthFormater = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _lengthFormater = [[NSLengthFormatter alloc] init];
+        [_lengthFormater.numberFormatter setLocale:[NSLocale currentLocale]];
+        _lengthFormater.numberFormatter.maximumFractionDigits = 0;
+    });
+    
+    return _lengthFormater;
 }
 
 - (void)updateCellTimeAgoLabel:(NSTimer *)timer

@@ -208,7 +208,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     if (indexPath.section == 0 && indexPath.row == kMapCellRow)
     {
         JBAnnotation *annotation = [JBAnnotation new];
-        annotation.customCoordinate = self.team.currentLocation.coordinate;
+        annotation.customCoordinate = self.team.lastCheckin.location.coordinate;
         annotation.customTitle = @"Colins Barracks";
 
         JBMapViewController *dvc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"JBMapViewController"];
@@ -290,8 +290,8 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     [[JBAPIManager manager] getTeamWithId:self.team.ID
                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                       weakSelf.team = [[JBTeam alloc] initWithJSON:responseObject];
-                                      weakSelf.team.distanceToX = [weakSelf.team.currentLocation distanceFromLocation:weakSelf.service.finalLocation];
-                                      weakSelf.team.distanceTravelled = [weakSelf.service.startLocation distanceFromLocation:weakSelf.team.currentLocation];
+                                      weakSelf.team.distanceToX = [weakSelf.team.lastCheckin.location distanceFromLocation:weakSelf.service.finalLocation];
+                                      weakSelf.team.distanceTravelled = [weakSelf.service.startLocation distanceFromLocation:weakSelf.team.lastCheckin.location];
                                       [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
                                       
                                       NSUInteger index = weakSelf.navigationController.viewControllers.count - 2;

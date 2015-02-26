@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+@class JBTeam;
+
 #import "JBTeam.h"
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>

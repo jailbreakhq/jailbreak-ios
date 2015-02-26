@@ -34,13 +34,12 @@
         self.avatarLargeURL = [aDecoder decodeObjectForKey:@"avatarLargeURL"];
         self.tagLine = [aDecoder decodeObjectForKey:@"tagLine"];
         self.about = [aDecoder decodeObjectForKey:@"about"];
-        self.currentLocation = [aDecoder decodeObjectForKey:@"currentLocation"];
         self.university = [aDecoder decodeIntegerForKey:@"university"];
         self.universityString = [aDecoder decodeObjectForKey:@"universityString"];
         self.amountRaisedOnline = [aDecoder decodeIntegerForKey:@"amountRaisedOnline"];
         self.amountRaisedOffline = [aDecoder decodeIntegerForKey:@"amountRaisedOffline"];
         self.distanceToX = [aDecoder decodeDoubleForKey:@"distanceToX"];
-        self.distanceToX = [aDecoder decodeDoubleForKey:@"distanceTravelled"];
+        self.distanceTravelled = [aDecoder decodeDoubleForKey:@"distanceTravelled"];
         self.countries = [aDecoder decodeIntegerForKey:@"countries"];
         self.transports = [aDecoder decodeIntegerForKey:@"transports"];
         self.donationsURL = [aDecoder decodeObjectForKey:@"donationsURL"];
@@ -49,6 +48,7 @@
         self.videoID = [aDecoder decodeObjectForKey:@"videoID"];
         self.universityColor = [aDecoder decodeObjectForKey:@"universityColor"];
         self.position = [aDecoder decodeIntegerForKey:@"position"];
+        self.lastCheckin = [aDecoder decodeObjectForKey:@"lastCheckin"];
     }
     
     return self;
@@ -65,13 +65,12 @@
     [aCoder encodeObject:self.avatarLargeURL forKey:@"avatarLargeURL"];
     [aCoder encodeObject:self.tagLine forKey:@"tagLine"];
     [aCoder encodeObject:self.about forKey:@"about"];
-    [aCoder encodeObject:self.currentLocation forKey:@"currentLocation"];
     [aCoder encodeInteger:self.university forKey:@"university"];
     [aCoder encodeObject:self.universityString forKey:@"universityString"];
     [aCoder encodeInteger:self.amountRaisedOnline forKey:@"amountRaisedOnline"];
     [aCoder encodeInteger:self.amountRaisedOffline forKey:@"amountRaisedOffline"];
     [aCoder encodeDouble:self.distanceToX forKey:@"distanceToX"];
-    [aCoder encodeDouble:self.distanceToX forKey:@"distanceTravelled"];
+    [aCoder encodeDouble:self.distanceTravelled forKey:@"distanceTravelled"];
     [aCoder encodeInteger:self.countries forKey:@"countries"];
     [aCoder encodeInteger:self.transports forKey:@"transports"];
     [aCoder encodeObject:self.donationsURL forKey:@"donationsURL"];
@@ -80,6 +79,7 @@
     [aCoder encodeObject:self.videoID forKey:@"videoID"];
     [aCoder encodeObject:self.universityColor forKey:@"universityColor"];
     [aCoder encodeInteger:self.position forKey:@"position"];
+    [aCoder encodeObject:self.lastCheckin forKey:@"lastCheckin"];
 }
 
 #pragma mark - NSObject
@@ -99,14 +99,10 @@
         self.avatarLargeURL = [NSURL URLWithString:json[@"avatarLarge"]];
         self.tagLine = json[@"tagLine"];
         self.about = json[@"description"];
-        CLLocationDegrees lat = [json[@"currentLat"] doubleValue];
-        CLLocationDegrees lon = [json[@"currentLon"] doubleValue];
-        self.currentLocation = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
         self.university = [JBTeam universityFromString:json[@"university"]];
         self.universityString = [self getUniversityString];
         self.amountRaisedOnline = [json[@"amountRaisedOnline"] unsignedIntegerValue];
         self.amountRaisedOffline = [json[@"amountRaisedOffline"] unsignedIntegerValue];
-        self.distanceToX = [json[@"distanceToX"] doubleValue];
         self.countries = [json[@"countries"] unsignedIntegerValue];
         self.transports = [json[@"transports"] unsignedIntegerValue];
         self.donationsURL = [NSURL URLWithString:json[@"donationsUrl"]];
@@ -122,6 +118,10 @@
         }
         self.challenges = [tempChallenges copy];
 
+        if (json[@"lastCheckin"])
+        {
+            self.lastCheckin = [[JBCheckin alloc] initWithJSON:json[@"lastCheckin"]];
+        }
         
         if (self.videoID || ![self.videoID isEqual:[NSNull null]])
         {

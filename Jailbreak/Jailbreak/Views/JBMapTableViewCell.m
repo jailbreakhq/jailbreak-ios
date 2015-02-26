@@ -25,16 +25,16 @@
     _team = team;
     
     self.mapBannerView.backgroundColor = self.team.universityColor;
-    self.locationLabel.text = @"Apollobuurt Amsterdam, Netherlands";
+    self.locationLabel.text = self.team.lastCheckin.locationString;
     self.distanceLabel.text = [[[self lengthFormatter] stringFromMeters:self.team.distanceToX] stringByAppendingString:@" remaining"];
     
     JBAnnotation *annotation = [JBAnnotation new];
-    annotation.customCoordinate = self.team.currentLocation.coordinate;
+    annotation.customCoordinate = self.team.lastCheckin.location.coordinate;
     
     [[self mapView] setFrame:self.contentView.frame];
     
     // Center map around current location with a radius of x meters around it
-    [[self mapView] setRegion:MKCoordinateRegionMakeWithDistance(self.team.currentLocation.coordinate, 500000.0, 500000.0) animated:NO];
+    [[self mapView] setRegion:MKCoordinateRegionMakeWithDistance(self.team.lastCheckin.location.coordinate, 500000.0, 500000.0) animated:NO];
     
     // Pan center of map up (doesn't change our current location values or the annotation)
     // this is for visual reasons, so the annotation is not in the center, but rather higher up...

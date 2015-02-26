@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+@class JBCheckin;
+
+#import "JBCheckin.h"
 #import "JBChallenge.h"
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
@@ -34,7 +37,6 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, strong) NSURL *avatarLargeURL; // 1024x1024
 @property (nonatomic, strong) NSString *tagLine;
 @property (nonatomic, strong) NSString *about;
-@property (nonatomic, strong) CLLocation *currentLocation;
 @property (nonatomic, assign) University university;
 @property (nonatomic, strong) NSString *universityString;
 @property (nonatomic, assign) NSUInteger amountRaisedOnline;
@@ -49,6 +51,7 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, strong) NSString *videoID;
 @property (nonatomic, strong) UIColor *universityColor;
 @property (nonatomic, assign) NSUInteger position;
+@property (nonatomic, strong) JBCheckin *lastCheckin;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
 

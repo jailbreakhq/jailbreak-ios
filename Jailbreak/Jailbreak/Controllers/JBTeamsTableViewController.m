@@ -70,8 +70,8 @@
                                                       for (NSDictionary *dict in responseObject)
                                                       {
                                                           JBTeam *team = [[JBTeam alloc] initWithJSON:dict];
-                                                          team.distanceToX = [team.currentLocation distanceFromLocation:self.service.finalLocation];
-                                                          team.distanceTravelled = [self.service.startLocation distanceFromLocation:team.currentLocation];
+                                                          team.distanceToX = [team.lastCheckin.location distanceFromLocation:self.service.finalLocation];
+                                                          team.distanceTravelled = [self.service.startLocation distanceFromLocation:team.lastCheckin.location];
                                                           [self.teams addObject:team];
                                                       }
                                                       
@@ -183,8 +183,8 @@
                                                   for (NSDictionary *dict in responseObject)
                                                   {
                                                       JBTeam *team = [[JBTeam alloc] initWithJSON:dict];
-                                                      team.distanceToX = [team.currentLocation distanceFromLocation:self.service.finalLocation];
-                                                      team.distanceTravelled = [self.service.startLocation distanceFromLocation:team.currentLocation];
+                                                      team.distanceToX = [team.lastCheckin.location distanceFromLocation:self.service.finalLocation];
+                                                      team.distanceTravelled = [self.service.startLocation distanceFromLocation:team.lastCheckin.location];
                                                       [self.teams addObject:team];
                                                   }
                                                   

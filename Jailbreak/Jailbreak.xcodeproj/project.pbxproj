@@ -52,6 +52,7 @@
 		E49E05A21A9A441000E4A319 /* JBPost.m in Sources */ = {isa = PBXBuildFile; fileRef = E49E05A11A9A441000E4A319 /* JBPost.m */; };
 		E49F8E981A9EA3B800B1B768 /* JBFeedDonateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E49F8E971A9EA3B800B1B768 /* JBFeedDonateTableViewCell.m */; };
 		E49F8E9B1A9EA47900B1B768 /* JBPostDonate.m in Sources */ = {isa = PBXBuildFile; fileRef = E49F8E9A1A9EA47900B1B768 /* JBPostDonate.m */; };
+		E49F8E9E1A9EC6EF00B1B768 /* JBFeedLinkTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E49F8E9D1A9EC6EF00B1B768 /* JBFeedLinkTableViewCell.m */; };
 		E4A18D1C1A96BB6D0086D70A /* JBTeamsMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */; };
 		E4B54A401A9CDBDF00AB9481 /* JBPostLink.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A3F1A9CDBDF00AB9481 /* JBPostLink.m */; };
 		E4B54A431A9CDD5400AB9481 /* JBPostTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A421A9CDD5400AB9481 /* JBPostTwitter.m */; };
@@ -164,6 +165,8 @@
 		E49F8E971A9EA3B800B1B768 /* JBFeedDonateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBFeedDonateTableViewCell.m; sourceTree = "<group>"; };
 		E49F8E991A9EA47900B1B768 /* JBPostDonate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPostDonate.h; sourceTree = "<group>"; };
 		E49F8E9A1A9EA47900B1B768 /* JBPostDonate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPostDonate.m; sourceTree = "<group>"; };
+		E49F8E9C1A9EC6EF00B1B768 /* JBFeedLinkTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBFeedLinkTableViewCell.h; sourceTree = "<group>"; };
+		E49F8E9D1A9EC6EF00B1B768 /* JBFeedLinkTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBFeedLinkTableViewCell.m; sourceTree = "<group>"; };
 		E4A18D1A1A96BB6D0086D70A /* JBTeamsMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamsMapViewController.h; sourceTree = "<group>"; };
 		E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamsMapViewController.m; sourceTree = "<group>"; };
 		E4B54A3E1A9CDBDF00AB9481 /* JBPostLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPostLink.h; sourceTree = "<group>"; };
@@ -382,6 +385,8 @@
 				E49F8E971A9EA3B800B1B768 /* JBFeedDonateTableViewCell.m */,
 				E418A7B61A9962F700AC02A2 /* JBFeedImageTableViewCell.h */,
 				E418A7B71A9962F800AC02A2 /* JBFeedImageTableViewCell.m */,
+				E49F8E9C1A9EC6EF00B1B768 /* JBFeedLinkTableViewCell.h */,
+				E49F8E9D1A9EC6EF00B1B768 /* JBFeedLinkTableViewCell.m */,
 				E477F05D1A9E07A700BF8BE7 /* JBFeedVineTableViewCell.h */,
 				E477F05E1A9E07A700BF8BE7 /* JBFeedVineTableViewCell.m */,
 				E4070AF71A9289B3007E3CBB /* JBMapTableViewCell.h */,
@@ -592,6 +597,7 @@
 				E49E05A21A9A441000E4A319 /* JBPost.m in Sources */,
 				E4B54A431A9CDD5400AB9481 /* JBPostTwitter.m in Sources */,
 				E4E6C1D11A94E41600D138EA /* JBTeamStatsTableViewCell.m in Sources */,
+				E49F8E9E1A9EC6EF00B1B768 /* JBFeedLinkTableViewCell.m in Sources */,
 				E4B54A521A9D795400AB9481 /* JBPostInstagram.m in Sources */,
 				E41448F61A76E0DA002EB3AB /* JBBaseTableViewController.m in Sources */,
 				E46A92731A79CA2A002EF3A3 /* JBChallenge.m in Sources */,

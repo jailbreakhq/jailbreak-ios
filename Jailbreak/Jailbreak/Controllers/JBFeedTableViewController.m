@@ -30,6 +30,7 @@ static NSString * const kInstagramCellIdentifier    = @"InstagramCell";
 static NSString * const kImageCellIdentifier        = @"ImageCell";
 static NSString * const kVineCellIdentifier         = @"VineCell";
 static NSString * const kDonateCellIdentifier       = @"DonateCell";
+static NSString * const kLinkCellIdentifier         = @"LinkCell";
 static NSString * const kSAMBlockName               = @"Refreshing";
 static NSString * const kPostsArchiveKey            = @"Posts-JBFeedTableViewController";
 
@@ -164,7 +165,11 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 {
     id cell;
     
-    if ([self.posts[indexPath.row] containsThumbnail])
+    if ([self.posts[indexPath.row] postType] == JBPostTypeLink)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:kLinkCellIdentifier forIndexPath:indexPath];
+    }
+    else if ([self.posts[indexPath.row] containsThumbnail])
     {
         if ([self.posts[indexPath.row] postType] == JBPostTypeInstagram)
         {

@@ -18,6 +18,7 @@
 #import "UIColor+JBAdditions.h"
 #import <AFURLSessionManager.h>
 #import <JTSImageViewController.h>
+#import "JBFeedLinkTableViewCell.h"
 #import "JBFeedBaseTableViewCell.h"
 #import "JBFeedVineTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
@@ -25,6 +26,7 @@
 #import "JBFeedDonateTableViewCell.h"
 #import "JBFeedTableViewController.h"
 #import "JBPostTableViewController.h"
+#import "JBFeedCheckinTableViewCell.h"
 #import "JBDonatePopoverViewController.h"
 
 static NSString * const kTextCellIdentifier         = @"TextCell";
@@ -61,10 +63,6 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Configure TableView
-    self.tableView.estimatedRowHeight = 65.0;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
     
 //    self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
     
@@ -289,6 +287,66 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat height;
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    UIFont *font = [UIFont fontWithName:@"AvenirNext-Regular" size:15.0];
+    JBPost *post = self.posts[indexPath.row];
+    NSString *cellIdentifier = [self cellIdentifierForPost:post];
+    
+    if ([cellIdentifier isEqualToString:kTextCellIdentifier])
+    {
+        NSString *text = post.twitter.tweetBodyPlain ?: post.facebook.facebookPostBody;
+
+        width -= (65 + 10);
+        height = 10 + 22 + 2 + 10;
+        height += [self heightForLabelWithText:text maxHeight:CGFLOAT_MAX width:width font:font];
+    }
+    else if ([cellIdentifier isEqualToString:kDonateCellIdentifier])
+    {
+        width -= (20 + 20);
+        height = 20 + 80 + 10 + 22 + 2 + 10 + 45 + 20;
+        height += [self heightForLabelWithText:post.donate.donateDescription maxHeight:CGFLOAT_MAX width:width font:font];
+    }
+    else if ([cellIdentifier isEqualToString:kImageCellIdentifier])
+    {
+        NSString *text = post.twitter.tweetBodyPlain ?: post.facebook.facebookPostBody;
+
+        width -= (65 + 10);
+        height = 10 + 22 + 2 + 10 + ceilf((width/30.0)*17.0) + 10;
+        height += [self heightForLabelWithText:text maxHeight:CGFLOAT_MAX width:width font:font];
+    }
+    else if ([cellIdentifier isEqualToString:kInstagramCellIdentifier])
+    {
+        width -= (65 + 10);
+        height = 10 + 22 + 2 + 10 + width + 10;
+        height += [self heightForLabelWithText:post.instagram.instagramDescription maxHeight:CGFLOAT_MAX width:width font:font];
+    }
+    else if ([cellIdentifier isEqualToString:kVineCellIdentifier])
+    {
+        width -= (65 + 10);
+        height = 10 + 22 + 2 + 10 + width + 10;
+        height += [self heightForLabelWithText:post.vine.vineDescription maxHeight:CGFLOAT_MAX width:width font:font];
+    }
+    else if ([cellIdentifier isEqualToString:kCheckinCellIdentifier])
+    {
+        width -= (65 + 10);
+        height = 10 + 22 + 2 + 10 + (width / 4.0) + 5 + 20 + 10;
+        height += [self heightForLabelWithText:post.checkin.status maxHeight:CGFLOAT_MAX width:width font:font];
+    }
+    else if ([cellIdentifier isEqualToString:kLinkCellIdentifier])
+    {
+        width -= (20 + 20);
+        height = 20 + width + 10 + 10 + 20 + 45;
+        height += [self heightForLabelWithText:post.link.linkDescription maxHeight:CGFLOAT_MAX width:width font:font];
+    }
+    
+    height += 5; // hacky hack hack
+    
+    return height;
 }
 
 #pragma mark - JBFeedImageTableViewCellDelegate
@@ -542,6 +600,59 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
             });
         }
     }];
+}
+
+#pragma mark - Dynamic Cell Height Methods
+
+- (CGFloat)heightForLabelWithText:(NSString *)text maxHeight:(CGFloat)maxHeight width:(CGFloat)width font:(UIFont *)font
+{
+    CGFloat height = [text boundingRectWithSize:CGSizeMake(width, maxHeight)
+                              options:NSStringDrawingUsesLineFragmentOrigin
+                           attributes:@{NSFontAttributeName: font}
+                              context:nil].size.height;
+    height = ceilf(height);
+    height = fminf(height, maxHeight);
+    
+    return height;
+}
+
+- (NSString *)cellIdentifierForPost:(JBPost *)post
+{
+    NSString *cellIdentifier;
+    
+    if (post.postType == JBPostTypeLink)
+    {
+        cellIdentifier = kLinkCellIdentifier;
+    }
+    else if (post.containsThumbnail)
+    {
+        if (post.postType == JBPostTypeInstagram)
+        {
+            cellIdentifier = kInstagramCellIdentifier;
+        }
+        else if (post.postType == JBPostTypeVine)
+        {
+            cellIdentifier = kVineCellIdentifier;
+        }
+        else
+        {
+            cellIdentifier = kImageCellIdentifier;
+        }
+    }
+    else if (post.postType == JBPostTypeDonate)
+    {
+        cellIdentifier = kDonateCellIdentifier;
+    }
+    else if (post.postType == JBPostTypeCheckin)
+    {
+        cellIdentifier = kCheckinCellIdentifier;
+    }
+    else
+    {
+        cellIdentifier = kTextCellIdentifier;
+    }
+    
+    return cellIdentifier;
 }
 
 #pragma mark - Helper Methods

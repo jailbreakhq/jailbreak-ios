@@ -2099,7 +2099,7 @@
                             <constraint firstAttribute="bottom" secondItem="Y61-ur-v2c" secondAttribute="bottom" id="q0D-Ga-TKg"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Map" id="MBJ-ir-2R3"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="mapTabBarIcon" id="MBJ-ir-2R3"/>
                     <connections>
                         <outlet property="mapView" destination="Y61-ur-v2c" id="jK2-LJ-j06"/>
                     </connections>
@@ -2112,7 +2112,7 @@
         <scene sceneID="4ju-c4-iQp">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xYd-Mp-LV0" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Teams" id="0Hd-Wr-sYH"/>
+                    <tabBarItem key="tabBarItem" title="Teams" image="teamsTabBarIcon" id="0Hd-Wr-sYH"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="TsG-de-OY8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2131,7 +2131,7 @@
         <scene sceneID="ZeT-t9-oL8">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fPX-ZV-bE5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Feed" id="mHX-Zi-HcH"/>
+                    <tabBarItem key="tabBarItem" title="Feed" image="feedTabBarIcon" id="mHX-Zi-HcH"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zLx-xv-FpV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2150,9 +2150,12 @@
     <resources>
         <image name="challengesIcon" width="50" height="50"/>
         <image name="countriesIcon" width="50" height="50"/>
+        <image name="feedTabBarIcon" width="28" height="25"/>
         <image name="instagramLogo" width="15" height="15"/>
+        <image name="mapTabBarIcon" width="26" height="25"/>
         <image name="playButton" width="84" height="84"/>
         <image name="raisedIcon" width="50" height="50"/>
+        <image name="teamsTabBarIcon" width="29" height="25"/>
         <image name="transportIcon" width="50" height="50"/>
         <image name="vineLogo" width="14" height="15"/>
     </resources>

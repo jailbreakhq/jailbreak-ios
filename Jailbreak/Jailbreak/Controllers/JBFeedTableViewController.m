@@ -28,6 +28,7 @@
 #import "JBPostTableViewController.h"
 #import "JBFeedCheckinTableViewCell.h"
 #import "JBDonatePopoverViewController.h"
+#import <UIScrollView+SVInfiniteScrolling.h>
 
 static NSString * const kTextCellIdentifier         = @"TextCell";
 static NSString * const kInstagramCellIdentifier    = @"InstagramCell";
@@ -90,6 +91,31 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     {
         [self.tableView reloadData];
     }
+    
+    __weak typeof(self) weakSelf = self;
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        
+        [[JBAPIManager manager] getEventsWithParameters:nil
+                                                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                    
+                                                    NSMutableArray *rows = [NSMutableArray new];
+                                                    
+                                                    for (NSDictionary *event in responseObject)
+                                                    {
+                                                        if ([JBPost getPostTypeFromString:event[@"type"]] != JBPostTypeUndefined)
+                                                        {
+                                                            [weakSelf.posts addObject:[[JBPost alloc] initWithJSON:event]];
+                                                            [rows addObject:[NSIndexPath indexPathForRow:weakSelf.posts.count-1 inSection:0]];
+                                                        }
+                                                    }
+                                                    
+                                                    [weakSelf.tableView insertRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationLeft];
+                                                    [weakSelf.tableView.infiniteScrollingView stopAnimating];
+                                                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                    [TSMessage displayMessageWithTitle:@"Oops" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+                                                    [weakSelf.tableView.infiniteScrollingView stopAnimating];
+                                                }];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -696,33 +722,30 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 
 - (void)refresh
 {
-//    NSUInteger numberOfNewPosts = 3;
-//    
-//    for (int i = 0; i < numberOfNewPosts; i++)
-//    {
-//        [self.posts insertObject:self.posts[self.posts.count-1-i] atIndex:0];
-//    }
-//    
-//    CGPoint contentOffsetBefore = self.tableView.contentOffset;
-//    
-//    // If < -64 (when pulling down to refresh) use -64, otherwise use the current value
-//    contentOffsetBefore.y = fmaxf(-[self.topLayoutGuide length], contentOffsetBefore.y);
-//    
-//    [self.tableView reloadData];
-//    
-//    // For some reason you need to get the rects before hand or the values will be wrong
-//    for (int i = 0; i < numberOfNewPosts; i++)
-//    {
-//        [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-//    }
-//    
-//    contentOffsetBefore.y += [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:numberOfNewPosts inSection:0]].origin.y;
-//    [self.tableView setContentOffset:contentOffsetBefore animated:YES];
-    [self.refreshControl endRefreshing];
-//
-//    TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ new posts", @(numberOfNewPosts)] subtitle:nil type:TSMessageTypeDefault];
-//    messageView.duration = 1.0;
-//    [TSMessage displayOrEnqueueMessage:messageView];
+    // Get indexPath for current top visible cell
+    NSIndexPath *topRowIndexPath = [self.tableView indexPathsForVisibleRows].firstObject;
+    __block NSUInteger numberOfNewPosts = 0;
+    
+    [[JBAPIManager manager] getEventsWithParameters:nil
+                                            success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                for (NSDictionary *event in responseObject)
+                                                {
+                                                    if ([JBPost getPostTypeFromString:event[@"type"]] != JBPostTypeUndefined)
+                                                    {
+                                                        [self.posts insertObject:[[JBPost alloc] initWithJSON:event] atIndex:numberOfNewPosts];
+                                                        numberOfNewPosts++;
+                                                    }
+                                                }
+                                                
+                                                [self.refreshControl endRefreshing];
+                                                [self.tableView reloadData];
+                                                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topRowIndexPath.row+numberOfNewPosts inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                                                TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ new posts", @(numberOfNewPosts)] subtitle:nil type:TSMessageTypeDefault];
+                                                messageView.duration = 1.0;
+                                                [TSMessage displayOrEnqueueMessage:messageView];
+                                            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                [TSMessage displayMessageWithTitle:@"Failed to Refresh" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+                                            }];
 }
 
 @end

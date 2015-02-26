@@ -438,24 +438,26 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
             
             if (account)
             {
+                NSURL *requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/favorites/create.json?id=%@", @(post.twitter.tweetId)]];
                 SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
                                                         requestMethod:SLRequestMethodPOST
-                                                                  URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/favorites/create.json"]
-                                                           parameters:@{@"id": @(post.twitter.tweetId)}];
+                                                                  URL:requestURL
+                                                           parameters:nil];
                 request.account = account;
                 [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                    NSString *errorMessage = [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode];
+                    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
+                    NSString *errorMessage = [response[@"errors"] firstObject][@"message"];
                     
-                    if ([errorMessage isEqualToString:@"no error"])
+                    if (errorMessage)
                     {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [TSMessage displayMessageWithTitle:@"Favourited Tweet!" subtitle:nil type:TSMessageTypeSuccess];
+                            [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
                         });
                     }
                     else
                     {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [TSMessage displayMessageWithTitle:errorMessage subtitle:error.localizedDescription type:TSMessageTypeError];
+                            [TSMessage displayMessageWithTitle:[NSString stringWithFormat:@"Favourited @%@'s Tweet!", post.twitter.twitterUsername] subtitle:nil type:TSMessageTypeSuccess];
                         });
                     }
                 }];
@@ -486,18 +488,20 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
                 SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:retweetURL parameters:nil];
                 request.account = account;
                 [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                    NSString *errorMessage = [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode];
+                    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
+                    NSString *errorMessage = [response[@"errors"] firstObject][@"message"];
                     
-                    if ([errorMessage isEqualToString:@"no error"])
+                    
+                    if (errorMessage)
                     {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [TSMessage displayMessageWithTitle:@"Retweeted!" subtitle:nil type:TSMessageTypeSuccess];
+                            [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
                         });
                     }
                     else
                     {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [TSMessage displayMessageWithTitle:errorMessage subtitle:error.localizedDescription type:TSMessageTypeError];
+                            [TSMessage displayMessageWithTitle:[NSString stringWithFormat:@"Retweeted @%@'s Tweet!", post.twitter.twitterUsername] subtitle:nil type:TSMessageTypeSuccess];
                         });
                     }
                 }];
@@ -740,7 +744,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
                                                 [self.refreshControl endRefreshing];
                                                 [self.tableView reloadData];
                                                 [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topRowIndexPath.row+numberOfNewPosts inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-                                                TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ new posts", @(numberOfNewPosts)] subtitle:nil type:TSMessageTypeDefault];
+                                                TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ New Posts", @(numberOfNewPosts)] subtitle:nil type:TSMessageTypeDefault];
                                                 messageView.duration = 1.0;
                                                 [TSMessage displayOrEnqueueMessage:messageView];
                                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

@@ -92,14 +92,16 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
         [self.tableView reloadData];
     }
     
+    // Configure Pagination
     __weak typeof(self) weakSelf = self;
-    [self.tableView addInfiniteScrollingWithActionHandler:^{
-        
-        [[JBAPIManager manager] getEventsWithParameters:nil
+    [self.tableView addInfiniteScrollingWithActionHandler:^
+    {
+        NSString *filtersJSONString = [@{@"beforeId": @([weakSelf.posts.lastObject postId])} jsonString];
+
+        [[JBAPIManager manager] getEventsWithParameters:@{@"limit": @20, @"filters": filtersJSONString}
                                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                     
                                                     NSMutableArray *rows = [NSMutableArray new];
-                                                    
                                                     for (NSDictionary *event in responseObject)
                                                     {
                                                         if ([JBPost getPostTypeFromString:event[@"type"]] != JBPostTypeUndefined)
@@ -111,9 +113,12 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
                                                     
                                                     [weakSelf.tableView insertRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationLeft];
                                                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
+                                                    
                                                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                    
                                                     [TSMessage displayMessageWithTitle:@"Oops" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
                                                     [weakSelf.tableView.infiniteScrollingView stopAnimating];
+                                                
                                                 }];
     }];
 }
@@ -491,7 +496,6 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
                     NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
                     NSString *errorMessage = [response[@"errors"] firstObject][@"message"];
                     
-                    
                     if (errorMessage)
                     {
                         dispatch_async(dispatch_get_main_queue(), ^{
@@ -640,6 +644,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
                               options:NSStringDrawingUsesLineFragmentOrigin
                            attributes:@{NSFontAttributeName: font}
                               context:nil].size.height;
+    
     height = ceilf(height);
     height = fminf(height, maxHeight);
     
@@ -697,19 +702,6 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     }
 }
 
-- (NSLengthFormatter *)lengthFormatter
-{
-    static NSLengthFormatter *_lengthFormater = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _lengthFormater = [[NSLengthFormatter alloc] init];
-        [_lengthFormater.numberFormatter setLocale:[NSLocale currentLocale]];
-        _lengthFormater.numberFormatter.maximumFractionDigits = 0;
-    });
-    
-    return _lengthFormater;
-}
-
 - (void)updateCellTimeAgoLabel:(NSTimer *)timer
 {
     NSArray *indexPathsForVisibleRows = [self.tableView indexPathsForVisibleRows];
@@ -724,32 +716,63 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     }
 }
 
-- (void)refresh
+- (void)getEventsWithParameters:(NSDictionary *)parameters numberOfNewPostsSoFar:(NSUInteger)soFarCount
 {
-    // Get indexPath for current top visible cell
     NSIndexPath *topRowIndexPath = [self.tableView indexPathsForVisibleRows].firstObject;
-    __block NSUInteger numberOfNewPosts = 0;
+    __block NSUInteger totalCount = soFarCount;
     
-    [[JBAPIManager manager] getEventsWithParameters:nil
+    [[JBAPIManager manager] getEventsWithParameters:parameters
                                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                
                                                 for (NSDictionary *event in responseObject)
                                                 {
                                                     if ([JBPost getPostTypeFromString:event[@"type"]] != JBPostTypeUndefined)
                                                     {
-                                                        [self.posts insertObject:[[JBPost alloc] initWithJSON:event] atIndex:numberOfNewPosts];
-                                                        numberOfNewPosts++;
+                                                        [self.posts insertObject:[[JBPost alloc] initWithJSON:event] atIndex:0];
+                                                        totalCount++;
                                                     }
                                                 }
                                                 
+                                                NSUInteger latestPostId = [self.posts.firstObject postId];
+                                                NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+20), @"afterId": @(latestPostId)} jsonString];
+                                                
+                                                if (totalCount > 100)
+                                                {
+                                                    [self.refreshControl endRefreshing];
+                                                    [self.tableView reloadData];
+                                                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topRowIndexPath.row+totalCount inSection:0]
+                                                                          atScrollPosition:UITableViewScrollPositionTop
+                                                                                  animated:NO];
+                                                    
+                                                    TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ New Posts", @(totalCount)] subtitle:nil type:TSMessageTypeDefault];
+                                                    messageView.duration = 1.2;
+                                                    [TSMessage displayOrEnqueueMessage:messageView];
+                                                }
+                                                else
+                                                {
+                                                    [self getEventsWithParameters:@{@"filters": filtersJSONString} numberOfNewPostsSoFar:totalCount];
+                                                }
+                                                
+                                                
+                                            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                
                                                 [self.refreshControl endRefreshing];
                                                 [self.tableView reloadData];
-                                                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topRowIndexPath.row+numberOfNewPosts inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-                                                TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ New Posts", @(numberOfNewPosts)] subtitle:nil type:TSMessageTypeDefault];
-                                                messageView.duration = 1.0;
+                                                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topRowIndexPath.row+totalCount inSection:0]
+                                                                      atScrollPosition:UITableViewScrollPositionTop
+                                                                              animated:NO];
+                                                
+                                                TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ New Posts", @(totalCount)] subtitle:nil type:TSMessageTypeDefault];
+                                                messageView.duration = 1.2;
                                                 [TSMessage displayOrEnqueueMessage:messageView];
-                                            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                [TSMessage displayMessageWithTitle:@"Failed to Refresh" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
                                             }];
+}
+
+- (void)refresh
+{
+    NSUInteger latestPostId = [self.posts.firstObject postId];
+    NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+20), @"afterId": @(latestPostId)} jsonString];
+    [self getEventsWithParameters:@{@"filters": filtersJSONString} numberOfNewPostsSoFar:0];
 }
 
 @end

@@ -48,7 +48,7 @@
     UIColor *baseColor = [UIColor colorWithHexString:@"#85387C"];
     __weak typeof(self) weakSelf = self;
 
-    UITableViewRowAction *favouriteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Favourite" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+    UITableViewRowAction *viewAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"View" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         [weakSelf.tableView setEditing:NO animated:YES];
     }];
     
@@ -56,10 +56,10 @@
         [weakSelf.tableView setEditing:NO animated:YES];
     }];
     
-    favouriteAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
+    viewAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
     retweetAction.backgroundColor = baseColor;
     
-    return @[favouriteAction, retweetAction];
+    return @[viewAction, retweetAction];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath

@@ -50,7 +50,7 @@
     
     if (post.limitedTeam)
     {
-        self.titleLabel.text = post.limitedTeam.name;
+        self.titleLabel.text = post.limitedTeam.membersNames;
         self.avatarImageView.progressColor = post.limitedTeam.universityColor;
         [self.avatarImageView sd_setImageWithProgressAndURL:post.limitedTeam.avatarURL];
     }

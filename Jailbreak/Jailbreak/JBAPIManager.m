@@ -109,7 +109,7 @@
                         success:(HTTPRequestSuccess)success
                         failure:(HTTPRequestFailure)failure
 {
-    [self GET:@"http://private-anon-5ab11e309-jailbreakapi.apiary-mock.com/events"
+    [self GET:@"events"
    parameters:parameters
       success:SuccessBlockWithJSONOperation
       failure:FailureBlockWithJSONOperation];

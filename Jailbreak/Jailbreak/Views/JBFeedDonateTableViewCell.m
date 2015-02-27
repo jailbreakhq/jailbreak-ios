@@ -82,7 +82,7 @@
     {
         self.avatarImageView.progressColor = post.donate.limitedTeam.universityColor;
         [self.avatarImageView sd_setImageWithProgressAndURL:post.donate.limitedTeam.avatarURL];
-        self.titleLabel.text = post.donate.limitedTeam.name;
+        self.titleLabel.text = post.donate.limitedTeam.membersNames;
         self.button.backgroundColor = post.donate.limitedTeam.universityColor;
     }
     else

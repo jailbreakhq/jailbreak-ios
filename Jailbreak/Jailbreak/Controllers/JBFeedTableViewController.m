@@ -46,7 +46,6 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0 * 10.0; // 10 minu
 static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
 static const NSUInteger kNumberOfPostsToPersist = 200;
 
-
 @interface JBFeedTableViewController () <JBFeedImageTableViewCellDelegate, JBFeedDonateTableViewCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *posts;
@@ -313,7 +312,12 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
     JBPost *selectedPost = self.posts[indexPath.row];
     UIColor *baseColor = [JBTeam colorForUniversity:[[self.posts[indexPath.row] limitedTeam] university]] ?: [UIColor colorWithHexString:@"#85387C"];
     __weak typeof(self) weakSelf = self;
-    
+
+    UITableViewRowAction *dummyAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        [weakSelf.tableView setEditing:NO animated:YES];
+    }];
+    dummyAction.backgroundColor = [UIColor clearColor];
+
     UITableViewRowAction *viewAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"View" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         [self openPostInApp:selectedPost];
         [weakSelf.tableView setEditing:NO animated:YES];
@@ -344,15 +348,18 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
             [weakSelf.tableView setEditing:NO animated:YES];
         }];
         
-        viewAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
-        likeAction.backgroundColor = baseColor;
+        likeAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
         
-        actions = @[viewAction, likeAction];
+        actions = @[likeAction];
     }
-    else
+    else if (selectedPost.postType == JBPostTypeInstagram)
     {
         viewAction.backgroundColor = [baseColor colorWithBrightnessChangedBy:-10];
         actions = @[viewAction];
+    }
+    else
+    {
+        actions = @[dummyAction];
     }
 
     return actions;

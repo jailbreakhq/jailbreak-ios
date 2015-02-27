@@ -41,6 +41,8 @@ static NSString * const kSAMBlockName               = @"Refreshing";
 static NSString * const kPostsArchiveKey            = @"Posts-JBFeedTableViewController";
 
 static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
+static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
+
 
 @interface JBFeedTableViewController () <JBFeedImageTableViewCellDelegate, JBFeedDonateTableViewCellDelegate>
 
@@ -716,7 +718,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
     }
 }
 
-- (void)getEventsWithParameters:(NSDictionary *)parameters numberOfNewPostsSoFar:(NSUInteger)soFarCount
+- (void)recursivelyGetEventsWithParameters:(NSDictionary *)parameters numberOfNewPostsSoFar:(NSUInteger)soFarCount untilCountIsGreaterThan:(NSUInteger)limit
 {
     NSIndexPath *topRowIndexPath = [self.tableView indexPathsForVisibleRows].firstObject;
     __block NSUInteger totalCount = soFarCount;
@@ -736,7 +738,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
                                                 NSUInteger latestPostId = [self.posts.firstObject postId];
                                                 NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+20), @"afterId": @(latestPostId)} jsonString];
                                                 
-                                                if (totalCount > 100)
+                                                if (totalCount > kNumberOfPostsToFetchWhenRefreshing || totalCount == soFarCount)
                                                 {
                                                     [self.refreshControl endRefreshing];
                                                     [self.tableView reloadData];
@@ -750,21 +752,15 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
                                                 }
                                                 else
                                                 {
-                                                    [self getEventsWithParameters:@{@"filters": filtersJSONString} numberOfNewPostsSoFar:totalCount];
+                                                    [self recursivelyGetEventsWithParameters:@{@"filters": filtersJSONString} numberOfNewPostsSoFar:totalCount untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
                                                 }
                                                 
                                                 
                                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                
+
+                                                [TSMessage displayMessageWithTitle:@"Oops" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
                                                 [self.refreshControl endRefreshing];
-                                                [self.tableView reloadData];
-                                                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topRowIndexPath.row+totalCount inSection:0]
-                                                                      atScrollPosition:UITableViewScrollPositionTop
-                                                                              animated:NO];
                                                 
-                                                TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ New Posts", @(totalCount)] subtitle:nil type:TSMessageTypeDefault];
-                                                messageView.duration = 1.2;
-                                                [TSMessage displayOrEnqueueMessage:messageView];
                                             }];
 }
 
@@ -772,7 +768,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
 {
     NSUInteger latestPostId = [self.posts.firstObject postId];
     NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+20), @"afterId": @(latestPostId)} jsonString];
-    [self getEventsWithParameters:@{@"filters": filtersJSONString} numberOfNewPostsSoFar:0];
+    [self recursivelyGetEventsWithParameters:@{@"filters": filtersJSONString} numberOfNewPostsSoFar:0 untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
 }
 
 @end

@@ -39,9 +39,11 @@ static NSString * const kLinkCellIdentifier         = @"LinkCell";
 static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
 static NSString * const kSAMBlockName               = @"Refreshing";
 static NSString * const kPostsArchiveKey            = @"Posts-JBFeedTableViewController";
+static NSString * const kPreservedIndexPathKey      = @"IndexPath-JBFeedTableViewController";
 
-static const NSTimeInterval kIntervalBetweenRefreshing = 60.0;
+static const NSTimeInterval kIntervalBetweenRefreshing = 60.0 * 10.0; // 10 minutes
 static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
+static const NSUInteger kNumberOfPostsToPersist = 100;
 
 
 @interface JBFeedTableViewController () <JBFeedImageTableViewCellDelegate, JBFeedDonateTableViewCellDelegate>
@@ -67,7 +69,7 @@ static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
 {
     [super viewDidLoad];
     
-//    self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
+    self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
     
     if (!self.posts.count)
     {
@@ -91,7 +93,23 @@ static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
     }
     else
     {
+        if (self.posts.count > kNumberOfPostsToPersist)
+        {
+            [self.posts removeObjectsInRange:NSMakeRange(kNumberOfPostsToPersist, self.posts.count - kNumberOfPostsToPersist)];
+        }
+        
+        NSDictionary *indexPathDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:kPreservedIndexPathKey];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[indexPathDictionary[@"row"] unsignedIntegerValue]
+                                                    inSection:[indexPathDictionary[@"section"] unsignedIntegerValue]];
+        
         [self.tableView reloadData];
+        [self.tableView scrollToRowAtIndexPath:indexPath
+                              atScrollPosition:UITableViewScrollPositionTop
+                                      animated:NO];
+        
+        [SAMRateLimit executeBlock:^{
+            [self refresh];
+        } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
     }
     
     // Configure Pagination
@@ -100,7 +118,7 @@ static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
     {
         NSString *filtersJSONString = [@{@"beforeId": @([weakSelf.posts.lastObject postId])} jsonString];
 
-        [[JBAPIManager manager] getEventsWithParameters:@{@"limit": @20, @"filters": filtersJSONString}
+        [[JBAPIManager manager] getEventsWithParameters:@{@"filters": filtersJSONString}
                                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                     
                                                     NSMutableArray *rows = [NSMutableArray new];
@@ -125,12 +143,6 @@ static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
     }];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -150,15 +162,9 @@ static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     }
     
-//    if (!self.posts.count)
-//    {
-//        self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
-//    }
-//
-//    [SAMRateLimit executeBlock:^{
-//        [self refresh];
-//        NSLog(@"refresh");
-//    } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
+    [SAMRateLimit executeBlock:^{
+        [self refresh];
+    } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -694,13 +700,21 @@ static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
 
 #pragma mark - Helper Methods
 
-// Leaving out refreshing when handling active notification because of contentOffset issues
+- (void)handleApplicationDidBecomeActiveNotification
+{
+    [SAMRateLimit executeBlock:^{
+        [self refresh];
+    } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
+}
 
 - (void)handleApplicationDidEnterBackgroundNotification
 {
     if (self.posts.count)
     {
         [self saveToArchiveObject:self.posts withKey:kPostsArchiveKey];
+        
+        NSIndexPath *indexPath = [self.tableView indexPathsForVisibleRows].firstObject;
+        [[NSUserDefaults standardUserDefaults] setObject:@{@"row": @(indexPath.row), @"section": @(indexPath.section)} forKey:kPreservedIndexPathKey];
     }
 }
 

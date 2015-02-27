@@ -7,6 +7,7 @@
 //
 
 #import <NSDate+DateTools.h>
+#import "UIColor+JBAdditions.h"
 #import "JBFeedBaseTableViewCell.h"
 #import "UIImageView+WebCacheWithProgress.h"
 
@@ -56,6 +57,8 @@
     }
     else
     {
+        self.avatarImageView.progressColor = [UIColor colorWithHexString:@"#B41C21"];
+
         switch (post.postType)
         {
             case JBPostTypeUndefined:
@@ -67,11 +70,11 @@
                 break;
             case JBPostTypeFacebook:
                 self.titleLabel.text = @"";
-                self.avatarImageView.image = nil;
+                [self.avatarImageView sd_setImageWithProgressAndURL:post.facebook.authorPhotoURL];
                 break;
             case JBPostTypeInstagram:
                 self.titleLabel.text = [NSString stringWithFormat:@"@%@", post.instagram.authorUsername];
-                self.avatarImageView.image = nil;
+                [self.avatarImageView sd_setImageWithProgressAndURL:post.instagram.authorPhotoURL];
                 break;
             case JBPostTypeTwitter:
                 self.titleLabel.text = [NSString stringWithFormat:@"@%@", post.twitter.twitterUsername];
@@ -79,7 +82,7 @@
                 break;
             case JBPostTypeVine:
                 self.titleLabel.text = [NSString stringWithFormat:@"@%@", post.vine.authorUsername];
-                self.avatarImageView.image = nil;
+                [self.avatarImageView sd_setImageWithProgressAndURL:post.vine.authorPhotoURL];
                 break;
         }
     }

@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSString *facebookPageName; // optional
 @property (nonatomic, assign) NSUInteger teamId; // optional
 @property (nonatomic, strong) JBTeam *limitedTeam; // optional
-@property (nonatomic, strong) NSURL *photoURL;
+@property (nonatomic, strong) NSURL *authorPhotoURL;
 @property (nonatomic, strong) NSURL *thumbnailURL;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;

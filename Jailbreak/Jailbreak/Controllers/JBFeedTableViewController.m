@@ -483,6 +483,10 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
                     }
                 }];
             }
+            else
+            {
+                [TSMessage displayMessageWithTitle:@"No Twitter Account Found" subtitle:@"Please go into settings and log into Twitter" type:TSMessageTypeError];
+            }
         }
         else
         {
@@ -525,6 +529,12 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
                         });
                     }
                 }];
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [TSMessage displayMessageWithTitle:@"No Twitter Account Found" subtitle:@"Please go into settings and log into Twitter" type:TSMessageTypeError];
+                });
             }
         }
         else
@@ -624,7 +634,7 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
                 else
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [TSMessage displayMessageWithTitle:@"Facebook Account Access Not Granted" subtitle:error.localizedDescription type:TSMessageTypeError];
+                        [TSMessage displayMessageWithTitle:@"No Facebook Account Found" subtitle:@"Please go into settings and log into Facebook" type:TSMessageTypeError];
                     });
                 }
             }];

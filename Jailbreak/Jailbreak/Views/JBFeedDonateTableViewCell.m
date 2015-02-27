@@ -89,7 +89,7 @@
     {
         self.avatarImageView.image = [UIImage imageNamed:@"jailbreakLogo"];
         self.titleLabel.text = @"Jailbreak HQ";
-        self.button.backgroundColor = [UIColor colorWithHexString:@"#85387C"];
+        self.button.backgroundColor = [UIColor colorWithHexString:@"#B41C21"];
     }
     
     self.bodyLabel.text = post.donate.donateDescription;

@@ -77,17 +77,17 @@
         case JBPostTypeUndefined:
         case JBPostTypeCheckin:
         case JBPostTypeDonate:
-        case JBPostTypeFacebook:
+        case JBPostTypeLink:
             self.thumbnailImageView.image = nil;
             break;
-        case JBPostTypeLink:
-            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.link.photoURL];
+        case JBPostTypeFacebook:
+            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.facebook.thumbnailURL];
             break;
         case JBPostTypeInstagram:
             [self.thumbnailImageView sd_setImageWithProgressAndURL:post.instagram.thumbnailURL];
             break;
         case JBPostTypeTwitter:
-            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.twitter.photoUrl];
+            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.twitter.thumbnailURL];
             break;
         case JBPostTypeVine:
             [self.thumbnailImageView sd_setImageWithProgressAndURL:post.vine.thumbnailURL];

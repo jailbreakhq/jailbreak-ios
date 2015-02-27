@@ -78,6 +78,7 @@
                 self.facebook = [[JBPostFacebook alloc] initWithJSON:json[@"facebook"]];
                 self.limitedTeam = self.facebook.limitedTeam ?: nil;
                 self.createdTime = self.facebook.createdTime;
+                self.containsThumbnail = self.facebook.thumbnailURL != nil;
                 break;
             case JBPostTypeInstagram:
                 self.instagram = [[JBPostInstagram alloc] initWithJSON:json[@"instagram"]];
@@ -90,7 +91,7 @@
                 break;
             case JBPostTypeTwitter:
                 self.twitter = [[JBPostTwitter alloc] initWithJSON:json[@"twitter"]];
-                self.containsThumbnail = self.twitter.photoUrl != nil;
+                self.containsThumbnail = self.twitter.thumbnailURL != nil;
                 self.limitedTeam = self.twitter.limitedTeam ?: nil;
                 self.createdTime = self.twitter.createdTime;
                 break;

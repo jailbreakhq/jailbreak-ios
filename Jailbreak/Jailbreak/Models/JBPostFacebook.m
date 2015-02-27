@@ -24,6 +24,8 @@
         self.facebookPageName = [aDecoder decodeObjectForKey:@"facebookPageName"];
         self.teamId = [aDecoder decodeIntegerForKey:@"teamId"];
         self.limitedTeam = [aDecoder decodeObjectForKey:@"limitedTeam"];
+        self.photoURL = [aDecoder decodeObjectForKey:@"photoURL"];
+        self.thumbnailURL = [aDecoder decodeObjectForKey:@"thumbnailURL"];
     }
     
     return self;
@@ -39,6 +41,8 @@
     [aCoder encodeObject:self.facebookPageName forKey:@"facebookPageName"];
     [aCoder encodeInteger:self.teamId forKey:@"teamId"];
     [aCoder encodeObject:self.limitedTeam forKey:@"limitedTeam"];
+    [aCoder encodeObject:self.photoURL forKey:@"photoURL"];
+    [aCoder encodeObject:self.thumbnailURL forKey:@"thumbnailURL"];
 }
 
 #pragma mark - Initialiser
@@ -56,6 +60,8 @@
         self.createdTime = [NSDate dateWithTimeIntervalSince1970:[json[@"time"] doubleValue]];
         self.facebookPageName = json[@"pageName"];
         self.teamId = [json[@"teamId"] unsignedIntegerValue];
+        self.photoURL = [NSURL URLWithString:json[@"photoUrl"]];
+        self.thumbnailURL = [NSURL URLWithString:json[@"thumbnailUrl"]];
         
         if (json[@"team"])
         {

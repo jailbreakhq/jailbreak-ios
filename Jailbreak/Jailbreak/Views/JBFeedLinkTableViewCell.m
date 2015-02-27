@@ -23,10 +23,10 @@
 {
     self.post = post;
     
-    self.photoImageView.progressColor = [UIColor colorWithHexString:@"#85387C"];
+    self.photoImageView.progressColor = [UIColor colorWithHexString:@"#B41C21"];
     [self.photoImageView sd_setImageWithURL:post.link.photoURL];
     self.bodyLabel.text = post.link.linkDescription;
-    self.button.backgroundColor = [UIColor colorWithHexString:@"#85387C"];
+    self.button.backgroundColor = [UIColor colorWithHexString:@"#B41C21"];
     [self.button setTitle:post.link.linkText forState:UIControlStateNormal];
 }
 

@@ -41,7 +41,7 @@ static const NSUInteger kMinimumDonationAmount = 5;
 {
     [super viewDidLoad];
     
-    UIColor *primaryColor = self.team.universityColor ?: [UIColor colorWithHexString:@"#85387C"];
+    UIColor *primaryColor = self.team.universityColor ?: [UIColor colorWithHexString:@"#B41C21"];
     
     self.anonymousSwitch.tintColor = primaryColor;
     self.anonymousSwitch.onTintColor = primaryColor;

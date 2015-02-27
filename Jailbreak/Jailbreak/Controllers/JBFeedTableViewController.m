@@ -7,6 +7,7 @@
 //
 
 #import "JBPost.h"
+#import "JBService.h"
 #import "JBDonation.h"
 #import "JBAnnotation.h"
 #import <SAMRateLimit.h>
@@ -49,6 +50,7 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
 @interface JBFeedTableViewController () <JBFeedImageTableViewCellDelegate, JBFeedDonateTableViewCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *posts;
+@property (nonatomic, strong) JBService *service;
 @property (nonatomic, weak) NSTimer *timer;
 
 @end
@@ -68,6 +70,18 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        self.service = [[JBService alloc] initWithJSON:responseObject];
+        NSString *string = [NSString stringWithFormat:@"%@ Raised", [[self priceFormatter] stringFromNumber:@(self.service.amountRaised/100.0)]];
+        self.navigationItem.title = string;
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            self.service = [[JBService alloc] initWithJSON:responseObject];
+            NSString *string = [NSString stringWithFormat:@"%@ Raised", [[self priceFormatter] stringFromNumber:@(self.service.amountRaised/100.0)]];
+            self.navigationItem.title = string;
+        } failure:nil];
+    }];
     
     self.posts = [self loadFromArchiveObjectWithKey:kPostsArchiveKey];
     
@@ -151,7 +165,7 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
     if (!self.timer)
     {
         NSTimer *timer = [[NSTimer alloc] initWithFireDate:[NSDate date]
-                                                  interval:1.0
+                                                  interval:2.0
                                                     target:self
                                                   selector:@selector(updateCellTimeAgoLabel:)
                                                   userInfo:nil
@@ -177,12 +191,7 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"showPost"])
-    {
-        JBPostTableViewController *dvc = (JBPostTableViewController *)segue.destinationViewController;
-        dvc.post = self.posts[[sender row]];
-    }
-    else if ([segue.identifier isEqualToString:@"showDonationPopover"])
+    if ([segue.identifier isEqualToString:@"showDonationPopover"])
     {
         JBDonatePopoverViewController *dvc = (JBDonatePopoverViewController *)segue.destinationViewController;
         dvc.team = (JBTeam *)sender;
@@ -251,10 +260,13 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
 {
     if ([self.posts[indexPath.row] postType] == JBPostTypeCheckin)
     {
+        JBPost *post = self.posts[indexPath.row];
+        CLLocationDistance distanceLeft = [post.checkin.location distanceFromLocation:self.service.finalLocation];
+        
         JBAnnotation *annotation = [JBAnnotation new];
-        annotation.customCoordinate = [[self.posts[indexPath.row] checkin] location].coordinate;
-        annotation.customTitle = [[[self.posts[indexPath.row] checkin] createdTime] timeAgoSinceNow];
-        annotation.customSubtitle = @"(coming soon)km to go";
+        annotation.customCoordinate = post.checkin.location.coordinate;
+        annotation.customTitle = [post.checkin.createdTime timeAgoSinceNow];
+        annotation.customSubtitle = [NSString stringWithFormat:@"%@ from Location X", [[self lengthFormatter] stringFromMeters:distanceLeft]];
         
         JBMapViewController *dvc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"JBMapViewController"];
         dvc.title = @"Map";
@@ -266,10 +278,6 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
     {
         JBFeedVineTableViewCell *cell = (JBFeedVineTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];        
         [cell playOrStopVine];
-    }
-    else
-    {
-        [self performSegueWithIdentifier:@"showPost" sender:indexPath];
     }
 }
 
@@ -388,24 +396,6 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
     return height;
 }
 
-#pragma mark - JBFeedImageTableViewCellDelegate
-
-- (void)feedImageTableViewCell:(JBFeedBaseTableViewCell *)cell didTapOnThumbnailImageView:(UIImageView *)imageView
-{
-    JTSImageInfo *imageInfo = [JTSImageInfo new];
-    imageInfo.image = imageView.image;
-    imageInfo.referenceRect = imageView.frame;
-    imageInfo.referenceView = imageView.superview;
-    imageInfo.referenceContentMode = imageView.contentMode;
-    imageInfo.referenceCornerRadius = imageView.layer.cornerRadius;
-    
-    JTSImageViewController *imageViewController = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
-                                                                                               mode:JTSImageViewControllerMode_Image
-                                                                                    backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
-    
-    [imageViewController showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
-}
-
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Remove seperator inset
@@ -427,6 +417,24 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
     }
 }
 
+#pragma mark - JBFeedImageTableViewCellDelegate
+
+- (void)feedImageTableViewCell:(JBFeedBaseTableViewCell *)cell didTapOnThumbnailImageView:(UIImageView *)imageView
+{
+    JTSImageInfo *imageInfo = [JTSImageInfo new];
+    imageInfo.image = imageView.image;
+    imageInfo.referenceRect = imageView.frame;
+    imageInfo.referenceView = imageView.superview;
+    imageInfo.referenceContentMode = imageView.contentMode;
+    imageInfo.referenceCornerRadius = imageView.layer.cornerRadius;
+    
+    JTSImageViewController *imageViewController = [[JTSImageViewController alloc] initWithImageInfo:imageInfo
+                                                                                               mode:JTSImageViewControllerMode_Image
+                                                                                    backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+    
+    [imageViewController showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+}
+
 #pragma mark - JBFeedDonateTableViewCellDelegate
 
 - (void)didTapDonateButtonWithTeam:(JBTeam *)team
@@ -437,7 +445,7 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
     }
 }
 
-#pragma mark - Twitter Helper Methods
+#pragma mark - Twitter and Facebook API Methods
 
 - (void)favoritePost:(JBPost *)post
 {
@@ -534,20 +542,14 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
     {
         case JBPostTypeCheckin:
         case JBPostTypeDonate:
+        case JBPostTypeVine:
         case JBPostTypeUndefined:
         case JBPostTypeLink:
-            break;
         case JBPostTypeFacebook:
-            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]])
-            {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"fb://post/%@", @(post.facebook.facebookPostId)]]];
-            }
-            else
-            {
-                [TSMessage displayMessageWithTitle:@"Facebook App Not Installed" subtitle:@"Please install the Facebook app to open posts in" type:TSMessageTypeWarning];
-            }
             break;
         case JBPostTypeInstagram:
+            if (!post.instagram.instagramMediaId) return;
+            
             if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"instagram://"]])
             {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"instagram://media?id=%@", post.instagram.instagramMediaId]]];
@@ -577,16 +579,6 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
             }
             break;
         }
-        case JBPostTypeVine:
-            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"vine://"]])
-            {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"vine://post/%@", @1153945031292469248]]];
-            }
-            else
-            {
-                [TSMessage displayMessageWithTitle:@"Vine App Not Installed" subtitle:@"Please install the Vine app to open videos in" type:TSMessageTypeWarning];
-            }
-            break;
     }
 }
 
@@ -610,19 +602,21 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
                     NSURL *likeURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/v2.2/%@/likes", @(post.facebook.facebookPostId)]];
                     SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodPOST URL:likeURL parameters:nil];
                     request.account = account;
+                    
                     [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                        NSString *errorMessage = [NSHTTPURLResponse localizedStringForStatusCode:urlResponse.statusCode];
+                        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
+                        NSString *errorMessage = response[@"error"][@"message"];
                         
-                        if ([errorMessage isEqualToString:@"no error"])
+                        if (errorMessage)
                         {
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [TSMessage displayMessageWithTitle:@"Retweeted!" subtitle:nil type:TSMessageTypeSuccess];
+                                [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
                             });
                         }
                         else
                         {
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [TSMessage displayMessageWithTitle:errorMessage subtitle:error.localizedDescription type:TSMessageTypeError];
+                                [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
                             });
                         }
                     }];
@@ -778,11 +772,44 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
                                             }];
 }
 
+- (IBAction)didTapDonateButton:(UIBarButtonItem *)sender
+{
+    [self performSegueWithIdentifier:@"showDonationPopover" sender:nil];
+}
+
 - (void)refresh
 {
     NSUInteger latestPostId = [self.posts.firstObject postId];
     NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+20), @"afterId": @(latestPostId)} jsonString];
     [self recursivelyGetEventsWithParameters:@{@"filters": filtersJSONString} numberOfNewPostsSoFar:0 untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
+}
+
+- (NSLengthFormatter *)lengthFormatter
+{
+    static NSLengthFormatter *_lengthFormater = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _lengthFormater = [[NSLengthFormatter alloc] init];
+        [_lengthFormater.numberFormatter setLocale:[NSLocale currentLocale]];
+        _lengthFormater.numberFormatter.maximumFractionDigits = 0;
+    });
+    
+    return _lengthFormater;
+}
+
+- (NSNumberFormatter *)priceFormatter
+{
+    static NSNumberFormatter *_priceFormatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _priceFormatter = [[NSNumberFormatter alloc] init];
+        [_priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [_priceFormatter setLocale:[NSLocale currentLocale]];
+        [_priceFormatter setCurrencyCode:@"EUR"];
+        _priceFormatter.minimumFractionDigits = 0;
+    });
+    
+    return _priceFormatter;
 }
 
 @end

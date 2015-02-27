@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import "JBCheckin.h"
 #import "JBDonation.h"
 #import "JBAnnotation.h"
 #import "JBYouTubeView.h"
@@ -38,6 +39,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 @interface JBTeamProfileViewController () <JBDonatePopoverViewControllerDelegate, JBTeamSummaryTableViewCellDelegate, JBYouTubeViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *donations; // of type JBDonation
+@property (nonatomic, strong) NSMutableArray *checkins;
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -53,6 +55,12 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 {
     if (!_donations) _donations = [NSMutableArray new];
     return _donations;
+}
+
+- (NSMutableArray *)checkins
+{
+    if (!_checkins) _checkins = [NSMutableArray new];
+    return _checkins;
 }
 
 #pragma mark - Lifecycle
@@ -77,6 +85,14 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                                   failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                       [TSMessage displayMessageWithTitle:@"Failed To Get Donations" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
                                                   }];
+    
+    [[JBAPIManager manager] getCheckinsForTeamWithId:self.team.ID
+                                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                 for (NSDictionary *dict in responseObject)
+                                                 {
+                                                     [self.checkins addObject:[[JBCheckin alloc] initWithJSON:dict]];
+                                                 }
+                                             } failure:nil];
     
     // Lower space for header and footer
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
@@ -207,14 +223,10 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 {
     if (indexPath.section == 0 && indexPath.row == kMapCellRow)
     {
-        JBAnnotation *annotation = [JBAnnotation new];
-        annotation.customCoordinate = self.team.lastCheckin.location.coordinate;
-        annotation.customTitle = @"Colins Barracks";
-
         JBMapViewController *dvc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"JBMapViewController"];
         dvc.title = @"Map";
-        dvc.annotations = @[annotation];
-
+        dvc.annotations = self.checkins;
+        
         [self.navigationController pushViewController:dvc animated:YES];
     }
 }

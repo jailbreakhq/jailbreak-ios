@@ -6,12 +6,22 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import "JBTeam.h"
+#import "JBService.h"
 #import "JBAnnotation.h"
+#import <SAMRateLimit.h>
+#import "JBTeam+Annotation.h"
+#import "JBCircularImageView.h"
 #import "JBTeamsMapViewController.h"
+#import "UIImageView+WebCacheWithProgress.h"
+
+static NSString * const kSAMBlockName = @"Map";
+
+static const NSTimeInterval kIntervalBetweenRefreshing = 60.0 * 10.0; // 10 minutes
 
 @interface JBTeamsMapViewController () <MKMapViewDelegate>
 
-@property (nonatomic, strong) NSMutableArray *annotations;
+@property (nonatomic, strong) NSMutableArray *teams;
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 
@@ -19,53 +29,27 @@
 
 @implementation JBTeamsMapViewController
 
+- (NSMutableArray *)teams
+{
+    if (!_teams) _teams = [NSMutableArray new];
+    return _teams;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.annotations = [NSMutableArray new];
     self.mapView.delegate = self;
-    
-    JBAnnotation *bad;
-    bad = [JBAnnotation new];
-    bad.customCoordinate = CLLocationCoordinate2DMake(53.349805, -6.26031);
-    bad.customTitle = @"Team 23";
-    [self.annotations addObject:bad];
-    
-    bad = [JBAnnotation new];
-    bad.customCoordinate = CLLocationCoordinate2DMake(51.507351, -0.127758);
-    bad.customTitle = @"Team 53";
-    [self.annotations addObject:bad];
+    [self update];
+}
 
-    bad = [JBAnnotation new];
-    bad.customCoordinate = CLLocationCoordinate2DMake(48.856614, 2.352222);
-    bad.customTitle = @"Team 27";
-    [self.annotations addObject:bad];
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
-    bad = [JBAnnotation new];
-    bad.customCoordinate = CLLocationCoordinate2DMake(50.064650, 19.94498);
-    bad.customTitle = @"Team 29";
-    [self.annotations addObject:bad];
-    
-    bad = [JBAnnotation new];
-    bad.customCoordinate = CLLocationCoordinate2DMake(41.902783, 12.496366);
-    bad.customTitle = @"Team 33";
-    [self.annotations addObject:bad];
-    
-    bad = [JBAnnotation new];
-    bad.customCoordinate = CLLocationCoordinate2DMake(52.370216, 4.895168);
-    bad.customTitle = @"Team 55";
-    [self.annotations addObject:bad];
-    
-    bad = [JBAnnotation new];
-    bad.customCoordinate = CLLocationCoordinate2DMake(41.385064, 2.173403);
-    bad.customTitle = @"Team 3";
-    [self.annotations addObject:bad];
-    
-    [self.mapView addAnnotations:self.annotations];
-    [self.mapView viewForAnnotation:self.annotations[0]];
-    [self.mapView viewForAnnotation:self.annotations[1]];
-    [self.mapView showAnnotations:self.mapView.annotations animated:NO];
+    [SAMRateLimit executeBlock:^{
+        [self update];
+    } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
 }
 
 #pragma mark - MKMapViewDelegate
@@ -77,22 +61,61 @@
     if (!result)
     {
         result = [[MKPinAnnotationView alloc] initWithAnnotation:self.mapView.annotations.firstObject reuseIdentifier:@"Pin"];
+        result.enabled = YES;
+        result.canShowCallout = YES;
+        JBCircularImageView *imageView = [[JBCircularImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        result.leftCalloutAccessoryView = imageView;
     }
     
-    if (annotation == self.mapView.annotations.firstObject)
-    {
-        result.pinColor = MKPinAnnotationColorRed;
-    }
-    else if (annotation == self.mapView.annotations.lastObject)
+    if ([annotation isKindOfClass:[JBAnnotation class]])
     {
         result.pinColor = MKPinAnnotationColorGreen;
+        [(UIImageView *)result.leftCalloutAccessoryView setImage:nil];
     }
     else
     {
-        result.pinColor = MKPinAnnotationColorPurple;
+        result.pinColor = MKPinAnnotationColorRed;
+        [(UIImageView *)result.leftCalloutAccessoryView sd_setImageWithURL:[(JBTeam *)annotation avatarURL]];
     }
     
     return result;
+}
+
+#pragma mark - Helper Methods
+
+- (void)handleApplicationDidBecomeActiveNotification
+{
+    [SAMRateLimit executeBlock:^{
+        [self update];
+    } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
+}
+
+- (void)update
+{
+    // Fetch teams
+    [[JBAPIManager manager] getAllTeamsWithParameters:nil
+                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                  [self.teams removeAllObjects];
+                                                  for (NSDictionary *dict in responseObject)
+                                                  {
+                                                      [self.teams addObject:[[JBTeam alloc] initWithJSON:dict]];
+                                                  }
+                                                  
+                                                  [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                      JBService *service = [[JBService alloc] initWithJSON:responseObject];
+                                                      JBAnnotation *annotation = [JBAnnotation new];
+                                                      annotation.customCoordinate = service.finalLocation.coordinate;
+                                                      annotation.customTitle = @"Location X";
+                                                      [self.teams addObject:annotation];
+                                                      [self.mapView showAnnotations:self.teams animated:YES];
+                                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                      [self.mapView showAnnotations:self.teams animated:YES];
+                                                  }];
+
+                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                  [TSMessage displayMessageWithTitle:@"Failed To Get Teams" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+                                              }];
 }
 
 @end

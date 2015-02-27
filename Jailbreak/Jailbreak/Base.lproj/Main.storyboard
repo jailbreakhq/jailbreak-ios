@@ -29,7 +29,7 @@
         <!--Map View Controller-->
         <scene sceneID="RBV-E0-rfG">
             <objects>
-                <viewController storyboardIdentifier="JBMapViewController" id="H0f-CH-MFs" customClass="JBMapViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="JBMapViewController" hidesBottomBarWhenPushed="YES" id="H0f-CH-MFs" customClass="JBMapViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LQn-uW-SAk"/>
                         <viewControllerLayoutGuide type="bottom" id="HWc-Cx-D6e"/>

@@ -10,6 +10,8 @@
 
 @interface JBMapViewController () <MKMapViewDelegate>
 
+@property (nonatomic, assign) BOOL firstTime;
+
 @end
 
 @implementation JBMapViewController
@@ -19,18 +21,18 @@
     [super viewDidLoad];
     
     self.mapView.delegate = self;
-    [self.mapView addAnnotations:self.annotations];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    [self.mapView showAnnotations:self.mapView.annotations animated:YES];
+    self.firstTime = YES;
 }
 
 #pragma mark - MKMapViewDelegate
 
-
+- (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered
+{
+    if (self.firstTime)
+    {
+        [self.mapView showAnnotations:self.annotations animated:YES];
+        self.firstTime = NO;
+    }
+}
 
 @end

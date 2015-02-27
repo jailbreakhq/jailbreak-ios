@@ -44,7 +44,7 @@ static NSString * const kPreservedIndexPathKey      = @"IndexPath-JBFeedTableVie
 
 static const NSTimeInterval kIntervalBetweenRefreshing = 60.0 * 10.0; // 10 minutes
 static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
-static const NSUInteger kNumberOfPostsToPersist = 100;
+static const NSUInteger kNumberOfPostsToPersist = 200;
 
 
 @interface JBFeedTableViewController () <JBFeedImageTableViewCellDelegate, JBFeedDonateTableViewCellDelegate>
@@ -116,6 +116,11 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[indexPathDictionary[@"row"] unsignedIntegerValue]
                                                     inSection:[indexPathDictionary[@"section"] unsignedIntegerValue]];
         
+        if (indexPath.row >= self.posts.count)
+        {
+            indexPath = [NSIndexPath indexPathForRow:self.posts.count-1 inSection:indexPath.section];
+        }
+        
         [self.tableView reloadData];
         [self.tableView scrollToRowAtIndexPath:indexPath
                               atScrollPosition:UITableViewScrollPositionTop
@@ -123,6 +128,12 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
         
         [SAMRateLimit executeBlock:^{
             [self refresh];
+            
+            [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                self.service = [[JBService alloc] initWithJSON:responseObject];
+                NSString *string = [NSString stringWithFormat:@"%@ Raised", [[self priceFormatter] stringFromNumber:@(self.service.amountRaised/100.0)]];
+                self.navigationItem.title = string;
+            } failure:nil];
         } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
     }
     
@@ -178,6 +189,12 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
     
     [SAMRateLimit executeBlock:^{
         [self refresh];
+        
+        [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            self.service = [[JBService alloc] initWithJSON:responseObject];
+            NSString *string = [NSString stringWithFormat:@"%@ Raised", [[self priceFormatter] stringFromNumber:@(self.service.amountRaised/100.0)]];
+            self.navigationItem.title = string;
+        } failure:nil];
     } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
 }
 
@@ -485,7 +502,7 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
             }
             else
             {
-                [TSMessage displayMessageWithTitle:@"No Twitter Account Found" subtitle:@"Please go into settings and log into Twitter" type:TSMessageTypeError];
+                [TSMessage displayMessageWithTitle:@"No Twitter Account Found" subtitle:@"Please go into settings and log into Twitter" type:TSMessageTypeWarning];
             }
         }
         else
@@ -533,7 +550,7 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
             else
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [TSMessage displayMessageWithTitle:@"No Twitter Account Found" subtitle:@"Please go into settings and log into Twitter" type:TSMessageTypeError];
+                    [TSMessage displayMessageWithTitle:@"No Twitter Account Found" subtitle:@"Please go into settings and log into Twitter" type:TSMessageTypeWarning];
                 });
             }
         }
@@ -634,7 +651,7 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
                 else
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [TSMessage displayMessageWithTitle:@"No Facebook Account Found" subtitle:@"Please go into settings and log into Facebook" type:TSMessageTypeError];
+                        [TSMessage displayMessageWithTitle:@"No Facebook Account Found" subtitle:@"Please go into settings and log into Facebook" type:TSMessageTypeWarning];
                     });
                 }
             }];
@@ -708,6 +725,12 @@ static const NSUInteger kNumberOfPostsToPersist = 100;
 {
     [SAMRateLimit executeBlock:^{
         [self refresh];
+        
+        [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            self.service = [[JBService alloc] initWithJSON:responseObject];
+            NSString *string = [NSString stringWithFormat:@"%@ Raised", [[self priceFormatter] stringFromNumber:@(self.service.amountRaised/100.0)]];
+            self.navigationItem.title = string;
+        } failure:nil];
     } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
 }
 

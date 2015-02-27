@@ -72,7 +72,7 @@
 {
     if (self.moviePlayerController.playbackState == MPMoviePlaybackStatePlaying)
     {
-        [self.moviePlayerController stop];
+        [self.moviePlayerController pause];
         self.thumbnailImageView.alpha = 1.0;
         self.thumbnailImageView.hidden = NO;
         self.playButtonImageView.alpha = 1.0;
@@ -165,7 +165,6 @@
     
     self.moviePlayerController = [[MPMoviePlayerController alloc] initWithContentURL:nil];
     self.moviePlayerController.view.translatesAutoresizingMaskIntoConstraints = NO;
-    self.moviePlayerController.repeatMode = MPMovieRepeatModeOne;
     self.moviePlayerController.shouldAutoplay = NO;
     self.moviePlayerController.controlStyle = MPMovieControlStyleNone;
     [self.moviePlayerController prepareToPlay];

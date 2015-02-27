@@ -71,6 +71,15 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
 {
     [super viewDidLoad];
     
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"hasShownIntro"])
+    {
+        UIViewController *introViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"JBIntroViewController"];
+        introViewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        introViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        
+        [self presentViewController:introViewController animated:YES completion:nil];
+    }
+    
     [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         self.service = [[JBService alloc] initWithJSON:responseObject];
         NSString *string = [NSString stringWithFormat:@"%@ Raised", [[self priceFormatter] stringFromNumber:@(self.service.amountRaised/100.0)]];

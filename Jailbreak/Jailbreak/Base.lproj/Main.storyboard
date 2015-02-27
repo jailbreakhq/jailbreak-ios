@@ -789,6 +789,8 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="KEM-f3-DzZ"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="1200"/>
@@ -1678,17 +1680,199 @@
             </objects>
             <point key="canvasLocation" x="213" y="1260"/>
         </scene>
+        <!--Intro View Controller-->
+        <scene sceneID="gZI-VW-sO8">
+            <objects>
+                <viewController storyboardIdentifier="JBIntroViewController" id="DQg-1U-Qea" customClass="JBIntroViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fZH-PB-0jH"/>
+                        <viewControllerLayoutGuide type="bottom" id="vr2-s7-cpu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cp0-gL-Cax">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="laU-eH-Wez">
+                                <rect key="frame" x="145" y="137" width="310" height="327"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CEW-1D-NpW">
+                                        <rect key="frame" x="0.0" y="0.0" width="310" height="136"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Jailbreak HQ" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Mx-Rr-R9t">
+                                                <rect key="frame" x="20" y="20" width="270" height="24"/>
+                                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can perform social task like retweeting in the app by swipping left on a cell. Try it below!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4G-0x-n66">
+                                                <rect key="frame" x="20" y="54" width="270" height="62"/>
+                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="G4G-0x-n66" firstAttribute="top" secondItem="1Mx-Rr-R9t" secondAttribute="bottom" constant="10" id="FOx-iY-m7V"/>
+                                            <constraint firstAttribute="bottom" secondItem="G4G-0x-n66" secondAttribute="bottom" constant="20" id="N9X-2r-5KZ"/>
+                                            <constraint firstItem="1Mx-Rr-R9t" firstAttribute="top" secondItem="CEW-1D-NpW" secondAttribute="top" constant="20" id="P6z-xZ-cQI"/>
+                                            <constraint firstAttribute="trailing" secondItem="G4G-0x-n66" secondAttribute="trailing" constant="20" id="SfO-L5-orc"/>
+                                            <constraint firstItem="G4G-0x-n66" firstAttribute="leading" secondItem="CEW-1D-NpW" secondAttribute="leading" constant="20" id="U5G-eo-ZdB"/>
+                                            <constraint firstAttribute="trailing" secondItem="1Mx-Rr-R9t" secondAttribute="trailing" constant="20" id="ZTN-xo-pTI"/>
+                                            <constraint firstItem="1Mx-Rr-R9t" firstAttribute="leading" secondItem="CEW-1D-NpW" secondAttribute="leading" constant="20" id="cbl-ep-BzO"/>
+                                        </constraints>
+                                    </view>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="130" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jke-Nm-E8t">
+                                        <rect key="frame" x="0.0" y="137" width="310" height="140"/>
+                                        <color key="backgroundColor" red="0.82793557643890381" green="0.83891397714614868" blue="0.86943817138671875" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="140" id="9cR-v3-T64"/>
+                                        </constraints>
+                                        <prototypes>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" rowHeight="130" id="tai-93-kFK" customClass="JBFeedImageTableViewCell">
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tai-93-kFK" id="fWY-j3-pHm">
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="jailbreakLogo" translatesAutoresizingMaskIntoConstraints="NO" id="Ysg-ZQ-m1L" customClass="JBCircularImageView">
+                                                            <rect key="frame" x="10" y="10" width="45" height="45"/>
+                                                            <color key="backgroundColor" red="0.82793557640000004" green="0.83891397710000004" blue="0.86943817140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="45" id="9KF-Tp-dZz"/>
+                                                                <constraint firstAttribute="height" constant="45" id="Edv-M5-Qbh"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="41" placeholderIntrinsicHeight="20" text="Jailbreak HQ" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6LG-GI-EoK" userLabel="Title">
+                                                            <rect key="frame" x="65" y="10" width="165" height="22"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="22" id="Gxp-fe-z6g"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="16"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="40" placeholderIntrinsicHeight="22" text="15m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oSJ-5G-RxQ" userLabel="Time Ago">
+                                                            <rect key="frame" x="260" y="10" width="40" height="22"/>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="38" placeholderIntrinsicHeight="21" text="€20,000 raised thus far for @amnesty &amp; @SVP_Ireland. Still lots of work to go. Donate: jailbreakhq.org" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnv-MK-avN" userLabel="Body">
+                                                            <rect key="frame" x="65" y="34" width="235" height="85"/>
+                                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="15" placeholderIntrinsicHeight="15" image="twitterLogo" translatesAutoresizingMaskIntoConstraints="NO" id="IY4-Ka-JwE">
+                                                            <rect key="frame" x="240" y="14" width="15" height="15"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="15" id="I8D-vr-Lyt"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="oSJ-5G-RxQ" secondAttribute="trailing" constant="10" id="4g4-bt-Sjc"/>
+                                                        <constraint firstAttribute="bottom" secondItem="bnv-MK-avN" secondAttribute="bottom" constant="10" id="GsO-OC-D4p"/>
+                                                        <constraint firstItem="6LG-GI-EoK" firstAttribute="top" secondItem="fWY-j3-pHm" secondAttribute="top" constant="10" id="L2m-gz-eDd"/>
+                                                        <constraint firstItem="oSJ-5G-RxQ" firstAttribute="top" secondItem="fWY-j3-pHm" secondAttribute="top" constant="10" id="MT1-tE-7ug"/>
+                                                        <constraint firstItem="oSJ-5G-RxQ" firstAttribute="leading" secondItem="IY4-Ka-JwE" secondAttribute="trailing" constant="5" id="QFO-eZ-kHr"/>
+                                                        <constraint firstItem="IY4-Ka-JwE" firstAttribute="centerY" secondItem="oSJ-5G-RxQ" secondAttribute="centerY" id="QrN-6u-7Va"/>
+                                                        <constraint firstItem="Ysg-ZQ-m1L" firstAttribute="top" secondItem="fWY-j3-pHm" secondAttribute="top" constant="10" id="U56-R5-ROY"/>
+                                                        <constraint firstItem="Ysg-ZQ-m1L" firstAttribute="leading" secondItem="fWY-j3-pHm" secondAttribute="leading" constant="10" id="Uxx-5a-SfH"/>
+                                                        <constraint firstAttribute="trailing" secondItem="6LG-GI-EoK" secondAttribute="trailing" constant="80" id="gh3-ZK-yi3"/>
+                                                        <constraint firstAttribute="trailing" secondItem="bnv-MK-avN" secondAttribute="trailing" constant="10" id="gjm-3b-pkW"/>
+                                                        <constraint firstItem="IY4-Ka-JwE" firstAttribute="centerY" secondItem="6LG-GI-EoK" secondAttribute="centerY" id="jwd-Je-W5x"/>
+                                                        <constraint firstItem="bnv-MK-avN" firstAttribute="leading" secondItem="Ysg-ZQ-m1L" secondAttribute="trailing" constant="10" id="rqE-Nn-XCs"/>
+                                                        <constraint firstItem="6LG-GI-EoK" firstAttribute="leading" secondItem="Ysg-ZQ-m1L" secondAttribute="trailing" constant="10" id="sJn-kF-y6b"/>
+                                                        <constraint firstItem="bnv-MK-avN" firstAttribute="top" secondItem="6LG-GI-EoK" secondAttribute="bottom" constant="2" id="tul-iC-2HE"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="QrN-6u-7Va"/>
+                                                        </mask>
+                                                    </variation>
+                                                </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="avatarImageView" destination="Ysg-ZQ-m1L" id="H30-Ca-VKI"/>
+                                                    <outlet property="bodyLabel" destination="bnv-MK-avN" id="OM1-2K-hq7"/>
+                                                    <outlet property="socialNetworkImageView" destination="IY4-Ka-JwE" id="OP9-0w-OEx"/>
+                                                    <outlet property="timeLabel" destination="oSJ-5G-RxQ" id="eBi-lc-ZEq"/>
+                                                    <outlet property="titleLabel" destination="6LG-GI-EoK" id="MNU-f1-g9n"/>
+                                                </connections>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="DQg-1U-Qea" id="gQg-et-hGy"/>
+                                            <outlet property="delegate" destination="DQg-1U-Qea" id="xdr-Gb-uEX"/>
+                                        </connections>
+                                    </tableView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F6T-x7-QAL">
+                                        <rect key="frame" x="0.0" y="277" width="310" height="50"/>
+                                        <color key="backgroundColor" red="0.50255334377288818" green="0.22090965509414673" blue="0.50314879417419434" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="szn-mR-Fra"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
+                                        <state key="normal" title="Got It">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapButton:" destination="DQg-1U-Qea" eventType="touchUpInside" id="0pO-Al-p41"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.82793557643890381" green="0.83891397714614868" blue="0.86943817138671875" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="CEW-1D-NpW" firstAttribute="leading" secondItem="laU-eH-Wez" secondAttribute="leading" id="EN7-n5-f5q"/>
+                                    <constraint firstAttribute="bottom" secondItem="F6T-x7-QAL" secondAttribute="bottom" id="GYd-1d-iby"/>
+                                    <constraint firstItem="F6T-x7-QAL" firstAttribute="leading" secondItem="laU-eH-Wez" secondAttribute="leading" id="Keq-cJ-ify"/>
+                                    <constraint firstItem="jke-Nm-E8t" firstAttribute="leading" secondItem="laU-eH-Wez" secondAttribute="leading" id="Ncr-Ni-pvx"/>
+                                    <constraint firstAttribute="trailing" secondItem="F6T-x7-QAL" secondAttribute="trailing" id="R0W-4N-AwO"/>
+                                    <constraint firstItem="jke-Nm-E8t" firstAttribute="top" secondItem="CEW-1D-NpW" secondAttribute="bottom" constant="1" id="Teh-P9-KIU"/>
+                                    <constraint firstAttribute="trailing" secondItem="CEW-1D-NpW" secondAttribute="trailing" id="beq-0c-mMP"/>
+                                    <constraint firstAttribute="trailing" secondItem="jke-Nm-E8t" secondAttribute="trailing" id="csC-hb-nqt"/>
+                                    <constraint firstAttribute="width" constant="310" id="kNF-lV-oB8"/>
+                                    <constraint firstItem="F6T-x7-QAL" firstAttribute="top" secondItem="jke-Nm-E8t" secondAttribute="bottom" id="p7X-2B-0qT"/>
+                                    <constraint firstAttribute="height" constant="360" id="rxO-2x-QcG"/>
+                                    <constraint firstItem="CEW-1D-NpW" firstAttribute="top" secondItem="laU-eH-Wez" secondAttribute="top" id="rzT-fv-h5O"/>
+                                    <constraint firstAttribute="bottom" secondItem="jke-Nm-E8t" secondAttribute="bottom" id="wlk-ue-j5H"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="rxO-2x-QcG"/>
+                                        <exclude reference="wlk-ue-j5H"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.70000000000000007" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="laU-eH-Wez" secondAttribute="centerY" id="83F-Od-Q30"/>
+                            <constraint firstAttribute="centerX" secondItem="laU-eH-Wez" secondAttribute="centerX" id="uho-Pv-ov3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="jke-Nm-E8t" id="P2q-bG-Zi6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dEe-s8-MDe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="213" y="1980"/>
+        </scene>
     </scenes>
     <resources>
         <image name="challengesIcon" width="50" height="50"/>
         <image name="countriesIcon" width="50" height="50"/>
         <image name="feedTabBarIcon" width="28" height="25"/>
         <image name="instagramLogo" width="15" height="15"/>
+        <image name="jailbreakLogo" width="512" height="512"/>
         <image name="mapTabBarIcon" width="26" height="25"/>
         <image name="playButton" width="84" height="84"/>
         <image name="raisedIcon" width="50" height="50"/>
         <image name="teamsTabBarIcon" width="29" height="25"/>
         <image name="transportIcon" width="50" height="50"/>
+        <image name="twitterLogo" width="19" height="15"/>
         <image name="vineLogo" width="14" height="15"/>
     </resources>
     <inferredMetricsTieBreakers>

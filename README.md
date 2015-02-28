@@ -8,21 +8,17 @@ Development
 
 - [**AFNetworking**](http://github.com/AFNetworking/AFNetworking)
 - [**SDWebImage**](https://github.com/rs/SDWebImage)
-- [**SIAlertView**](https://github.com/Sumi-Interactive/SIAlertView)
 - [**SVPullToRefresh**](https://github.com/samvermette/SVPullToRefresh)
 - [**JTSImageViewController**](https://github.com/jaredsinclair/JTSImageViewController)
 - [**Stripe**](https://github.com/stripe/stripe-ios)
 - [**XCDYouTubeKit**](https://github.com/0xced/XCDYouTubeKit)
-- [**JVFloatLabeledTextField**](https://github.com/jverdi/JVFloatLabeledTextField)
 - [**BSKeyboardControls**](https://github.com/simonbs/BSKeyboardControls)
-- [**Shimmer**](https://github.com/facebook/Shimmer)
 - [**SpinKit**](https://github.com/raymondjavaxx/SpinKit-ObjC)
 - [**TPKeyboardAvoiding**](https://github.com/michaeltyson/TPKeyboardAvoiding)
 - [**JTSHardwareInfo**](https://github.com/jaredsinclair/JTSHardwareInfo)
 - [**DateTools**](https://github.com/MatthewYork/DateTools)
 - [**SAMRateLimit**](https://github.com/soffes/SAMRateLimit)
 - [**TSMessages**](https://github.com/Shayanzadeh/TSMessages)
-- [**TMCache**](https://github.com/tumblr/TMCache)
 
 ###Installing Dependencies
 

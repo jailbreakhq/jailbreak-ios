@@ -26,13 +26,11 @@
 @property (nonatomic, weak) IBOutlet UIView *headerView;
 @property (nonatomic, weak) IBOutlet UITextField *amountTextField;
 @property (nonatomic, weak) IBOutlet UITextField *fullNameTextField;
-@property (nonatomic, weak) IBOutlet UITextField *emailTextField;
 @property (nonatomic, weak) IBOutlet UILabel *anonymousLabel;
 @property (nonatomic, weak) IBOutlet UISwitch *anonymousSwitch;
 @property (nonatomic, weak) IBOutlet JBButton *payButton;
 @property (nonatomic, weak) IBOutlet JBButton *cancelButton;
 @property (nonatomic, weak) IBOutlet UIView *fullNameSeparatorView;
-@property (nonatomic, weak) IBOutlet UIView *emailSeparatorView;
 @property (nonatomic, weak) id <JBDonatePopoverViewControllerDelegate> delegate;
 
 @end

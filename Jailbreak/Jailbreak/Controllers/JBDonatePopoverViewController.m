@@ -47,14 +47,11 @@ static const NSUInteger kMinimumDonationAmount = 5;
     self.anonymousSwitch.onTintColor = primaryColor;
     self.headerView.backgroundColor = primaryColor;
     self.fullNameSeparatorView.backgroundColor = primaryColor;
-    self.emailSeparatorView.backgroundColor = primaryColor;
     self.amountTextField.textColor = [UIColor whiteColor];
     self.amountTextField.tintColor = [UIColor whiteColor];
     self.amountTextField.placeholder = @"Amount";
     self.fullNameTextField.textColor = primaryColor;
     self.fullNameTextField.tintColor = primaryColor;
-    self.emailTextField.textColor = primaryColor;
-    self.emailTextField.tintColor = primaryColor;
     self.anonymousLabel.textColor = primaryColor;
     self.payButton.normalTextColor = primaryColor;
     self.payButton.normalBackgroundColor = [UIColor clearColor];
@@ -78,7 +75,7 @@ static const NSUInteger kMinimumDonationAmount = 5;
     self.checkoutOptions.purchaseLabel = @"Pay";
     self.checkoutOptions.purchaseCurrency = @"EUR";
     
-    NSArray *fields = @[self.amountTextField, self.fullNameTextField, self.emailTextField];
+    NSArray *fields = @[self.amountTextField, self.fullNameTextField];
     self.keyboardControls = [[BSKeyboardControls alloc] initWithFields:fields];
     self.keyboardControls.delegate = self;
     
@@ -102,26 +99,12 @@ static const NSUInteger kMinimumDonationAmount = 5;
     return _priceFormatter;
 }
 
-- (BOOL)isValidEmail:(NSString *)email
-{
-    NSString *emailRegex =
-    @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
-    @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
-    @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
-    @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
-    @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
-    @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
-    @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-    
-    return [[NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", emailRegex] evaluateWithObject:email];
-}
-
 #pragma mark - IBActions
 
 - (IBAction)paymentButtonPressed:(JBButton *)sender
 {
     // Alert if all required fields aren't filled in
-    if (!self.emailTextField.text.length || (!self.fullNameTextField.text.length && !self.anonymousSwitch.isOn) || !self.previousTextPlain.length)
+    if ((!self.fullNameTextField.text.length && !self.anonymousSwitch.isOn) || !self.previousTextPlain.length)
     {
         [TSMessage displayMessageWithTitle:@"You Skipped Some Required Fields!" subtitle:@"Please fill in all the fields to continue" type:TSMessageTypeWarning];
     }
@@ -130,16 +113,10 @@ static const NSUInteger kMinimumDonationAmount = 5;
     {
         [TSMessage displayMessageWithTitle:[NSString stringWithFormat:@"Minimum Donation is €%@", @(kMinimumDonationAmount)] subtitle:nil type:TSMessageTypeWarning];
     }
-    // Alert if email is invalid (Stripe Checkout will validate but can't get address back for API call so...)
-    else if (![self isValidEmail:self.emailTextField.text])
-    {
-        [TSMessage displayMessageWithTitle:@"Invalid Email" subtitle:@"Please enter a valid email to continue" type:TSMessageTypeError];
-    }
     else
     {
         [self.view endEditing:YES];
         
-        self.checkoutOptions.customerEmail = self.emailTextField.text;
         self.checkoutOptions.purchaseAmount = [self.previousTextPlain integerValue] * 100;;
         
         STPCheckoutViewController *checkoutViewController = [[STPCheckoutViewController alloc] initWithOptions:self.checkoutOptions];

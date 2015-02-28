@@ -41,6 +41,8 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 @property (nonatomic, strong) NSMutableArray *donations; // of type JBDonation
 @property (nonatomic, strong) NSMutableArray *checkins;
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
+@property (nonatomic, strong) JBBaseTableViewController *tableViewController;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *donateButton;
@@ -69,6 +71,10 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 {
     [super viewDidLoad];
     
+    self.refreshControl = [UIRefreshControl new];
+    [self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+    
     // YouTube thumbnail flashes (even though it's cached), so gonna set it in advance here!
     JBTeamVideoTableViewCell *cell = (JBTeamVideoTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:kYouTubeCellIdentifier];
     cell.youTubeVideoId = self.team.videoID;
@@ -82,9 +88,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                                       
                                                       [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
                                                   }
-                                                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                      [TSMessage displayMessageWithTitle:@"Failed To Get Donations" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
-                                                  }];
+                                                  failure:nil];
     
     [[JBAPIManager manager] getCheckinsForTeamWithId:self.team.ID
                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -306,8 +310,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                       weakSelf.team.distanceTravelled = [weakSelf.service.startLocation distanceFromLocation:weakSelf.team.lastCheckin.location];
                                       [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
                                       
-                                      NSUInteger index = weakSelf.navigationController.viewControllers.count - 2;
-                                      JBTeamsTableViewController *vc = (JBTeamsTableViewController *)weakSelf.navigationController.viewControllers[index];
+                                      JBTeamsTableViewController *vc = [self getPreviousViewController];
                                       vc.teams[weakSelf.teamSectionIndex] = weakSelf.team;
                                       [vc.tableView reloadData];
                                   } failure:nil];
@@ -329,6 +332,12 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 
 #pragma mark - Helper Methods
 
+- (JBTeamsTableViewController *)getPreviousViewController
+{
+    NSUInteger index = self.navigationController.viewControllers.count - 2;
+    return (JBTeamsTableViewController *)self.navigationController.viewControllers[index];
+}
+
 - (NSNumberFormatter *)priceFormatter
 {
     static NSNumberFormatter *_priceFormatter = nil;
@@ -348,8 +357,49 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     [self performSegueWithIdentifier:@"showDonationPopover" sender:nil];
 }
 
+- (void)refresh
+{
+    __weak typeof(self) weakSelf = self;
+    
+    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(20)}
+                                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                      NSMutableArray *temp = [NSMutableArray new];
+                                                      for (NSDictionary *donation in responseObject)
+                                                      {
+                                                          [temp addObject:[[JBDonation alloc] initWithJSON:donation]];
+                                                      }
+                                                      self.donations = temp;
+                                                      
+                                                      [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                                  }
+                                                  failure:nil];
+    
+    [[JBAPIManager manager] getCheckinsForTeamWithId:self.team.ID
+                                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                 NSMutableArray *temp = [NSMutableArray new];
+                                                 for (NSDictionary *dict in responseObject)
+                                                 {
+                                                     [temp addObject:[[JBCheckin alloc] initWithJSON:dict]];
+                                                 }
+                                                 self.checkins = temp;
+                                             } failure:nil];
+    
+    [[JBAPIManager manager] getTeamWithId:self.team.ID
+                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                      weakSelf.team = [[JBTeam alloc] initWithJSON:responseObject];
+                                      JBTeamsTableViewController *vc = [weakSelf getPreviousViewController];
+                                      vc.teams[weakSelf.teamSectionIndex] = weakSelf.team;
+                                      [vc.tableView reloadData];
+                                      [self.refreshControl endRefreshing];
+                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                      [TSMessage displayMessageWithTitle:@"Failed To Refresh Profile" subtitle:@"" type:TSMessageTypeWarning];
+                                      [self.refreshControl endRefreshing];
+                                  }];
+}
+
 - (void)videoPlayerViewControllerDidReceiveVideo:(NSNotification *)notification
 {
+    
 }
 
 - (void)moviePlayerPlaybackDidFinish:(NSNotification *)notification

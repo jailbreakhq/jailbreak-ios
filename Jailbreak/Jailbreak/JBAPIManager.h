@@ -8,37 +8,37 @@
 
 #import "AFHTTPRequestOperationManager.h"
 
-typedef void (^HTTPRequestSuccess)(AFHTTPRequestOperation *operation, id responseObject);
-typedef void (^HTTPRequestFailure)(AFHTTPRequestOperation *operation, NSError *error);
+typedef void (^JBHTTPRequestSuccess)(AFHTTPRequestOperation *operation, id responseObject);
+typedef void (^JBHTTPRequestFailure)(AFHTTPRequestOperation *operation, NSError *error);
 
 @interface JBAPIManager : AFHTTPRequestOperationManager
 
-- (void)getServicesWithSuccess:(HTTPRequestSuccess)success
-                       failure:(HTTPRequestFailure)failure;
+- (void)getServicesWithSuccess:(JBHTTPRequestSuccess)success
+                       failure:(JBHTTPRequestFailure)failure;
 
 - (void)getAllTeamsWithParameters:(NSDictionary *)parameters
-                          success:(HTTPRequestSuccess)success
-                          failure:(HTTPRequestFailure)failure;
+                          success:(JBHTTPRequestSuccess)success
+                          failure:(JBHTTPRequestFailure)failure;
 
 - (void)getTeamWithId:(NSUInteger)teamId
-              success:(HTTPRequestSuccess)success
-              failure:(HTTPRequestFailure)failure;
+              success:(JBHTTPRequestSuccess)success
+              failure:(JBHTTPRequestFailure)failure;
 
 - (void)getCheckinsForTeamWithId:(NSUInteger)teamId
-                         success:(HTTPRequestSuccess)success
-                         failure:(HTTPRequestFailure)failure;
+                         success:(JBHTTPRequestSuccess)success
+                         failure:(JBHTTPRequestFailure)failure;
 
 - (void)getAllDonationsWithParameters:(NSDictionary *)parameters
-                              success:(HTTPRequestSuccess)success
-                              failure:(HTTPRequestFailure)failure;
+                              success:(JBHTTPRequestSuccess)success
+                              failure:(JBHTTPRequestFailure)failure;
 
 - (void)makeDonationWithParameters:(NSDictionary *)parameters
-                           success:(HTTPRequestSuccess)success
-                           failure:(HTTPRequestFailure)failure;
+                           success:(JBHTTPRequestSuccess)success
+                           failure:(JBHTTPRequestFailure)failure;
 
 - (void)getEventsWithParameters:(NSDictionary *)parameters
-                        success:(HTTPRequestSuccess)success
-                        failure:(HTTPRequestFailure)failure;
+                        success:(JBHTTPRequestSuccess)success
+                        failure:(JBHTTPRequestFailure)failure;
 
 
 @end

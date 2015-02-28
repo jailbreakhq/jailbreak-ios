@@ -86,8 +86,7 @@
         AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
         
         NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+            return [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:response.suggestedFilename]];
         } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
             NSLog(@"Error: %@ %@", error.localizedDescription, error.localizedRecoverySuggestion);
             NSLog(@"File downloaded to: %@", filePath);
@@ -170,7 +169,6 @@
     [self.moviePlayerController prepareToPlay];
 
     [self.videoContrainerView insertSubview:self.moviePlayerController.view atIndex:0];
-    
     [self.videoContrainerView addConstraint:[NSLayoutConstraint constraintWithItem:self.moviePlayerController.view
                                                                          attribute:NSLayoutAttributeLeading
                                                                          relatedBy:NSLayoutRelationEqual

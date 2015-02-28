@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
-#import "JBBaseTableViewController.h"
+#import "JBPostsTableViewController.h"
 
-@interface JBFeedTableViewController : JBBaseTableViewController
+@interface JBFeedTableViewController : JBPostsTableViewController
 
 @end

@@ -21,6 +21,7 @@
 #import "JBTeamsTableViewController.h"
 #import "JBTeamSummaryTableViewCell.h"
 #import "JBTeamProfileViewController.h"
+#import "JBTeamPostsTableViewController.h"
 
 static const NSUInteger kMapCellRow     = 0;
 static const NSUInteger kStatsCellRow   = 1;
@@ -118,6 +119,15 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                      animations:^{
                          self.donateButton.alpha = 1.0;
                      } completion:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showFeed"])
+    {
+        JBTeamPostsTableViewController *dvc = (JBTeamPostsTableViewController *)segue.destinationViewController;
+        dvc.team = self.team;
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -343,6 +353,11 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 - (IBAction)didTapDonateButton:(UIButton *)sender
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://jailbreakhq.org/donate/%@?iphone=true", self.team.slug]]];
+}
+
+- (IBAction)didTapPostsBarButton:(UIBarButtonItem *)sender
+{
+    [self performSegueWithIdentifier:@"showFeed" sender:nil];
 }
 
 - (void)refresh

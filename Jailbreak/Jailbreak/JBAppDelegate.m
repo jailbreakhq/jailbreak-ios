@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
-#import <Stripe.h>
+
+#import <TSMessage.h>
+#import <TSMessageView.h>
 #import "JBAppDelegate.h"
 #import "UIColor+JBAdditions.h"
 #import <SDWebImage/SDImageCache.h>
-
-NSString * const StripePublishableKey = @"pk_live_lu13pTg7V1dy0MctBEh5PBB3";
 
 @interface JBAppDelegate ()
 
@@ -22,14 +22,16 @@ NSString * const StripePublishableKey = @"pk_live_lu13pTg7V1dy0MctBEh5PBB3";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Configure Stripe
-    [Stripe setDefaultPublishableKey:StripePublishableKey];
-    
     // Configure SDWebImage
     SDImageCache *sharedImageCache = [SDImageCache sharedImageCache];
     sharedImageCache.maxCacheAge = 1 * 7 * 24 * 60 * 60; // 1 week
     sharedImageCache.maxCacheSize = 200 * 1000000; // 200 MBs
     [sharedImageCache cleanDisk]; // remove all expired cached image on each launch
+    
+    if (launchOptions[UIApplicationLaunchOptionsURLKey])
+    {
+        NSLog(@":)");
+    }
 
     return YES;
 }
@@ -46,6 +48,15 @@ NSString * const StripePublishableKey = @"pk_live_lu13pTg7V1dy0MctBEh5PBB3";
     // Navigation Bar Back Button
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"AvenirNext-Medium" size:17.0]}
                                                                                             forState:UIControlStateNormal];
+    
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    TSMessageView *messageView = [TSMessage messageWithTitle:@"Thank you so much for donating and supporting Amnesty & SVP 😘" subtitle:nil type:TSMessageTypeSuccess];
+    messageView.duration = 4.0;
+    [messageView displayOrEnqueue];
     
     return YES;
 }

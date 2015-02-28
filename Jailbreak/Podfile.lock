@@ -29,9 +29,6 @@ PODS:
     - SDWebImage/Core (= 3.7.1)
   - SDWebImage/Core (3.7.1)
   - SpinKit (1.2.0)
-  - Stripe (3.1.0):
-    - Stripe/Core (= 3.1.0)
-  - Stripe/Core (3.1.0)
   - SVPullToRefresh (0.4.1)
   - TPKeyboardAvoiding (1.2.6)
   - TSMessages (1.0)
@@ -46,7 +43,6 @@ DEPENDENCIES:
   - SAMRateLimit
   - SDWebImage
   - SpinKit
-  - Stripe
   - SVPullToRefresh
   - TPKeyboardAvoiding
   - TSMessages (from `https://github.com/Shayanzadeh/TSMessages`, branch `jailbreak`)
@@ -71,7 +67,6 @@ SPEC CHECKSUMS:
   SAMRateLimit: f47a9961333e2d44fe189ef2233cee48012905ee
   SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
   SpinKit: 11fa465172473ce3d59a80bf0449020b850e5229
-  Stripe: aaa174b50fac40a16958cbc892457a241d0b4b08
   SVPullToRefresh: d5161ebc833a38b465364412e5e307ca80bbb190
   TPKeyboardAvoiding: 0797ad5f2366e2435e605202b01f3b7cff5d82cd
   TSMessages: 76809620fd0e599012f3aea30febb0e9513feb74

@@ -7,12 +7,10 @@
 //
 
 #import "JBTeam.h"
-#import <Stripe.h>
 #import "JBService.h"
 #import "JBTeamsTableViewCell.h"
 #import "JBTeamsTableViewController.h"
 #import "JBTeamProfileViewController.h"
-#import "JBDonatePopoverViewController.h"
 
 @interface JBTeamsTableViewController () <JBTeamsTableViewCellDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
@@ -97,11 +95,6 @@
         dvc.service = self.service;
         dvc.title = [self.teams[[sender section]] name];
     }
-    else if ([segue.identifier isEqualToString:@"showDonationPopover"])
-    {
-        JBDonatePopoverViewController *dvc = (JBDonatePopoverViewController *)segue.destinationViewController;
-        dvc.team = (JBTeam *)sender;
-    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -161,7 +154,7 @@
 
 - (void)didTapDonateButtonForTeam:(JBTeam *)team
 {
-    [self performSegueWithIdentifier:@"showDonationPopover" sender:team];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://jailbreakhq.org/donate/%@?iphone=true", team.slug]]];
 }
 
 #pragma mark - UISearchControllerDelegate

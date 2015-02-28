@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
-#import <Stripe.h>
 #import "JBTeam.h"
 #import "JBButton.h"
 #import <UIKit/UIKit.h>

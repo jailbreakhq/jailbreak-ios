@@ -10,7 +10,6 @@ Development
 - [**SDWebImage**](https://github.com/rs/SDWebImage)
 - [**SVPullToRefresh**](https://github.com/samvermette/SVPullToRefresh)
 - [**JTSImageViewController**](https://github.com/jaredsinclair/JTSImageViewController)
-- [**Stripe**](https://github.com/stripe/stripe-ios)
 - [**XCDYouTubeKit**](https://github.com/0xced/XCDYouTubeKit)
 - [**BSKeyboardControls**](https://github.com/simonbs/BSKeyboardControls)
 - [**SpinKit**](https://github.com/raymondjavaxx/SpinKit-ObjC)

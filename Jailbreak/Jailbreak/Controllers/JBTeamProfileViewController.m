@@ -21,7 +21,6 @@
 #import "JBTeamsTableViewController.h"
 #import "JBTeamSummaryTableViewCell.h"
 #import "JBTeamProfileViewController.h"
-#import "JBDonatePopoverViewController.h"
 
 static const NSUInteger kMapCellRow     = 0;
 static const NSUInteger kStatsCellRow   = 1;
@@ -36,12 +35,11 @@ static NSString * const kAboutCellIdentifier    = @"AboutCell";
 static NSString * const kYouTubeCellIdentifier  = @"YouTubeCell";
 static NSString * const kDonationCellIdentifier = @"DonationCell";
 
-@interface JBTeamProfileViewController () <JBDonatePopoverViewControllerDelegate, JBTeamSummaryTableViewCellDelegate, JBYouTubeViewDelegate>
+@interface JBTeamProfileViewController () <JBTeamSummaryTableViewCellDelegate, JBYouTubeViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *donations; // of type JBDonation
 @property (nonatomic, strong) NSMutableArray *checkins;
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
-@property (nonatomic, strong) JBBaseTableViewController *tableViewController;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -120,16 +118,6 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                      animations:^{
                          self.donateButton.alpha = 1.0;
                      } completion:nil];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"showDonationPopover"])
-    {
-        JBDonatePopoverViewController *dvc = (JBDonatePopoverViewController *)segue.destinationViewController;
-        dvc.team = self.team;
-        dvc.delegate = self;
-    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -354,7 +342,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 }
 - (IBAction)didTapDonateButton:(UIButton *)sender
 {
-    [self performSegueWithIdentifier:@"showDonationPopover" sender:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://jailbreakhq.org/donate/%@?iphone=true", self.team.slug]]];
 }
 
 - (void)refresh

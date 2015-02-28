@@ -26,9 +26,7 @@
 #import "JBFeedImageTableViewCell.h"
 #import "JBFeedDonateTableViewCell.h"
 #import "JBFeedTableViewController.h"
-#import "JBPostTableViewController.h"
 #import "JBFeedCheckinTableViewCell.h"
-#import "JBDonatePopoverViewController.h"
 #import <UIScrollView+SVInfiniteScrolling.h>
 
 static NSString * const kTextCellIdentifier         = @"TextCell";
@@ -218,15 +216,6 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
     
     [self.timer invalidate];
     self.timer = nil;
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"showDonationPopover"])
-    {
-        JBDonatePopoverViewController *dvc = (JBDonatePopoverViewController *)segue.destinationViewController;
-        dvc.team = (JBTeam *)sender;
-    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -478,10 +467,7 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
 
 - (void)didTapDonateButtonWithTeam:(JBTeam *)team
 {
-    if (team)
-    {
-        [self performSegueWithIdentifier:@"showDonationPopover" sender:team];
-    }
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://jailbreakhq.org/donate/%@?iphone=true", team.slug ?: @""]]];
 }
 
 #pragma mark - Twitter and Facebook API Methods
@@ -829,7 +815,7 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
 
 - (IBAction)didTapDonateButton:(UIBarButtonItem *)sender
 {
-    [self performSegueWithIdentifier:@"showDonationPopover" sender:nil];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://jailbreakhq.org/donate/?iphone=true"]]];
 }
 
 - (void)refresh

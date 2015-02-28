@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSString *tweetBodyPlain;
 @property (nonatomic, strong) NSString *tweetBodyHTML;
 @property (nonatomic, strong) NSDate *createdTime;
-@property (nonatomic, strong) NSURL *thumbnailURL; // optional
+@property (nonatomic, strong) NSURL *photoURL; // optional
 @property (nonatomic, strong) NSString *inReplyToTwitterUsername;
 @property (nonatomic, assign) NSUInteger twitterUserId;
 @property (nonatomic, strong) NSString *twitterUsername;

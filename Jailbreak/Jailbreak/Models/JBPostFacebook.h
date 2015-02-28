@@ -19,7 +19,7 @@
 @property (nonatomic, assign) NSUInteger teamId; // optional
 @property (nonatomic, strong) JBTeam *limitedTeam; // optional
 @property (nonatomic, strong) NSURL *authorPhotoURL;
-@property (nonatomic, strong) NSURL *thumbnailURL;
+@property (nonatomic, strong) NSURL *photoURL;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
 

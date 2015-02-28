@@ -81,13 +81,13 @@
             self.thumbnailImageView.image = nil;
             break;
         case JBPostTypeFacebook:
-            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.facebook.thumbnailURL];
+            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.facebook.photoURL];
             break;
         case JBPostTypeInstagram:
             [self.thumbnailImageView sd_setImageWithProgressAndURL:post.instagram.thumbnailURL];
             break;
         case JBPostTypeTwitter:
-            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.twitter.thumbnailURL];
+            [self.thumbnailImageView sd_setImageWithProgressAndURL:post.twitter.photoURL];
             break;
         case JBPostTypeVine:
             [self.thumbnailImageView sd_setImageWithProgressAndURL:post.vine.thumbnailURL];

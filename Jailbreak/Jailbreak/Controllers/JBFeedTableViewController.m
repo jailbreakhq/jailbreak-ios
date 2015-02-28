@@ -43,6 +43,7 @@ static NSString * const kPreservedIndexPathKey      = @"IndexPath-JBFeedTableVie
 static const NSTimeInterval kIntervalBetweenRefreshing = 60.0 * 10.0; // 10 minutes
 static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
 static const NSUInteger kNumberOfPostsToPersist = 200;
+static const NSUInteger kPostAPILimit = 50;
 
 @interface JBFeedTableViewController () <JBFeedImageTableViewCellDelegate, JBFeedDonateTableViewCellDelegate>
 
@@ -101,7 +102,7 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
     {
         [self startLoadingIndicator];
         
-        [[JBAPIManager manager] getEventsWithParameters:nil
+        [[JBAPIManager manager] getEventsWithParameters:@{@"limit": @(kPostAPILimit)}
                                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                     for (NSDictionary *event in responseObject)
                                                     {
@@ -113,7 +114,7 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
                                                     [self.tableView reloadData];
                                                     [self stopLoadingIndicator];
                                                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                    [TSMessage displayMessageWithTitle:@"Oops" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+                                                    [TSMessage displayMessageWithTitle:@"Failed to Fetch Posts" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
                                                     [self stopLoadingIndicator];
                                                 }];
     }
@@ -155,7 +156,7 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
     {
         NSString *filtersJSONString = [@{@"beforeId": @([weakSelf.posts.lastObject postId])} jsonString];
 
-        [[JBAPIManager manager] getEventsWithParameters:@{@"filters": filtersJSONString}
+        [[JBAPIManager manager] getEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString}
                                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                     
                                                     NSMutableArray *rows = [NSMutableArray new];
@@ -770,24 +771,26 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
 - (void)recursivelyGetEventsWithParameters:(NSDictionary *)parameters numberOfNewPostsSoFar:(NSUInteger)soFarCount untilCountIsGreaterThan:(NSUInteger)limit
 {
     NSIndexPath *topRowIndexPath = [self.tableView indexPathsForVisibleRows].firstObject;
-    __block NSUInteger totalCount = soFarCount;
+    __block NSUInteger totalCount = 0;
     
     [[JBAPIManager manager] getEventsWithParameters:parameters
                                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                 
+                                                NSUInteger newCount = 0;
                                                 for (NSDictionary *event in responseObject)
                                                 {
                                                     if ([JBPost getPostTypeFromString:event[@"type"]] != JBPostTypeUndefined)
                                                     {
                                                         [self.posts insertObject:[[JBPost alloc] initWithJSON:event] atIndex:0];
-                                                        totalCount++;
+                                                        newCount++;
                                                     }
                                                 }
+                                                totalCount = newCount + soFarCount;
                                                 
                                                 NSUInteger latestPostId = [self.posts.firstObject postId];
-                                                NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+20), @"afterId": @(latestPostId)} jsonString];
+                                                NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+kPostAPILimit), @"afterId": @(latestPostId)} jsonString];
                                                 
-                                                if (totalCount > kNumberOfPostsToFetchWhenRefreshing || totalCount == soFarCount)
+                                                if (totalCount > kNumberOfPostsToFetchWhenRefreshing || newCount < kPostAPILimit)
                                                 {
                                                     [self.refreshControl endRefreshing];
                                                     [self.tableView reloadData];
@@ -801,13 +804,13 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
                                                 }
                                                 else
                                                 {
-                                                    [self recursivelyGetEventsWithParameters:@{@"filters": filtersJSONString} numberOfNewPostsSoFar:totalCount untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
+                                                    [self recursivelyGetEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString} numberOfNewPostsSoFar:totalCount untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
                                                 }
                                                 
                                                 
                                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 
-                                                [TSMessage displayMessageWithTitle:@"Oops" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+                                                [TSMessage displayMessageWithTitle:@"Failed to Fetch New Posts" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
                                                 [self.refreshControl endRefreshing];
                                                 
                                             }];
@@ -821,8 +824,8 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
 - (void)refresh
 {
     NSUInteger latestPostId = [self.posts.firstObject postId];
-    NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+20), @"afterId": @(latestPostId)} jsonString];
-    [self recursivelyGetEventsWithParameters:@{@"filters": filtersJSONString} numberOfNewPostsSoFar:0 untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
+    NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+kPostAPILimit), @"afterId": @(latestPostId)} jsonString];
+    [self recursivelyGetEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString} numberOfNewPostsSoFar:0 untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
 }
 
 - (NSLengthFormatter *)lengthFormatter

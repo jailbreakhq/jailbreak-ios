@@ -22,7 +22,7 @@
         self.tweetBodyPlain = [aDecoder decodeObjectForKey:@"tweetBodyPlain"];
         self.tweetBodyHTML = [aDecoder decodeObjectForKey:@"tweetBodyHTML"];
         self.createdTime = [aDecoder decodeObjectForKey:@"createdTime"];
-        self.thumbnailURL = [aDecoder decodeObjectForKey:@"thumbnailURL"];
+        self.photoURL = [aDecoder decodeObjectForKey:@"thumbnailURL"];
         self.inReplyToTwitterUsername = [aDecoder decodeObjectForKey:@"inReplyToTwitterUsername"];
         self.twitterUserId = [aDecoder decodeIntegerForKey:@"twitterUserId"];
         self.twitterUsername = [aDecoder decodeObjectForKey:@"twitterUsername"];
@@ -40,7 +40,7 @@
     [aCoder encodeObject:self.tweetBodyPlain forKey:@"tweetBodyPlain"];
     [aCoder encodeObject:self.tweetBodyHTML forKey:@"tweetBodyHTML"];
     [aCoder encodeObject:self.createdTime forKey:@"createdTime"];
-    [aCoder encodeObject:self.thumbnailURL forKey:@"thumbnailURL"];
+    [aCoder encodeObject:self.photoURL forKey:@"thumbnailURL"];
     [aCoder encodeObject:self.inReplyToTwitterUsername forKey:@"inReplyToTwitterUsername"];
     [aCoder encodeInteger:self.twitterUserId forKey:@"twitterUserId"];
     [aCoder encodeObject:self.twitterUsername forKey:@"twitterUsername"];
@@ -61,7 +61,7 @@
         self.tweetBodyPlain = json[@"tweet"];
         self.tweetBodyHTML = json[@"tweetHtml"];
         self.createdTime = [NSDate dateWithTimeIntervalSince1970:[json[@"time"] doubleValue]];
-        self.thumbnailURL = [NSURL URLWithString:json[@"photoUrl"]];
+        self.photoURL = [NSURL URLWithString:json[@"photoUrl"]];
         self.inReplyToTwitterUsername = json[@"inReplyTo"];
         self.twitterUserId = [json[@"twitterUserId"] unsignedIntegerValue];
         self.twitterUsername = json[@"twitterUserName"];

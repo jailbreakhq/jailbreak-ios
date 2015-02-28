@@ -25,7 +25,7 @@
         self.teamId = [aDecoder decodeIntegerForKey:@"teamId"];
         self.limitedTeam = [aDecoder decodeObjectForKey:@"limitedTeam"];
         self.authorPhotoURL = [aDecoder decodeObjectForKey:@"authorPhotoURL"];
-        self.thumbnailURL = [aDecoder decodeObjectForKey:@"thumbnailURL"];
+        self.photoURL = [aDecoder decodeObjectForKey:@"thumbnailURL"];
     }
     
     return self;
@@ -42,7 +42,7 @@
     [aCoder encodeInteger:self.teamId forKey:@"teamId"];
     [aCoder encodeObject:self.limitedTeam forKey:@"limitedTeam"];
     [aCoder encodeObject:self.authorPhotoURL forKey:@"authorPhotoURL"];
-    [aCoder encodeObject:self.thumbnailURL forKey:@"thumbnailURL"];
+    [aCoder encodeObject:self.photoURL forKey:@"thumbnailURL"];
 }
 
 #pragma mark - Initialiser
@@ -61,7 +61,7 @@
         self.facebookPageName = json[@"pageName"];
         self.teamId = [json[@"teamId"] unsignedIntegerValue];
         self.authorPhotoURL = [NSURL URLWithString:json[@"authorPhotoUrl"]];
-        self.thumbnailURL = [NSURL URLWithString:json[@"thumbnailUrl"]];
+        self.photoURL = [NSURL URLWithString:json[@"thumbnailUrl"]];
         
         if (json[@"team"])
         {

@@ -70,6 +70,12 @@ static const NSUInteger kNumberOfPostsToPersist = 200;
 {
     [super viewDidLoad];
     
+    // Empty /tmp where videos are stored
+    for (NSString *file in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:NSTemporaryDirectory() error:nil])
+    {
+        [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), file] error:nil];
+    }
+    
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"hasShownIntro"])
     {
         UIViewController *introViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"JBIntroViewController"];

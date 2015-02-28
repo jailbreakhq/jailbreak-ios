@@ -49,7 +49,7 @@
     return self;
 }
 
-- (void)getServicesWithSuccess:(HTTPRequestSuccess)success failure:(HTTPRequestFailure)failure
+- (void)getServicesWithSuccess:(JBHTTPRequestSuccess)success failure:(JBHTTPRequestFailure)failure
 {
     [self GET:@""
    parameters:nil
@@ -58,8 +58,8 @@
 }
 
 - (void)getAllTeamsWithParameters:(NSDictionary *)parameters
-                          success:(HTTPRequestSuccess)success
-                          failure:(HTTPRequestFailure)failure
+                          success:(JBHTTPRequestSuccess)success
+                          failure:(JBHTTPRequestFailure)failure
 {
     [self GET:@"teams"
    parameters:parameters
@@ -67,7 +67,7 @@
       failure:FailureBlockWithJSONOperation];
 }
 
-- (void)getTeamWithId:(NSUInteger)teamId success:(HTTPRequestSuccess)success failure:(HTTPRequestFailure)failure
+- (void)getTeamWithId:(NSUInteger)teamId success:(JBHTTPRequestSuccess)success failure:(JBHTTPRequestFailure)failure
 {
     [self GET:[NSString stringWithFormat:@"teams/%@", @(teamId)]
    parameters:nil
@@ -76,8 +76,8 @@
 }
 
 - (void)getCheckinsForTeamWithId:(NSUInteger)teamId
-                         success:(HTTPRequestSuccess)success
-                         failure:(HTTPRequestFailure)failure
+                         success:(JBHTTPRequestSuccess)success
+                         failure:(JBHTTPRequestFailure)failure
 {
     [self GET:[NSString stringWithFormat:@"teams/%lu/checkins", (unsigned long)teamId]
    parameters:nil
@@ -86,8 +86,8 @@
 }
 
 - (void)getAllDonationsWithParameters:(NSDictionary *)parameters
-                              success:(HTTPRequestSuccess)success
-                              failure:(HTTPRequestFailure)failure
+                              success:(JBHTTPRequestSuccess)success
+                              failure:(JBHTTPRequestFailure)failure
 {
     [self GET:@"donations"
    parameters:parameters
@@ -96,8 +96,8 @@
 }
 
 - (void)makeDonationWithParameters:(NSDictionary *)parameters
-                           success:(HTTPRequestSuccess)success
-                           failure:(HTTPRequestFailure)failure
+                           success:(JBHTTPRequestSuccess)success
+                           failure:(JBHTTPRequestFailure)failure
 {
     [self POST:@"stripe"
     parameters:parameters
@@ -106,8 +106,8 @@
 }
 
 - (void)getEventsWithParameters:(NSDictionary *)parameters
-                        success:(HTTPRequestSuccess)success
-                        failure:(HTTPRequestFailure)failure
+                        success:(JBHTTPRequestSuccess)success
+                        failure:(JBHTTPRequestFailure)failure
 {
     [self GET:@"events"
    parameters:parameters

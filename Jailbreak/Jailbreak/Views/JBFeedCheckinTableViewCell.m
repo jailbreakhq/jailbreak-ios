@@ -16,10 +16,19 @@
 
 @property (nonatomic, strong) NSLayoutConstraint *pinViewLeftConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *pinViewTopConstraint;
+@property (nonatomic, strong) MKMapView *mapView;
 
 @end
 
 @implementation JBFeedCheckinTableViewCell
+
+//- (void)awakeFromNib
+//{
+//    [super awakeFromNib];
+//    
+//    self.mapView = [MKMapView new];
+//    
+//}
 
 - (void)configureCellWithPost:(JBPost *)post
 {
@@ -107,7 +116,7 @@
     static MKMapView *_mapView = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _mapView = [[MKMapView alloc] initWithFrame:self.contentView.frame];
+        _mapView = [[MKMapView alloc] initWithFrame:self.mapImageView.frame];
     });
     
     return _mapView;

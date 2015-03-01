@@ -41,6 +41,7 @@ static const NSUInteger kPostAPILimit = 50;
 @interface JBFeedTableViewController ()
 
 @property (nonatomic, weak) NSTimer *timer;
+@property (nonatomic, assign, getter=isFirstLaunch) BOOL firstLaunch;
 
 @end
 
@@ -51,6 +52,8 @@ static const NSUInteger kPostAPILimit = 50;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.firstLaunch = YES;
     
     // Empty /tmp where videos are stored
     for (NSString *file in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:NSTemporaryDirectory() error:nil])
@@ -260,13 +263,17 @@ static const NSUInteger kPostAPILimit = 50;
                                                 NSUInteger latestPostId = [self.posts.firstObject postId];
                                                 NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+kPostAPILimit), @"afterId": @(latestPostId)} jsonString];
                                                 
+                                                NSUInteger indexPathRow = totalCount;
+                                                indexPathRow += topRowIndexPath.row ?: -1;
+                                                
                                                 if (totalCount >= kNumberOfPostsToFetchWhenRefreshing || newCount < kPostAPILimit)
                                                 {
                                                     [self.refreshControl endRefreshing];
                                                     [self.tableView reloadData];
-                                                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topRowIndexPath.row+totalCount inSection:0]
-                                                                          atScrollPosition:UITableViewScrollPositionTop
-                                                                                  animated:NO];
+                                                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:indexPathRow inSection:0]
+                                                                          atScrollPosition:UITableViewScrollPositionBottom
+                                                                                  animated:!self.isFirstLaunch];
+                                                    self.firstLaunch = NO;
                                                     
                                                     TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ New Posts", @(totalCount)] subtitle:nil type:TSMessageTypeDefault];
                                                     messageView.duration = 1.2;
@@ -282,6 +289,7 @@ static const NSUInteger kPostAPILimit = 50;
 
                                                 [TSMessage displayMessageWithTitle:@"Failed to Fetch New Posts" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
                                                 [self.refreshControl endRefreshing];
+                                                self.firstLaunch = NO;
                                                 
                                             }];
 }

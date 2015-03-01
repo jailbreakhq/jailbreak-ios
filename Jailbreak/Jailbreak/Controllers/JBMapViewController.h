@@ -9,6 +9,7 @@
 #import "JBAnnotation.h"
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "JBCheckin+Annotation.h"
 
 @interface JBMapViewController : UIViewController
 

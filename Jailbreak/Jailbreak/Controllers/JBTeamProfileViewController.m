@@ -70,7 +70,12 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];    
+    [super viewDidLoad];
+    
+    if (self.navigationController)
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Feed" style:UIBarButtonItemStylePlain target:self action:@selector(didTapFeedBarButton:)];
+    }
     
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
@@ -386,7 +391,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://jailbreakhq.org/donate/%@?iphone=true", self.team.slug]]];
 }
 
-- (IBAction)didTapPostsBarButton:(UIBarButtonItem *)sender
+- (IBAction)didTapFeedBarButton:(UIBarButtonItem *)sender
 {
     [self performSegueWithIdentifier:@"showFeed" sender:nil];
 }

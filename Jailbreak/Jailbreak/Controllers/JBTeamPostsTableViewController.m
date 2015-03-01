@@ -141,8 +141,8 @@ static const NSUInteger kPostAPILimit = 50;
                                                     [self.refreshControl endRefreshing];
                                                     [self.tableView reloadData];
                                                     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topRowIndexPath.row+totalCount inSection:0]
-                                                                          atScrollPosition:UITableViewScrollPositionTop
-                                                                                  animated:NO];
+                                                                          atScrollPosition:UITableViewScrollPositionBottom
+                                                                                  animated:YES];
                                                     
                                                     TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ New Posts", @(totalCount)] subtitle:nil type:TSMessageTypeDefault];
                                                     messageView.duration = 1.2;

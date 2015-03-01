@@ -12,6 +12,13 @@
 
 @implementation JBTeamsTableViewCell
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    [self.donateButton addTarget:self action:@selector(didTapDonateButton:) forControlEvents:UIControlEventTouchUpInside];
+}
+
 - (void)setTeam:(JBTeam *)team
 {
     _team = team;
@@ -40,8 +47,6 @@
     self.donateButton.activeBorderColor = self.team.universityColor;
     self.donateButton.activeBackgroundColor = self.team.universityColor;
     self.donateButton.borderWidth = 1.0;
-    
-    [self.donateButton addTarget:self action:@selector(didTapDonateButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.avatarImageView sd_setImageWithProgressAndURL:self.team.avatarURL
                                               completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {

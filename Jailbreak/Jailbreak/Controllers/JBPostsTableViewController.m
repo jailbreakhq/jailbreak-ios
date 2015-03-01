@@ -158,11 +158,6 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
         
         [self.navigationController pushViewController:dvc animated:YES];
     }
-    else if ([self.posts[indexPath.row] postType] == JBPostTypeVine)
-    {
-        JBFeedVineTableViewCell *cell = (JBFeedVineTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-        [cell playOrStopVine];
-    }
 }
 
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath

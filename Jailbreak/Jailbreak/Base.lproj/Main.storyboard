@@ -1058,16 +1058,16 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5rn-48-5PL" id="bjh-m8-c03">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GV8-2T-US2" customClass="JBCircularImageView">
-                                            <rect key="frame" x="407" y="10" width="45" height="45"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GV8-2T-US2" customClass="JBCircularImageView">
+                                            <rect key="frame" x="10" y="10" width="45" height="45"/>
                                             <color key="backgroundColor" red="0.82793557640000004" green="0.83891397710000004" blue="0.86943817140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="45" id="chH-03-vLa"/>
                                                 <constraint firstAttribute="height" constant="45" id="n3C-GK-N1U"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" placeholderIntrinsicWidth="41" placeholderIntrinsicHeight="20" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkv-DG-IaS" userLabel="Title">
-                                            <rect key="frame" x="462" y="10" width="58" height="22"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="41" placeholderIntrinsicHeight="20" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkv-DG-IaS" userLabel="Title">
+                                            <rect key="frame" x="65" y="10" width="455" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="DN7-Go-WT4"/>
                                             </constraints>
@@ -1081,8 +1081,8 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" misplaced="YES" placeholderIntrinsicWidth="38" placeholderIntrinsicHeight="21" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RPu-KR-xLg" userLabel="Body">
-                                            <rect key="frame" x="462" y="34" width="128" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" placeholderIntrinsicWidth="38" placeholderIntrinsicHeight="21" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RPu-KR-xLg" userLabel="Body">
+                                            <rect key="frame" x="65" y="34" width="525" height="21"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -1093,32 +1093,28 @@
                                                 <constraint firstAttribute="height" constant="15" id="qzd-jc-SQC"/>
                                             </constraints>
                                         </imageView>
-                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sru-4s-9uR" userLabel="Video Container View">
-                                            <rect key="frame" x="462" y="65" width="128" height="128"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sru-4s-9uR" userLabel="Video Container View">
+                                            <rect key="frame" x="65" y="65" width="128" height="128"/>
                                             <subviews>
-                                                <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LIa-KH-KcU" userLabel="Thumbnail">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="LIa-KH-KcU" secondAttribute="height" multiplier="1:1" id="UVf-dM-nYU"/>
-                                                    </constraints>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="UVf-dM-nYU"/>
-                                                        </mask>
-                                                    </variation>
-                                                </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="playButton" translatesAutoresizingMaskIntoConstraints="NO" id="Mvf-en-qFU">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X72-6S-0Ed" userLabel="playButton">
                                                     <rect key="frame" x="22" y="22" width="84" height="84"/>
-                                                </imageView>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="84" id="Og0-lv-raG"/>
+                                                        <constraint firstAttribute="height" constant="84" id="xPi-cO-yQr"/>
+                                                    </constraints>
+                                                    <state key="normal" image="playButton">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="highlighted" image="playButtonHighlighted"/>
+                                                    <connections>
+                                                        <action selector="didTapPlayButton:" destination="5rn-48-5PL" eventType="touchUpInside" id="gXt-F5-itz"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="sru-4s-9uR" secondAttribute="height" multiplier="1:1" id="0iA-MW-fwW"/>
-                                                <constraint firstAttribute="trailing" secondItem="LIa-KH-KcU" secondAttribute="trailing" id="9wK-pD-0XZ"/>
-                                                <constraint firstAttribute="bottom" secondItem="LIa-KH-KcU" secondAttribute="bottom" id="Bzg-im-Yj5"/>
-                                                <constraint firstAttribute="centerX" secondItem="Mvf-en-qFU" secondAttribute="centerX" id="Yyb-G6-W9J"/>
-                                                <constraint firstItem="LIa-KH-KcU" firstAttribute="top" secondItem="sru-4s-9uR" secondAttribute="top" id="mTV-eM-psE"/>
-                                                <constraint firstAttribute="centerY" secondItem="Mvf-en-qFU" secondAttribute="centerY" id="nKv-KW-Evd"/>
-                                                <constraint firstItem="LIa-KH-KcU" firstAttribute="leading" secondItem="sru-4s-9uR" secondAttribute="leading" id="vuC-uZ-Jv7"/>
+                                                <constraint firstAttribute="centerY" secondItem="X72-6S-0Ed" secondAttribute="centerY" id="JPk-Vt-vnH"/>
+                                                <constraint firstAttribute="centerX" secondItem="X72-6S-0Ed" secondAttribute="centerX" id="lcc-du-cNn"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -1150,9 +1146,8 @@
                                 <connections>
                                     <outlet property="avatarImageView" destination="GV8-2T-US2" id="6xD-dp-T0E"/>
                                     <outlet property="bodyLabel" destination="RPu-KR-xLg" id="i3w-dq-sQ9"/>
-                                    <outlet property="playButtonImageView" destination="Mvf-en-qFU" id="czf-h9-2Dg"/>
+                                    <outlet property="playButton" destination="X72-6S-0Ed" id="oHl-zf-tOP"/>
                                     <outlet property="socialNetworkImageView" destination="dpC-C2-tES" id="YDV-Me-sL3"/>
-                                    <outlet property="thumbnailImageView" destination="LIa-KH-KcU" id="0oR-g0-oAv"/>
                                     <outlet property="timeLabel" destination="ByE-33-aJM" id="2s1-44-w8k"/>
                                     <outlet property="titleLabel" destination="tkv-DG-IaS" id="x2v-3C-f1E"/>
                                     <outlet property="videoContrainerView" destination="sru-4s-9uR" id="tSZ-vy-fJU"/>
@@ -2204,6 +2199,7 @@
         <image name="jailbreakLogo" width="512" height="512"/>
         <image name="mapTabBarIcon" width="26" height="25"/>
         <image name="playButton" width="84" height="84"/>
+        <image name="playButtonHighlighted" width="84" height="84"/>
         <image name="raisedIcon" width="50" height="50"/>
         <image name="teamsTabBarIcon" width="29" height="25"/>
         <image name="transportIcon" width="50" height="50"/>

@@ -52,6 +52,7 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, strong) UIColor *universityColor;
 @property (nonatomic, assign) NSUInteger position;
 @property (nonatomic, strong) JBCheckin *lastCheckin;
+@property (nonatomic, assign) NSInteger numberOfDonations;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
 

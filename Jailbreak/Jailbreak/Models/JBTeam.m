@@ -49,6 +49,7 @@
         self.universityColor = [aDecoder decodeObjectForKey:@"universityColor"];
         self.position = [aDecoder decodeIntegerForKey:@"position"];
         self.lastCheckin = [aDecoder decodeObjectForKey:@"lastCheckin"];
+        self.numberOfDonations = [aDecoder decodeIntegerForKey:@"numberOfDonations"];
     }
     
     return self;
@@ -80,6 +81,7 @@
     [aCoder encodeObject:self.universityColor forKey:@"universityColor"];
     [aCoder encodeInteger:self.position forKey:@"position"];
     [aCoder encodeObject:self.lastCheckin forKey:@"lastCheckin"];
+    [aCoder encodeInteger:self.numberOfDonations forKey:@"numberOfDonations"];
 }
 
 #pragma mark - NSObject

@@ -42,6 +42,8 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 @property (nonatomic, strong) NSMutableArray *checkins;
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (nonatomic, strong) NSURL *youTubeThumbnailURL;
+@property (nonatomic, strong) id observer;
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *donateButton;
@@ -68,15 +70,11 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+    [super viewDidLoad];    
     
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
-    
-    // YouTube thumbnail flashes (even though it's cached), so gonna set it in advance here!
-    JBTeamVideoTableViewCell *cell = (JBTeamVideoTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:kYouTubeCellIdentifier];
-    cell.youTubeVideoId = self.team.videoID;
     
     [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(20)}
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -84,6 +82,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                                       {
                                                           [self.donations addObject:[[JBDonation alloc] initWithJSON:donation]];
                                                       }
+                                                      self.team.numberOfDonations = [operation.response.allHeaderFields[@"x-total-count"] integerValue];
                                                       
                                                       [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
                                                   }
@@ -100,15 +99,6 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     // Lower space for header and footer
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 60.0)];
-
-    if (self.team.videoID)
-    {
-        self.videoPlayerViewController = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:self.team.videoID];
-        
-        NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-        [defaultCenter addObserver:self selector:@selector(videoPlayerViewControllerDidReceiveVideo:) name:XCDYouTubeVideoPlayerViewControllerDidReceiveVideoNotification object:self.videoPlayerViewController];
-        [defaultCenter addObserver:self selector:@selector(moviePlayerPlaybackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:self.videoPlayerViewController.moviePlayer];
-    }
     
     // Button moves after load (possibly due to scroll view insets being set), here's a temp fix
     self.donateButton.alpha = 0.0;
@@ -119,6 +109,40 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                      animations:^{
                          self.donateButton.alpha = 1.0;
                      } completion:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (self.team.videoID)
+    {
+        self.videoPlayerViewController = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:self.team.videoID];
+        self.observer = [[NSNotificationCenter defaultCenter] addObserverForName:XCDYouTubeVideoPlayerViewControllerDidReceiveVideoNotification
+                                                                          object:nil
+                                                                           queue:[NSOperationQueue mainQueue]
+                                                                      usingBlock:^(NSNotification *note) {
+                                                                          XCDYouTubeVideo *video = (XCDYouTubeVideo *)note.userInfo[XCDYouTubeVideoUserInfoKey];
+                                                                          self.youTubeThumbnailURL = video.largeThumbnailURL ?: video.mediumThumbnailURL ?: video.smallThumbnailURL;
+                                                                          [[SDWebImageManager sharedManager] downloadImageWithURL:self.youTubeThumbnailURL
+                                                                                                                          options:nil
+                                                                                                                         progress:nil
+                                                                                                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                                                                                                            
+                                                                                                                        }];
+                                                                      }];
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    if (self.team.videoID)
+    {
+        self.videoPlayerViewController = nil;
+        [[NSNotificationCenter defaultCenter] removeObserver:self.observer];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -142,10 +166,10 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     switch (section)
     {
         case 0:
-            return self.team.videoID ? 5 : 4;
+            return self.team.videoID ? 5 : 4; // don't show video if none
             break;
         case 1:
-            return self.donations.count + 1; // for "Donation" title cell
+            return self.donations.count + 1 + (self.donations.count < self.team.numberOfDonations ? 1 : 0); // for "Donation" title cell and footer count cell
         default:
             return 0;
             break;
@@ -182,7 +206,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                 cell = [tableView dequeueReusableCellWithIdentifier:kYouTubeCellIdentifier forIndexPath:indexPath];
                 JBTeamVideoTableViewCell *cellCasted = (JBTeamVideoTableViewCell *)cell;
                 cellCasted.youTubeView.delegate = self;
-                cellCasted.youTubeVideoId = self.team.videoID;
+                [cellCasted.youTubeView.thumbnailImageView sd_setImageWithURL:self.youTubeThumbnailURL];
                 break;
             }
             default:
@@ -200,6 +224,12 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
         {
             donationCell.textLabel.text = @"Donations";
             donationCell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0];
+            donationCell.detailTextLabel.text = @"";
+        }
+        else if (indexPath.row == self.donations.count + 1)
+        {
+            donationCell.textLabel.text = [NSString stringWithFormat:@"and %@ more donations...", @(self.team.numberOfDonations - self.donations.count)];
+            donationCell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Italic" size:14.0];
             donationCell.detailTextLabel.text = @"";
         }
         else
@@ -322,6 +352,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                                       {
                                                           [weakSelf.donations addObject:[[JBDonation alloc] initWithJSON:donation]];
                                                       }
+                                                      self.team.numberOfDonations = [operation.response.allHeaderFields[@"x-total-count"] integerValue];
                                                       
                                                       [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
                                                       
@@ -372,6 +403,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                                           [temp addObject:[[JBDonation alloc] initWithJSON:donation]];
                                                       }
                                                       self.donations = temp;
+                                                      self.team.numberOfDonations = [operation.response.allHeaderFields[@"x-total-count"] integerValue];
                                                       
                                                       [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
                                                   }
@@ -398,16 +430,6 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                       [TSMessage displayMessageWithTitle:@"Failed To Refresh Profile" subtitle:@"" type:TSMessageTypeWarning];
                                       [self.refreshControl endRefreshing];
                                   }];
-}
-
-- (void)videoPlayerViewControllerDidReceiveVideo:(NSNotification *)notification
-{
-    
-}
-
-- (void)moviePlayerPlaybackDidFinish:(NSNotification *)notification
-{
-    
 }
 
 @end

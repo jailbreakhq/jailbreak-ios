@@ -12,6 +12,7 @@
 #import "JBAppDelegate.h"
 #import "UIColor+JBAdditions.h"
 #import <SDWebImage/SDImageCache.h>
+#import <XCDYouTubeVideoPlayerViewController.h>
 
 @interface JBAppDelegate ()
 
@@ -27,11 +28,6 @@
     sharedImageCache.maxCacheAge = 1 * 7 * 24 * 60 * 60; // 1 week
     sharedImageCache.maxCacheSize = 200 * 1000000; // 200 MBs
     [sharedImageCache cleanDisk]; // remove all expired cached image on each launch
-    
-    if (launchOptions[UIApplicationLaunchOptionsURLKey])
-    {
-        NSLog(@":)");
-    }
 
     return YES;
 }
@@ -59,6 +55,19 @@
     [messageView displayOrEnqueue];
     
     return YES;
+}
+
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    if ([self.window.rootViewController.presentedViewController isKindOfClass:[XCDYouTubeVideoPlayerViewController class]])
+    {
+        XCDYouTubeVideoPlayerViewController *videoPlayerViewController = (XCDYouTubeVideoPlayerViewController *)self.window.rootViewController.presentedViewController;
+        if (videoPlayerViewController.isPresented)
+        {
+            return UIInterfaceOrientationMaskAllButUpsideDown;
+        }
+    }
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end

@@ -789,7 +789,7 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="KEM-f3-DzZ">
-                        <barButtonItem key="rightBarButtonItem" title="News Feed" id="kZE-B9-GHf">
+                        <barButtonItem key="rightBarButtonItem" title="Feed" id="kZE-B9-GHf">
                             <connections>
                                 <action selector="didTapPostsBarButton:" destination="6tU-E6-b6X" id="crC-sg-QTU"/>
                             </connections>
@@ -1804,8 +1804,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="8X4-hw-nBc"/>
                                                     <exclude reference="814-Ap-5Mb"/>
+                                                    <exclude reference="8X4-hw-nBc"/>
                                                     <exclude reference="jlm-p9-JrY"/>
                                                     <exclude reference="k9M-ID-9lG"/>
                                                 </mask>

@@ -17,7 +17,7 @@
 
 - (NSString *)subtitle
 {
-    return self.name;
+    return self.lastCheckin.locationString;
 }
 
 - (CLLocationCoordinate2D)coordinate

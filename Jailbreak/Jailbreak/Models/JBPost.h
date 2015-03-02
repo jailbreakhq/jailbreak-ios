@@ -46,6 +46,7 @@ typedef NS_ENUM(NSUInteger, JBPostType)
 @property (nonatomic, strong) JBPostInstagram *instagram;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
+
 + (JBPostType)getPostTypeFromString:(NSString *)string;
 
 @end

@@ -123,19 +123,27 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     if (self.team.videoID)
     {
         self.videoPlayerViewController = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:self.team.videoID];
+
+        void (^notificationBlock)(NSNotification *note) = ^void(NSNotification *note)
+        {
+            XCDYouTubeVideo *video = (XCDYouTubeVideo *)note.userInfo[XCDYouTubeVideoUserInfoKey];
+            self.youTubeThumbnailURL = video.largeThumbnailURL ?: video.mediumThumbnailURL ?: video.smallThumbnailURL;
+            [[SDWebImageManager sharedManager] downloadImageWithURL:self.youTubeThumbnailURL
+                                                            options:nil
+                                                           progress:nil
+                                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                                                              JBTeamVideoTableViewCell *cell = (JBTeamVideoTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:kYouTubeCellRow inSection:0]];
+                                                              if (cell)
+                                                              {
+                                                                  [cell.youTubeView.thumbnailImageView sd_setImageWithURL:self.youTubeThumbnailURL];
+                                                              }
+                                                          }];
+        };
+        
         self.observer = [[NSNotificationCenter defaultCenter] addObserverForName:XCDYouTubeVideoPlayerViewControllerDidReceiveVideoNotification
                                                                           object:nil
                                                                            queue:[NSOperationQueue mainQueue]
-                                                                      usingBlock:^(NSNotification *note) {
-                                                                          XCDYouTubeVideo *video = (XCDYouTubeVideo *)note.userInfo[XCDYouTubeVideoUserInfoKey];
-                                                                          self.youTubeThumbnailURL = video.largeThumbnailURL ?: video.mediumThumbnailURL ?: video.smallThumbnailURL;
-                                                                          [[SDWebImageManager sharedManager] downloadImageWithURL:self.youTubeThumbnailURL
-                                                                                                                          options:nil
-                                                                                                                         progress:nil
-                                                                                                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                                                                                                                            
-                                                                                                                        }];
-                                                                      }];
+                                                                      usingBlock:notificationBlock];
     }
 }
 

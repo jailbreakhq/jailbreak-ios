@@ -7,8 +7,6 @@
 //
 
 #import "JBPost.h"
-#import "JBService.h"
-#import "JBDonation.h"
 #import "JBAnnotation.h"
 #import <Social/Social.h>
 #import <TSMessageView.h>
@@ -17,17 +15,13 @@
 #import "JBMapViewController.h"
 #import "UIColor+JBAdditions.h"
 #import <AFURLSessionManager.h>
-#import <JTSImageViewController.h>
 #import "JBFeedLinkTableViewCell.h"
 #import "JBFeedBaseTableViewCell.h"
 #import "JBFeedVineTableViewCell.h"
-#import "NSDictionary+JBAdditions.h"
 #import "JBFeedImageTableViewCell.h"
 #import "JBFeedDonateTableViewCell.h"
-#import "JBFeedTableViewController.h"
 #import "JBFeedCheckinTableViewCell.h"
 #import "JBPostsTableViewController.h"
-#import <UIScrollView+SVInfiniteScrolling.h>
 
 
 static NSString * const kTextCellIdentifier         = @"TextCell";
@@ -40,11 +34,21 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
 
 @interface JBPostsTableViewController () <JBFeedImageTableViewCellDelegate, JBFeedDonateTableViewCellDelegate>
 
+@property (nonatomic, strong) ACAccount *twitterAccount;
+@property (nonatomic, strong) ACAccount *facebookAccount;
+@property (nonatomic, strong) ACAccountStore *accountStore;
+
 @end
 
 @implementation JBPostsTableViewController
 
 #pragma mark - Accessors
+
+- (ACAccountStore *)accountStore
+{
+    if (!_accountStore) _accountStore = [ACAccountStore new];
+    return _accountStore;
+}
 
 - (NSMutableArray *)posts
 {
@@ -177,7 +181,7 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
         [weakSelf.tableView setEditing:NO animated:YES];
     }];
     
-    if (selectedPost.postType == JBPostTypeTwitter)
+    if (selectedPost.postType == JBPostTypeFacebook)
     {
         UITableViewRowAction *favouriteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Fave" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
             [self favoritePost:selectedPost];
@@ -195,7 +199,7 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
         
         actions = @[viewAction, favouriteAction, retweetAction];
     }
-    else if (selectedPost.postType == JBPostTypeFacebook)
+    else if (selectedPost.postType == JBPostTypeTwitter)
     {
         UITableViewRowAction *likeAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Like" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
             [self likePost:selectedPost];
@@ -362,102 +366,208 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
 
 - (void)favoritePost:(JBPost *)post
 {
-    ACAccountStore *accountStore = [ACAccountStore new];
-    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    
-    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
-        if (granted)
+    [self getTwitterAccountWithCompletionHandler:^(ACAccount *twitterAccount) {
+        if (twitterAccount)
         {
-            ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
+            NSURL *favoriteRequestURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/favorites/create.json?id=%@", @(post.twitter.tweetId)]];
+            SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                                    requestMethod:SLRequestMethodPOST
+                                                              URL:favoriteRequestURL
+                                                       parameters:nil];
+            request.account = twitterAccount;
             
-            if (account)
-            {
-                NSURL *requestURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/favorites/create.json?id=%@", @(post.twitter.tweetId)]];
-                SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
-                                                        requestMethod:SLRequestMethodPOST
-                                                                  URL:requestURL
-                                                           parameters:nil];
-                request.account = account;
-                [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
-                    NSString *errorMessage = [response[@"errors"] firstObject][@"message"];
-                    
-                    if (errorMessage)
-                    {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
-                        });
-                    }
-                    else
-                    {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [TSMessage displayMessageWithTitle:[NSString stringWithFormat:@"Favourited @%@'s Tweet!", post.twitter.twitterUsername] subtitle:nil type:TSMessageTypeSuccess];
-                        });
-                    }
-                }];
-            }
-            else
-            {
-                [TSMessage displayMessageWithTitle:@"No Twitter Account Found" subtitle:@"Please go into settings and log into Twitter" type:TSMessageTypeWarning];
-            }
-        }
-        else
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [TSMessage displayMessageWithTitle:@"Twitter Account Access Not Granted" subtitle:@"Go into settings and allow this app to use your account" type:TSMessageTypeError];
-            });
+            [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
+                NSString *errorMessage = [response[@"errors"] firstObject][@"message"];
+                
+                if (errorMessage)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [TSMessage displayMessageWithTitle:[NSString stringWithFormat:@"Favourited @%@'s Tweet!", post.twitter.twitterUsername] subtitle:nil type:TSMessageTypeSuccess];
+                    });
+                }
+            }];
         }
     }];
 }
 
 - (void)retweetPost:(JBPost *)post
 {
-    ACAccountStore *accountStore = [ACAccountStore new];
-    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    
-    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
-        if (granted)
+    [self getTwitterAccountWithCompletionHandler:^(ACAccount *twitterAccount) {
+        if (twitterAccount)
         {
-            ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
+            NSURL *retweetURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/statuses/retweet/%@.json", @(post.twitter.tweetId)]];
+            SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:retweetURL parameters:nil];
+            request.account = twitterAccount;
             
-            if (account)
+            [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
+                NSString *errorMessage = [response[@"errors"] firstObject][@"message"];
+                
+                if (errorMessage)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [TSMessage displayMessageWithTitle:[NSString stringWithFormat:@"Retweeted @%@'s Tweet!", post.twitter.twitterUsername] subtitle:nil type:TSMessageTypeSuccess];
+                    });
+                }
+            }];
+        }
+    }];
+}
+
+- (void)getTwitterAccountWithCompletionHandler:(void (^)(ACAccount *twitterAccount))completionHandler
+{
+    if (self.twitterAccount)
+    {
+        completionHandler(self.twitterAccount);
+    }
+    else
+    {
+        ACAccountType *accountType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+        
+        [self.accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+            if (granted)
             {
-                NSURL *retweetURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/statuses/retweet/%@.json", @(post.twitter.tweetId)]];
-                SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:retweetURL parameters:nil];
-                request.account = account;
-                [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
-                    NSString *errorMessage = [response[@"errors"] firstObject][@"message"];
-                    
-                    if (errorMessage)
+                self.twitterAccount = [self.accountStore accountsWithAccountType:accountType].firstObject;
+                
+                if (self.twitterAccount)
+                {
+                    completionHandler(self.twitterAccount);
+                }
+                else
+                {
+                    completionHandler(nil);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [TSMessage displayMessageWithTitle:@"No Twitter Account Found" subtitle:@"Please go into settings and log into Twitter" type:TSMessageTypeWarning];
+                    });
+                }
+            }
+            else
+            {
+                completionHandler(nil);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [TSMessage displayMessageWithTitle:@"Twitter Account Access Not Granted" subtitle:@"Go into settings and allow this app to use your account" type:TSMessageTypeError];
+                });
+            }
+        }];
+    }
+}
+
+#pragma mark - Facebook Helper Methods
+
+- (void)likePost:(JBPost *)post
+{
+    [self getFacebookAccountWithCompletionHandler:^(ACAccount *facebookAccount) {
+        if (facebookAccount)
+        {
+            NSURL *likeURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/v2.2/%@/likes", @(1405577633076859)]];
+            SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodPOST URL:likeURL parameters:@{}];
+            request.account = facebookAccount;
+            
+            [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
+                NSString *errorMessage = response[@"error"][@"message"];
+                
+                NSLog(@"%@", response);
+                
+                if (errorMessage)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
+                    });
+                }
+            }];
+        }
+    }];
+}
+
+- (void)getFacebookAccountWithCompletionHandler:(void (^)(ACAccount *facebookAccount))completionHandler
+{
+    if (self.facebookAccount)
+    {
+        completionHandler(self.facebookAccount);
+    }
+    else
+    {
+        ACAccountType *accountType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
+        NSDictionary *readOptions = @{ACFacebookAppIdKey: @"893612184039371", ACFacebookPermissionsKey: @[@"email"]};
+        
+        [self.accountStore requestAccessToAccountsWithType:accountType options:readOptions completion:^(BOOL granted, NSError *error) {
+            if (granted)
+            {
+                NSDictionary *writeOptions = @{ACFacebookAppIdKey: @"893612184039371", ACFacebookPermissionsKey: @[@"publish_actions"], ACFacebookAudienceKey: ACFacebookAudienceEveryone};
+                [self.accountStore requestAccessToAccountsWithType:accountType options:writeOptions completion:^(BOOL granted, NSError *error) {
+                    if (granted)
                     {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
-                        });
+                        self.facebookAccount = [[self.accountStore accountsWithAccountType:accountType] firstObject];
+                        
+                        if (self.facebookAccount)
+                        {
+                            completionHandler(self.facebookAccount);
+                        }
+                        else
+                        {
+                            completionHandler(nil);
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [TSMessage displayMessageWithTitle:@"No Facebook Account Found" subtitle:@"Please go into settings and log into Facebook" type:TSMessageTypeWarning];
+                            });
+                        }
                     }
                     else
                     {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [TSMessage displayMessageWithTitle:[NSString stringWithFormat:@"Retweeted @%@'s Tweet!", post.twitter.twitterUsername] subtitle:nil type:TSMessageTypeSuccess];
-                        });
+                        if (error.code == ACErrorAccountNotFound)
+                        {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [TSMessage displayMessageWithTitle:@"No Facebook Account Found" subtitle:@"Please go into settings and log into Facebook" type:TSMessageTypeWarning];
+                            });
+                        }
+                        else
+                        {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [TSMessage displayMessageWithTitle:@"Facebook Read Access Not Granted" subtitle:error.localizedDescription type:TSMessageTypeError];
+                            });
+                        }
                     }
                 }];
             }
             else
             {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [TSMessage displayMessageWithTitle:@"No Twitter Account Found" subtitle:@"Please go into settings and log into Twitter" type:TSMessageTypeWarning];
-                });
+                if (error.code == ACErrorAccountNotFound)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [TSMessage displayMessageWithTitle:@"No Facebook Account Found" subtitle:@"Please go into settings and log into Facebook" type:TSMessageTypeWarning];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [TSMessage displayMessageWithTitle:@"Facebook Read Access Not Granted" subtitle:error.localizedDescription type:TSMessageTypeError];
+                    });
+                }
             }
-        }
-        else
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [TSMessage displayMessageWithTitle:@"Twitter Account Access Not Granted" subtitle:error.localizedDescription type:TSMessageTypeError];
-            });
-        }
-    }];
+        }];
+    }
 }
+
+#pragma mark - Helper Methods
 
 - (void)openPostInApp:(JBPost *)post
 {
@@ -504,64 +614,6 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
         }
     }
 }
-
-#pragma mark - Facebook Helper Methods
-
-- (void)likePost:(JBPost *)post
-{
-    ACAccountStore *accountStore = [ACAccountStore new];
-    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
-    NSDictionary *readOptions = @{ACFacebookAppIdKey: @"893612184039371", ACFacebookPermissionsKey: @[@"email"], ACFacebookAudienceKey: ACFacebookAudienceEveryone};
-    
-    [accountStore requestAccessToAccountsWithType:accountType options:readOptions completion:^(BOOL granted, NSError *error) {
-        if (granted)
-        {
-            NSDictionary *writeOptions = @{ACFacebookAppIdKey: @"893612184039371", ACFacebookPermissionsKey: @[@"publish_actions"], ACFacebookAudienceKey: ACFacebookAudienceEveryone};
-            [accountStore requestAccessToAccountsWithType:accountType options:writeOptions completion:^(BOOL granted, NSError *error) {
-                ACAccount *account = [[accountStore accountsWithAccountType:accountType] firstObject];
-                
-                if (account)
-                {
-                    NSURL *likeURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/v2.2/%@/likes", @(post.facebook.facebookPostId)]];
-                    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodPOST URL:likeURL parameters:nil];
-                    request.account = account;
-                    
-                    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
-                        NSString *errorMessage = response[@"error"][@"message"];
-                        
-                        if (errorMessage)
-                        {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
-                            });
-                        }
-                        else
-                        {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
-                            });
-                        }
-                    }];
-                }
-                else
-                {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [TSMessage displayMessageWithTitle:@"No Facebook Account Found" subtitle:@"Please go into settings and log into Facebook" type:TSMessageTypeWarning];
-                    });
-                }
-            }];
-        }
-        else
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [TSMessage displayMessageWithTitle:@"Facebook Account Access Not Granted" subtitle:error.localizedDescription type:TSMessageTypeError];
-            });
-        }
-    }];
-}
-
-#pragma mark - Helper Methods
 
 - (void)updateCellTimeAgoLabel:(NSTimer *)timer
 {

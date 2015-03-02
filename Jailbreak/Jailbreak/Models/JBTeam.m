@@ -38,8 +38,6 @@
         self.universityString = [aDecoder decodeObjectForKey:@"universityString"];
         self.amountRaisedOnline = [aDecoder decodeIntegerForKey:@"amountRaisedOnline"];
         self.amountRaisedOffline = [aDecoder decodeIntegerForKey:@"amountRaisedOffline"];
-        self.distanceToX = [aDecoder decodeDoubleForKey:@"distanceToX"];
-        self.distanceTravelled = [aDecoder decodeDoubleForKey:@"distanceTravelled"];
         self.countries = [aDecoder decodeIntegerForKey:@"countries"];
         self.transports = [aDecoder decodeIntegerForKey:@"transports"];
         self.donationsURL = [aDecoder decodeObjectForKey:@"donationsURL"];
@@ -70,8 +68,6 @@
     [aCoder encodeObject:self.universityString forKey:@"universityString"];
     [aCoder encodeInteger:self.amountRaisedOnline forKey:@"amountRaisedOnline"];
     [aCoder encodeInteger:self.amountRaisedOffline forKey:@"amountRaisedOffline"];
-    [aCoder encodeDouble:self.distanceToX forKey:@"distanceToX"];
-    [aCoder encodeDouble:self.distanceTravelled forKey:@"distanceTravelled"];
     [aCoder encodeInteger:self.countries forKey:@"countries"];
     [aCoder encodeInteger:self.transports forKey:@"transports"];
     [aCoder encodeObject:self.donationsURL forKey:@"donationsURL"];

@@ -67,10 +67,7 @@
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                       for (NSDictionary *dict in responseObject)
                                                       {
-                                                          JBTeam *team = [[JBTeam alloc] initWithJSON:dict];
-                                                          team.distanceToX = [team.lastCheckin.location distanceFromLocation:self.service.finalLocation];
-                                                          team.distanceTravelled = [self.service.startLocation distanceFromLocation:team.lastCheckin.location];
-                                                          [self.teams addObject:team];
+                                                          [self.teams addObject:[[JBTeam alloc] initWithJSON:dict]];
                                                       }
                                                       
                                                       [self stopLoadingIndicator];
@@ -175,10 +172,7 @@
                                                   
                                                   for (NSDictionary *dict in responseObject)
                                                   {
-                                                      JBTeam *team = [[JBTeam alloc] initWithJSON:dict];
-                                                      team.distanceToX = [team.lastCheckin.location distanceFromLocation:self.service.finalLocation];
-                                                      team.distanceTravelled = [self.service.startLocation distanceFromLocation:team.lastCheckin.location];
-                                                      [self.teams addObject:team];
+                                                      [self.teams addObject:[[JBTeam alloc] initWithJSON:dict]];
                                                   }
                                                   
                                                   [self stopLoadingIndicator];

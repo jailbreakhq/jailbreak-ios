@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSDate *createdTime;
 @property (nonatomic, assign) NSUInteger teamID;
 @property (nonatomic, strong) JBTeam *limitedTeam;
+@property (nonatomic, assign) CLLocationDistance distanceToX;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
 

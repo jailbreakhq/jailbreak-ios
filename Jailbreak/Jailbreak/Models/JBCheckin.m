@@ -25,6 +25,7 @@
         self.createdTime = [aDecoder decodeObjectForKey:@"createdTime"];
         self.teamID = [aDecoder decodeIntegerForKey:@"teamID"];
         self.limitedTeam = [aDecoder decodeObjectForKey:@"limitedTeam"];
+        self.distanceToX = [aDecoder decodeDoubleForKey:@"distanceToX"];
     }
     
     return self;
@@ -39,6 +40,7 @@
     [aCoder encodeObject:self.createdTime forKey:@"createdTime"];
     [aCoder encodeInteger:self.teamID forKey:@"teamID"];
     [aCoder encodeObject:self.limitedTeam forKey:@"limitedTeam"];
+    [aCoder encodeDouble:self.distanceToX forKey:@"distanceToX"];
 }
 
 #pragma mark - NSObject
@@ -56,6 +58,7 @@
                                                    longitude:[json[@"lon"] doubleValue]];
         self.createdTime = [NSDate dateWithTimeIntervalSince1970:[json[@"time"] unsignedIntegerValue]];
         self.teamID = [json[@"teamId"] unsignedIntegerValue];
+        self.distanceToX = [json[@"distanceToX"] floatValue] * 1000.0; // km -> m
         
         if (json[@"team"])
         {

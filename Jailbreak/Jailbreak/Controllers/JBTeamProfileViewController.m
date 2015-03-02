@@ -347,8 +347,6 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     [[JBAPIManager manager] getTeamWithId:self.team.ID
                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                       weakSelf.team = [[JBTeam alloc] initWithJSON:responseObject];
-                                      weakSelf.team.distanceToX = [weakSelf.team.lastCheckin.location distanceFromLocation:weakSelf.service.finalLocation];
-                                      weakSelf.team.distanceTravelled = [weakSelf.service.startLocation distanceFromLocation:weakSelf.team.lastCheckin.location];
                                       [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
                                       
                                       JBTeamsTableViewController *vc = [self getPreviousViewController];

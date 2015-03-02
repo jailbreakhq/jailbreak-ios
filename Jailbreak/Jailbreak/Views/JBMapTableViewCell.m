@@ -26,7 +26,7 @@
     
     self.mapBannerView.backgroundColor = self.team.universityColor;
     self.locationLabel.text = self.team.lastCheckin.locationString;
-    self.distanceLabel.text = [[[self lengthFormatter] stringFromMeters:self.team.distanceToX] stringByAppendingString:@" remaining"];
+    self.distanceLabel.text = [[[self lengthFormatter] stringFromMeters:self.team.lastCheckin.distanceToX] stringByAppendingString:@" remaining"];
     
     JBAnnotation *annotation = [JBAnnotation new];
     annotation.customCoordinate = self.team.lastCheckin.location.coordinate;

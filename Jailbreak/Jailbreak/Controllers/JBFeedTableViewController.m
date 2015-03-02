@@ -236,14 +236,14 @@ static const NSUInteger kPostAPILimit = 50;
     {
         [self saveToArchiveObject:self.posts withKey:kPostsArchiveKey];
         
-        NSIndexPath *indexPath = [self.tableView indexPathsForVisibleRows].firstObject;
+        NSIndexPath *indexPath = (NSIndexPath *)[self.tableView indexPathsForVisibleRows].firstObject;
         [[NSUserDefaults standardUserDefaults] setObject:@{@"row": @(indexPath.row), @"section": @(indexPath.section)} forKey:kPreservedIndexPathKey];
     }
 }
 
 - (void)recursivelyGetEventsWithParameters:(NSDictionary *)parameters numberOfNewPostsSoFar:(NSUInteger)soFarCount untilCountIsGreaterThan:(NSUInteger)limit
 {
-    NSIndexPath *topRowIndexPath = [self.tableView indexPathsForVisibleRows].firstObject;
+    NSIndexPath *topRowIndexPath = (NSIndexPath *)[self.tableView indexPathsForVisibleRows].firstObject;
     __block NSUInteger totalCount = 0;
     
     [[JBAPIManager manager] getEventsWithParameters:parameters

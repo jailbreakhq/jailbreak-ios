@@ -29,7 +29,7 @@
     self.teamNameLabel.text = self.team.name;
     self.collegeLabel.text = self.team.universityString;
     self.rankLabel.text = [[self ordinalFormatter] stringFromNumber:@(self.team.position)];
-    self.distanceToXLabel.text = [[self lengthFormatter] stringFromMeters:self.team.distanceToX];
+    self.distanceToXLabel.text = [[self lengthFormatter] stringFromMeters:self.team.lastCheckin.distanceToX];
     self.checkinLabel.text = self.team.lastCheckin.locationString;
     self.placeholderLabel.hidden = YES;
     

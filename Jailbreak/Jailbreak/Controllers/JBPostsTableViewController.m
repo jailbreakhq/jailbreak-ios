@@ -638,6 +638,7 @@ static NSString * const kYouTubeCellIdentifier      = @"YouTubeCell";
     
     for (int i = 0; i < visibleCells.count; i++)
     {
+        NSLog(@"%@ %@", @(i), @(visibleCells.count));
         if ([visibleCells[i] respondsToSelector:@selector(timeLabel)])
         {
             [visibleCells[i] timeLabel].text = [[self.posts[[indexPathsForVisibleRows[i] row]] createdTime] shortTimeAgoSinceNow];

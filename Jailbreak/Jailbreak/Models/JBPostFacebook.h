@@ -10,7 +10,7 @@
 
 @interface JBPostFacebook : NSObject <NSCoding>
 
-@property (nonatomic, assign) NSUInteger facebookPostId;
+@property (nonatomic, strong) NSString *facebookPostId;
 @property (nonatomic, strong) NSURL *facebookPostURL;
 @property (nonatomic,strong) NSString *facebookPostBody;
 @property (nonatomic, strong) NSURL *linkURL; // optional

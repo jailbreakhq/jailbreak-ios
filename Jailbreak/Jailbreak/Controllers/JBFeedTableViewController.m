@@ -88,21 +88,9 @@ static const NSUInteger kPostAPILimit = 50;
     {
         [self startLoadingIndicator];
         
-        [[JBAPIManager manager] getEventsWithParameters:@{@"limit": @(kPostAPILimit)}
-                                                success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                    for (NSDictionary *event in responseObject)
-                                                    {
-                                                        if ([JBPost getPostTypeFromString:event[@"type"]] != JBPostTypeUndefined)
-                                                        {
-                                                            [self.posts addObject:[[JBPost alloc] initWithJSON:event]];
-                                                        }
-                                                    }
-                                                    [self.tableView reloadData];
-                                                    [self stopLoadingIndicator];
-                                                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                    [TSMessage displayMessageWithTitle:@"Failed to Fetch Posts" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
-                                                    [self stopLoadingIndicator];
-                                                }];
+        [SAMRateLimit executeBlock:^{
+            [self refresh];
+        } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
     }
     else
     {
@@ -127,12 +115,6 @@ static const NSUInteger kPostAPILimit = 50;
         
         [SAMRateLimit executeBlock:^{
             [self refresh];
-            
-            [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-                self.service = [[JBService alloc] initWithJSON:responseObject];
-                NSString *string = [NSString stringWithFormat:@"%@ Raised", [[self priceFormatter] stringFromNumber:@(self.service.amountRaised/100.0)]];
-                self.navigationItem.title = string;
-            } failure:nil];
         } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
     }
     
@@ -173,12 +155,6 @@ static const NSUInteger kPostAPILimit = 50;
     
     [SAMRateLimit executeBlock:^{
         [self refresh];
-        
-        [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            self.service = [[JBService alloc] initWithJSON:responseObject];
-            NSString *string = [NSString stringWithFormat:@"%@ Raised", [[self priceFormatter] stringFromNumber:@(self.service.amountRaised/100.0)]];
-            self.navigationItem.title = string;
-        } failure:nil];
     } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
 }
 
@@ -221,12 +197,6 @@ static const NSUInteger kPostAPILimit = 50;
 {
     [SAMRateLimit executeBlock:^{
         [self refresh];
-        
-        [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            self.service = [[JBService alloc] initWithJSON:responseObject];
-            NSString *string = [NSString stringWithFormat:@"%@ Raised", [[self priceFormatter] stringFromNumber:@(self.service.amountRaised/100.0)]];
-            self.navigationItem.title = string;
-        } failure:nil];
     } name:kSAMBlockName limit:kIntervalBetweenRefreshing];
 }
 
@@ -254,7 +224,7 @@ static const NSUInteger kPostAPILimit = 50;
                                                 {
                                                     if ([JBPost getPostTypeFromString:event[@"type"]] != JBPostTypeUndefined)
                                                     {
-                                                        [self.posts insertObject:[[JBPost alloc] initWithJSON:event] atIndex:0];
+                                                        [self.posts insertObject:[[JBPost alloc] initWithJSON:event] atIndex:newCount];
                                                         newCount++;
                                                     }
                                                 }
@@ -286,6 +256,7 @@ static const NSUInteger kPostAPILimit = 50;
                                                 }
                                                 else
                                                 {
+                                                    NSLog(@"oops");
                                                     [self recursivelyGetEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString}
                                                                        numberOfNewPostsSoFar:totalCount
                                                                      untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
@@ -323,9 +294,36 @@ static const NSUInteger kPostAPILimit = 50;
 
 - (void)refresh
 {
-    NSUInteger latestPostId = [self.posts.firstObject postId];
-    NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+kPostAPILimit), @"afterId": @(latestPostId)} jsonString];
-    [self recursivelyGetEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString} numberOfNewPostsSoFar:0 untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
+    [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        self.service = [[JBService alloc] initWithJSON:responseObject];
+        NSString *string = [NSString stringWithFormat:@"%@ Raised", [[self priceFormatter] stringFromNumber:@(self.service.amountRaised/100.0)]];
+        self.navigationItem.title = string;
+    } failure:nil];
+    
+    if (self.posts.count)
+    {
+        NSUInteger latestPostId = [self.posts.firstObject postId];
+        NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+kPostAPILimit), @"afterId": @(latestPostId)} jsonString];
+        [self recursivelyGetEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString} numberOfNewPostsSoFar:0 untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
+    }
+    else
+    {
+        [[JBAPIManager manager] getEventsWithParameters:@{@"limit": @(kPostAPILimit)}
+                                                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                    for (NSDictionary *event in responseObject)
+                                                    {
+                                                        if ([JBPost getPostTypeFromString:event[@"type"]] != JBPostTypeUndefined)
+                                                        {
+                                                            [self.posts addObject:[[JBPost alloc] initWithJSON:event]];
+                                                        }
+                                                    }
+                                                    [self.tableView reloadData];
+                                                    [self stopLoadingIndicator];
+                                                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                    [TSMessage displayMessageWithTitle:@"Failed to Fetch Posts" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+                                                    [self stopLoadingIndicator];
+                                                }];
+    }
 }
 
 @end

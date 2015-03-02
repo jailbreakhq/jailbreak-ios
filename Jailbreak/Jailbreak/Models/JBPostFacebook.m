@@ -16,7 +16,7 @@
     
     if (self)
     {
-        self.facebookPostId = [aDecoder decodeIntegerForKey:@"facebookPostId"];
+        self.facebookPostId = [aDecoder decodeObjectForKey:@"facebookPostId"];
         self.facebookPostURL = [aDecoder decodeObjectForKey:@"facebookPostURL"];
         self.facebookPostBody = [aDecoder decodeObjectForKey:@"facebookPostBody"];
         self.linkURL = [aDecoder decodeObjectForKey:@"linkURL"];
@@ -33,7 +33,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeInteger:self.facebookPostId forKey:@"facebookPostId"];
+    [aCoder encodeObject:self.facebookPostId forKey:@"facebookPostId"];
     [aCoder encodeObject:self.facebookPostURL forKey:@"facebookPostURL"];
     [aCoder encodeObject:self.facebookPostBody forKey:@"facebookPostBody"];
     [aCoder encodeObject:self.linkURL forKey:@"linkURL"];
@@ -53,7 +53,7 @@
     
     if (self)
     {
-        self.facebookPostId = [json[@"facebookId"] integerValue];
+        self.facebookPostId = json[@"facebookId"];
         self.facebookPostURL = [NSURL URLWithString:json[@"url"]];
         self.facebookPostBody = json[@"message"];
         self.linkURL = [NSURL URLWithString:json[@"linkUrl"]];

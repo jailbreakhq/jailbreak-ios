@@ -30,14 +30,6 @@ static const NSUInteger kPostAPILimit = 50;
 {
     [super viewDidLoad];    
     
-    [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        self.service = [[JBService alloc] initWithJSON:responseObject];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            self.service = [[JBService alloc] initWithJSON:responseObject];
-        } failure:nil];
-    }];
-    
     [self startLoadingIndicator];
     NSString *filtersJSONString = [@{@"teamId": @(self.team.ID)} jsonString];
     [[JBAPIManager manager] getEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString}
@@ -116,7 +108,7 @@ static const NSUInteger kPostAPILimit = 50;
 
 - (void)recursivelyGetEventsWithParameters:(NSDictionary *)parameters numberOfNewPostsSoFar:(NSUInteger)soFarCount untilCountIsGreaterThan:(NSUInteger)limit
 {
-    NSIndexPath *topRowIndexPath = [self.tableView indexPathsForVisibleRows].firstObject;
+    NSIndexPath *topRowIndexPath = (NSIndexPath *)[self.tableView indexPathsForVisibleRows].firstObject;
     __block NSUInteger totalCount = 0;
     
     [[JBAPIManager manager] getEventsWithParameters:parameters
@@ -136,21 +128,30 @@ static const NSUInteger kPostAPILimit = 50;
                                                 NSUInteger latestPostId = [self.posts.firstObject postId];
                                                 NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+kPostAPILimit), @"afterId": @(latestPostId)} jsonString];
                                                 
+                                                NSUInteger indexPathRow = totalCount;
+                                                indexPathRow += topRowIndexPath.row ?: -1;
+                                                
                                                 if (totalCount >= kNumberOfPostsToFetchWhenRefreshing || newCount < kPostAPILimit)
                                                 {
                                                     [self.refreshControl endRefreshing];
                                                     [self.tableView reloadData];
-                                                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:topRowIndexPath.row+totalCount inSection:0]
-                                                                          atScrollPosition:UITableViewScrollPositionBottom
-                                                                                  animated:YES];
                                                     
+                                                    if (self.posts.count)
+                                                    {
+                                                        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:indexPathRow inSection:0]
+                                                                              atScrollPosition:UITableViewScrollPositionBottom
+                                                                                      animated:YES];
+                                                    }
+
                                                     TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ New Posts", @(totalCount)] subtitle:nil type:TSMessageTypeDefault];
                                                     messageView.duration = 1.2;
                                                     [TSMessage displayOrEnqueueMessage:messageView];
                                                 }
                                                 else
                                                 {
-                                                    [self recursivelyGetEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString} numberOfNewPostsSoFar:totalCount untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
+                                                    [self recursivelyGetEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString}
+                                                                       numberOfNewPostsSoFar:totalCount
+                                                                     untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
                                                 }
                                                 
                                                 

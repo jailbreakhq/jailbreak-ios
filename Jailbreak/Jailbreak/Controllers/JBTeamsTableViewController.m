@@ -7,7 +7,6 @@
 //
 
 #import "JBTeam.h"
-#import "JBService.h"
 #import "JBTeamsTableViewCell.h"
 #import "JBTeamsTableViewController.h"
 #import "JBTeamProfileViewController.h"
@@ -16,7 +15,6 @@
 
 @property (nonatomic, strong) NSMutableArray *teamsPointer;
 @property (nonatomic, strong) UISearchController *searchController;
-@property (nonatomic, strong) JBService *service;
 
 @end
 
@@ -59,27 +57,20 @@
     self.tableView.tableHeaderView.backgroundColor = [UIColor clearColor];
     self.definesPresentationContext = YES; // Fixes dodgy search presenting when used outside Navigation Bar
     
-    [[JBAPIManager manager] getServicesWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        self.service = [[JBService alloc] initWithJSON:responseObject];
-        
-        // Fetch teams
-        [[JBAPIManager manager] getAllTeamsWithParameters:nil
-                                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                      for (NSDictionary *dict in responseObject)
-                                                      {
-                                                          [self.teams addObject:[[JBTeam alloc] initWithJSON:dict]];
-                                                      }
-                                                      
-                                                      [self stopLoadingIndicator];
-                                                      [self.tableView reloadData];
-                                                  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                      [TSMessage displayMessageWithTitle:@"Failed To Get Teams" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
-                                                      [self stopLoadingIndicator];
-                                                  }];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [TSMessage displayMessageWithTitle:@"Oops" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
-        [self stopLoadingIndicator];
-    }];    
+    // Fetch teams
+    [[JBAPIManager manager] getAllTeamsWithParameters:nil
+                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                  for (NSDictionary *dict in responseObject)
+                                                  {
+                                                      [self.teams addObject:[[JBTeam alloc] initWithJSON:dict]];
+                                                  }
+                                                  
+                                                  [self stopLoadingIndicator];
+                                                  [self.tableView reloadData];
+                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                  [TSMessage displayMessageWithTitle:@"Failed To Get Teams" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+                                                  [self stopLoadingIndicator];
+                                              }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -89,7 +80,6 @@
         JBTeamProfileViewController *dvc = (JBTeamProfileViewController *)segue.destinationViewController;
         dvc.team = self.teams[[sender section]];
         dvc.teamSectionIndex = [sender section];
-        dvc.service = self.service;
         dvc.title = [self.teams[[sender section]] name];
     }
 }

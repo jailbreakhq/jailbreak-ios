@@ -270,9 +270,14 @@ static const NSUInteger kPostAPILimit = 50;
                                                 {
                                                     [self.refreshControl endRefreshing];
                                                     [self.tableView reloadData];
-                                                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:indexPathRow inSection:0]
-                                                                          atScrollPosition:UITableViewScrollPositionBottom
-                                                                                  animated:!self.isFirstLaunch];
+                                                    
+                                                    if (self.posts.count)
+                                                    {
+                                                        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:indexPathRow inSection:0]
+                                                                              atScrollPosition:UITableViewScrollPositionBottom
+                                                                                      animated:!self.isFirstLaunch];
+                                                    }
+
                                                     self.firstLaunch = NO;
                                                     
                                                     TSMessageView *messageView = [TSMessage messageWithTitle:[NSString stringWithFormat:@"%@ New Posts", @(totalCount)] subtitle:nil type:TSMessageTypeDefault];
@@ -281,7 +286,9 @@ static const NSUInteger kPostAPILimit = 50;
                                                 }
                                                 else
                                                 {
-                                                    [self recursivelyGetEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString} numberOfNewPostsSoFar:totalCount untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
+                                                    [self recursivelyGetEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString}
+                                                                       numberOfNewPostsSoFar:totalCount
+                                                                     untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
                                                 }
                                                 
                                                 

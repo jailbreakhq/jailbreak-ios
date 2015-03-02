@@ -78,6 +78,7 @@
         case JBPostTypeCheckin:
         case JBPostTypeDonate:
         case JBPostTypeLink:
+        case JBPostTypeYouTube:
             self.thumbnailImageView.image = nil;
             break;
         case JBPostTypeFacebook:

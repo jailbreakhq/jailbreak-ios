@@ -808,7 +808,7 @@
             <objects>
                 <tableViewController id="zNC-dd-tqg" customClass="JBFeedTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="VFF-3g-33s">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="1500"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.82793557643890381" green="0.83891397714614868" blue="0.86943817138671875" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
@@ -1348,6 +1348,87 @@
                                     <outlet property="titleLabel" destination="Gi0-Tu-e8y" id="Q2g-re-Xib"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="YouTubeCell" rowHeight="204" id="AOj-6a-xbC" customClass="JBFeedYouTubeTableViewCell">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AOj-6a-xbC" id="vdc-b2-yFr">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ePN-hO-Imd" customClass="JBCircularImageView">
+                                            <rect key="frame" x="309" y="10" width="45" height="45"/>
+                                            <color key="backgroundColor" red="0.82793557640000004" green="0.83891397710000004" blue="0.86943817140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="45" id="913-Uu-O1N"/>
+                                                <constraint firstAttribute="width" constant="45" id="hu5-Sa-US4"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="41" placeholderIntrinsicHeight="20" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a2M-h3-6II" userLabel="Title">
+                                            <rect key="frame" x="364" y="10" width="156" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="22" id="IS5-r6-VWD"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="40" placeholderIntrinsicHeight="22" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pGB-FS-Vxl" userLabel="Time Ago">
+                                            <rect key="frame" x="550" y="10" width="40" height="22"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" placeholderIntrinsicWidth="38" placeholderIntrinsicHeight="21" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FlU-DJ-iri" userLabel="Body">
+                                            <rect key="frame" x="364" y="34" width="226" height="21"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="15" placeholderIntrinsicHeight="15" translatesAutoresizingMaskIntoConstraints="NO" id="39m-e0-OCN">
+                                            <rect key="frame" x="530" y="14" width="15" height="15"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="15" id="aBV-T7-mEM"/>
+                                            </constraints>
+                                        </imageView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeM-l0-ol4" customClass="JBYouTubeView">
+                                            <rect key="frame" x="364" y="65" width="226" height="128"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="zeM-l0-ol4" secondAttribute="height" multiplier="30:17" id="gcP-7x-7qj"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="pGB-FS-Vxl" secondAttribute="trailing" constant="10" id="418-1n-d1U"/>
+                                        <constraint firstItem="ePN-hO-Imd" firstAttribute="leading" secondItem="vdc-b2-yFr" secondAttribute="leading" constant="10" id="42d-jJ-AQd"/>
+                                        <constraint firstAttribute="bottom" secondItem="zeM-l0-ol4" secondAttribute="bottom" constant="10" id="4fY-fq-mgr"/>
+                                        <constraint firstItem="FlU-DJ-iri" firstAttribute="leading" secondItem="ePN-hO-Imd" secondAttribute="trailing" constant="10" id="Lvq-Ad-11w"/>
+                                        <constraint firstItem="zeM-l0-ol4" firstAttribute="leading" secondItem="ePN-hO-Imd" secondAttribute="trailing" constant="10" id="MZw-Nf-JQK"/>
+                                        <constraint firstItem="pGB-FS-Vxl" firstAttribute="leading" secondItem="39m-e0-OCN" secondAttribute="trailing" constant="5" id="V2d-0x-dP8"/>
+                                        <constraint firstItem="39m-e0-OCN" firstAttribute="centerY" secondItem="pGB-FS-Vxl" secondAttribute="centerY" id="VG6-gx-cvC"/>
+                                        <constraint firstAttribute="trailing" secondItem="zeM-l0-ol4" secondAttribute="trailing" constant="10" id="VOl-BC-OSa"/>
+                                        <constraint firstItem="a2M-h3-6II" firstAttribute="leading" secondItem="ePN-hO-Imd" secondAttribute="trailing" constant="10" id="Ypl-Br-pMR"/>
+                                        <constraint firstItem="FlU-DJ-iri" firstAttribute="top" secondItem="a2M-h3-6II" secondAttribute="bottom" constant="2" id="gx3-8o-cVR"/>
+                                        <constraint firstItem="pGB-FS-Vxl" firstAttribute="top" secondItem="vdc-b2-yFr" secondAttribute="top" constant="10" id="k1d-8J-Tbb"/>
+                                        <constraint firstItem="a2M-h3-6II" firstAttribute="top" secondItem="vdc-b2-yFr" secondAttribute="top" constant="10" id="kpl-6g-jii"/>
+                                        <constraint firstItem="39m-e0-OCN" firstAttribute="centerY" secondItem="a2M-h3-6II" secondAttribute="centerY" id="l64-aG-3b5"/>
+                                        <constraint firstItem="zeM-l0-ol4" firstAttribute="top" secondItem="FlU-DJ-iri" secondAttribute="bottom" constant="10" id="m8a-C2-nmb"/>
+                                        <constraint firstItem="ePN-hO-Imd" firstAttribute="top" secondItem="vdc-b2-yFr" secondAttribute="top" constant="10" id="rae-xi-8bv"/>
+                                        <constraint firstAttribute="trailing" secondItem="FlU-DJ-iri" secondAttribute="trailing" constant="10" id="v6a-3V-4Yv"/>
+                                        <constraint firstAttribute="trailing" secondItem="a2M-h3-6II" secondAttribute="trailing" constant="80" id="xwx-1I-MqG"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="VG6-gx-cvC"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="avatarImageView" destination="ePN-hO-Imd" id="d0I-86-0wc"/>
+                                    <outlet property="bodyLabel" destination="FlU-DJ-iri" id="U2h-dB-QG8"/>
+                                    <outlet property="socialNetworkImageView" destination="39m-e0-OCN" id="24e-gv-BeX"/>
+                                    <outlet property="timeLabel" destination="pGB-FS-Vxl" id="b2W-xV-hwm"/>
+                                    <outlet property="titleLabel" destination="a2M-h3-6II" id="pU0-Dl-sMm"/>
+                                    <outlet property="youTubeView" destination="zeM-l0-ol4" id="MwU-Kd-uqW"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="zNC-dd-tqg" id="KkG-k1-uCT"/>
@@ -1363,11 +1444,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="600" height="1500"/>
+                    <size key="freeformSize" width="600" height="1800"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ik6-kI-AkZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="943" y="1527"/>
+            <point key="canvasLocation" x="929" y="1699"/>
         </scene>
         <!--Social Feed-->
         <scene sceneID="QPJ-qr-uSL">

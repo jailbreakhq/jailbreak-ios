@@ -84,6 +84,7 @@
                 self.instagram = [[JBPostInstagram alloc] initWithJSON:json[@"instagram"]];
                 self.containsThumbnail = YES;
                 self.limitedTeam = self.instagram.limitedTeam ?: nil;
+                self.createdTime = self.instagram.createdTime;
                 break;
             case JBPostTypeLink:
                 self.link = [[JBPostLink alloc] initWithJSON:json[@"link"]];
@@ -99,6 +100,13 @@
                 self.vine = [[JBPostVine alloc] initWithJSON:json[@"vine"]];
                 self.containsThumbnail = YES;
                 self.limitedTeam = self.vine.limitedTeam ?: nil;
+                self.createdTime = self.vine.createdTime;
+                break;
+            case JBPostTypeYouTube:
+                self.youtube = [[JBPostYouTube alloc] initWithJSON:json[@"youtube"]];
+                self.containsThumbnail = YES;
+                self.limitedTeam = self.youtube.limitedTeam ?: nil;
+                self.createdTime = self.youtube.createdTime;
                 break;
             case JBPostTypeUndefined:
                 break;
@@ -113,7 +121,7 @@
 + (JBPostType)getPostTypeFromString:(NSString *)string
 {
     NSDictionary *lookup = @{@"twitter": @1, @"instagram": @2, @"facebook": @3, @"vine": @4,
-                             @"donate": @5, @"link": @6, @"checkin": @7};
+                             @"donate": @5, @"link": @6, @"checkin": @7, @"youtube": @8};
     
     return (JBPostType)[lookup[string.lowercaseString] unsignedIntegerValue];
 }

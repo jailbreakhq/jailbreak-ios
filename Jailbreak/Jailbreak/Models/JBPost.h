@@ -11,6 +11,7 @@
 #import "JBPostVine.h"
 #import "JBPostDonate.h"
 #import "JBPostTwitter.h"
+#import "JBPostYouTube.h"
 #import "JBPostFacebook.h"
 #import "JBPostInstagram.h"
 #import <Foundation/Foundation.h>
@@ -25,6 +26,7 @@ typedef NS_ENUM(NSUInteger, JBPostType)
     JBPostTypeDonate,
     JBPostTypeLink,
     JBPostTypeCheckin,
+    JBPostTypeYouTube,
 };
 
 @interface JBPost : NSObject <NSCoding>
@@ -41,6 +43,7 @@ typedef NS_ENUM(NSUInteger, JBPostType)
 @property (nonatomic, strong) JBPostLink *link;
 @property (nonatomic, strong) JBPostVine *vine;
 @property (nonatomic, strong) JBPostDonate *donate;
+@property (nonatomic, strong) JBPostYouTube *youtube;
 @property (nonatomic, strong) JBPostTwitter *twitter;
 @property (nonatomic, strong) JBPostFacebook *facebook;
 @property (nonatomic, strong) JBPostInstagram *instagram;

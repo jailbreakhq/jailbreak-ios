@@ -28,6 +28,7 @@
         self.teamId = [aDecoder decodeIntegerForKey:@"teamId"];
         self.limitedTeam = [aDecoder decodeObjectForKey:@"limitedTeam"];
         self.authorPhotoURL = [aDecoder decodeObjectForKey:@"authorPhotoURL"];
+        self.createdTime = [aDecoder decodeObjectForKey:@"createdTime"];
     }
     
     return self;
@@ -45,6 +46,7 @@
     [aCoder encodeInteger:self.teamId forKey:@"teamId"];
     [aCoder encodeObject:self.limitedTeam forKey:@"limitedTeam"];
     [aCoder encodeObject:self.authorPhotoURL forKey:@"authorPhotoURL"];
+    [aCoder encodeObject:self.createdTime forKey:@"createdTime"];
 }
 
 #pragma mark - Initialiser
@@ -62,6 +64,7 @@
         self.authorURL = [NSURL URLWithString:json[@"authorUrl"]];
         self.teamId = [json[@"teamId"] unsignedIntegerValue];
         self.authorPhotoURL = [NSURL URLWithString:json[@"authorPhotoUrl"]];
+        self.createdTime = [NSDate dateWithTimeIntervalSince1970:[json[@"time"] unsignedIntegerValue]];
         
         if (json[@"team"])
         {

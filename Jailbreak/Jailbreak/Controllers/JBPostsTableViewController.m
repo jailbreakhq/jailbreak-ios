@@ -31,6 +31,7 @@ static NSString * const kVineCellIdentifier         = @"VineCell";
 static NSString * const kDonateCellIdentifier       = @"DonateCell";
 static NSString * const kLinkCellIdentifier         = @"LinkCell";
 static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
+static NSString * const kYouTubeCellIdentifier      = @"YouTubeCell";
 
 @interface JBPostsTableViewController () <JBFeedImageTableViewCellDelegate, JBFeedDonateTableViewCellDelegate>
 
@@ -105,6 +106,10 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
     if ([self.posts[indexPath.row] postType] == JBPostTypeLink)
     {
         cell = [tableView dequeueReusableCellWithIdentifier:kLinkCellIdentifier forIndexPath:indexPath];
+    }
+    else if ([self.posts[indexPath.row] postType] == JBPostTypeYouTube)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:kYouTubeCellIdentifier forIndexPath:indexPath];
     }
     else if ([self.posts[indexPath.row] containsThumbnail])
     {
@@ -281,6 +286,14 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
         height = 20 + width + 10 + 10 + 20 + 45;
         height += [self heightForLabelWithText:post.link.linkDescription maxHeight:CGFLOAT_MAX width:width font:font];
     }
+    else if ([cellIdentifier isEqualToString:kYouTubeCellIdentifier])
+    {
+        NSString *text = post.youtube.youTubeDescription;
+        
+        width -= (65 + 10);
+        height = 10 + 22 + 2 + 10 + ceilf((width/30.0)*17.0) + 10;
+        height += [self heightForLabelWithText:text maxHeight:CGFLOAT_MAX width:width font:font];
+    }
     
     height += 5; // hacky hack hack
     
@@ -330,6 +343,10 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
     if (post.postType == JBPostTypeLink)
     {
         cellIdentifier = kLinkCellIdentifier;
+    }
+    else if (post.postType == JBPostTypeYouTube)
+    {
+        cellIdentifier = kYouTubeCellIdentifier;
     }
     else if (post.containsThumbnail)
     {
@@ -577,6 +594,7 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
         case JBPostTypeUndefined:
         case JBPostTypeLink:
         case JBPostTypeFacebook:
+        case JBPostTypeYouTube:
             break;
         case JBPostTypeInstagram:
             if (!post.instagram.instagramMediaId) return;

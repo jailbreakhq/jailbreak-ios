@@ -53,7 +53,7 @@
     
     if (self)
     {
-        self.facebookPostId = [json[@"facebookId"] unsignedIntegerValue];
+        self.facebookPostId = [json[@"facebookId"] integerValue];
         self.facebookPostURL = [NSURL URLWithString:json[@"url"]];
         self.facebookPostBody = json[@"message"];
         self.linkURL = [NSURL URLWithString:json[@"linkUrl"]];

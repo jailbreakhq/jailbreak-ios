@@ -47,6 +47,9 @@
             self.socialNetworkImageView.image = [UIImage imageNamed:@"vineLogo"];
             self.bodyLabel.text = post.vine.vineDescription;
             break;
+        case JBPostTypeYouTube:
+            self.socialNetworkImageView.image = [UIImage imageNamed:@"youTubeLogo"];
+            self.bodyLabel.text = post.youtube.youTubeDescription;
     }
     
     if (post.limitedTeam)
@@ -83,6 +86,10 @@
             case JBPostTypeVine:
                 self.titleLabel.text = [NSString stringWithFormat:@"@%@", post.vine.authorUsername];
                 [self.avatarImageView sd_setImageWithProgressAndURL:post.vine.authorPhotoURL];
+                break;
+            case JBPostTypeYouTube:
+                self.titleLabel.text = [NSString stringWithFormat:@"@%@", post.youtube.authorUsername];
+                [self.avatarImageView sd_setImageWithProgressAndURL:post.youtube.authorPhotoURL];
                 break;
         }
     }

@@ -8,6 +8,7 @@
 
 #import "UIColor+JBAdditions.h"
 #import "JBFeedLinkTableViewCell.h"
+#import "STKWebKitModalViewController.h"
 #import "UIImageView+WebCacheWithProgress.h"
 
 @implementation JBFeedLinkTableViewCell
@@ -32,7 +33,8 @@
 
 - (void)didTapDonateButton:(UIButton *)sender
 {
-    [[UIApplication sharedApplication] openURL:self.post.link.url];
+    STKWebKitModalViewController *webViewViewController = [[STKWebKitModalViewController alloc] initWithURL:self.post.link.url];
+    [self.window.rootViewController presentViewController:webViewViewController animated:YES completion:nil];
 }
 
 @end

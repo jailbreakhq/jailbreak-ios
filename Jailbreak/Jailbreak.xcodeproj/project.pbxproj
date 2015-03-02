@@ -32,6 +32,9 @@
 		E43EFEEF1A8BE61600B93D05 /* JBButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E43EFEEE1A8BE61600B93D05 /* JBButton.m */; };
 		E43EFEF21A8BF80900B93D05 /* UIColor+JBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E43EFEF11A8BF80900B93D05 /* UIColor+JBAdditions.m */; };
 		E4474A221A92A74D005557B1 /* JBAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E4474A211A92A74D005557B1 /* JBAnnotation.m */; };
+		E452813F1AA40737006D2332 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E452813E1AA40737006D2332 /* WebKit.framework */; };
+		E45281441AA4172D006D2332 /* STKWebKitModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E45281411AA4172D006D2332 /* STKWebKitModalViewController.m */; };
+		E45281451AA4172D006D2332 /* STKWebKitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E45281431AA4172D006D2332 /* STKWebKitViewController.m */; };
 		E45700691A794C2300A36ACD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45700681A794C2300A36ACD /* QuartzCore.framework */; };
 		E457006C1A7959AC00A36ACD /* JBCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = E457006B1A7959AC00A36ACD /* JBCheckin.m */; };
 		E457006F1A795D8B00A36ACD /* JBAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E457006E1A795D8B00A36ACD /* JBAPIManager.m */; };
@@ -131,6 +134,11 @@
 		E43EFEF11A8BF80900B93D05 /* UIColor+JBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+JBAdditions.m"; sourceTree = "<group>"; };
 		E4474A201A92A74D005557B1 /* JBAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAnnotation.h; sourceTree = "<group>"; };
 		E4474A211A92A74D005557B1 /* JBAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAnnotation.m; sourceTree = "<group>"; };
+		E452813E1AA40737006D2332 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		E45281401AA4172D006D2332 /* STKWebKitModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKWebKitModalViewController.h; sourceTree = "<group>"; };
+		E45281411AA4172D006D2332 /* STKWebKitModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKWebKitModalViewController.m; sourceTree = "<group>"; };
+		E45281421AA4172D006D2332 /* STKWebKitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKWebKitViewController.h; sourceTree = "<group>"; };
+		E45281431AA4172D006D2332 /* STKWebKitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKWebKitViewController.m; sourceTree = "<group>"; };
 		E45700681A794C2300A36ACD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E457006A1A7959AC00A36ACD /* JBCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCheckin.h; sourceTree = "<group>"; };
 		E457006B1A7959AC00A36ACD /* JBCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCheckin.m; sourceTree = "<group>"; };
@@ -210,6 +218,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E452813F1AA40737006D2332 /* WebKit.framework in Frameworks */,
 				E477F0611A9E07D700BF8BE7 /* MediaPlayer.framework in Frameworks */,
 				E4DFCCA31A9C1AE200E8D9B9 /* Accounts.framework in Frameworks */,
 				E4DFCCA11A9C0CDD00E8D9B9 /* Social.framework in Frameworks */,
@@ -242,6 +251,7 @@
 		A9665AFB6D1A3B96C5ED9B60 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E452813E1AA40737006D2332 /* WebKit.framework */,
 				E477F0601A9E07D700BF8BE7 /* MediaPlayer.framework */,
 				E4DFCCA21A9C1AE200E8D9B9 /* Accounts.framework */,
 				E4DFCCA01A9C0CDD00E8D9B9 /* Social.framework */,
@@ -343,6 +353,10 @@
 				E4A18D1B1A96BB6D0086D70A /* JBTeamsMapViewController.m */,
 				E45E01221A803CB30034CA28 /* JBTeamsTableViewController.h */,
 				E45E01231A803CB30034CA28 /* JBTeamsTableViewController.m */,
+				E45281401AA4172D006D2332 /* STKWebKitModalViewController.h */,
+				E45281411AA4172D006D2332 /* STKWebKitModalViewController.m */,
+				E45281421AA4172D006D2332 /* STKWebKitViewController.h */,
+				E45281431AA4172D006D2332 /* STKWebKitViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -614,6 +628,7 @@
 				E4B54A4F1A9D766C00AB9481 /* JBPostVine.m in Sources */,
 				E476BDAE1A92E66200728C9E /* JBTeamSummaryTableViewCell.m in Sources */,
 				E46510EF1AA053C500CF9CF7 /* JBIntroViewController.m in Sources */,
+				E45281451AA4172D006D2332 /* STKWebKitViewController.m in Sources */,
 				E43EFEEF1A8BE61600B93D05 /* JBButton.m in Sources */,
 				E41448E81A76968D002EB3AB /* JBTeam.m in Sources */,
 				E45E01201A802E0D0034CA28 /* CERoundProgressView.m in Sources */,
@@ -625,6 +640,7 @@
 				E4B54A521A9D795400AB9481 /* JBPostInstagram.m in Sources */,
 				E41448F61A76E0DA002EB3AB /* JBBaseTableViewController.m in Sources */,
 				E46A92731A79CA2A002EF3A3 /* JBChallenge.m in Sources */,
+				E45281441AA4172D006D2332 /* STKWebKitModalViewController.m in Sources */,
 				E43EFEF21A8BF80900B93D05 /* UIColor+JBAdditions.m in Sources */,
 				E4B54A461A9CE0D500AB9481 /* JBPostFacebook.m in Sources */,
 				E45E01151A8004300034CA28 /* JBCircularImageView.m in Sources */,

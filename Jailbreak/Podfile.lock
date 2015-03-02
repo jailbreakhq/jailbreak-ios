@@ -32,6 +32,7 @@ PODS:
   - SVPullToRefresh (0.4.1)
   - TPKeyboardAvoiding (1.2.6)
   - TSMessages (1.0)
+  - TTTAttributedLabel (1.13.2)
   - XCDYouTubeKit (2.1.0)
 
 DEPENDENCIES:
@@ -46,6 +47,7 @@ DEPENDENCIES:
   - SVPullToRefresh
   - TPKeyboardAvoiding
   - TSMessages (from `https://github.com/Shayanzadeh/TSMessages`, branch `jailbreak`)
+  - TTTAttributedLabel
   - XCDYouTubeKit
 
 EXTERNAL SOURCES:
@@ -70,6 +72,7 @@ SPEC CHECKSUMS:
   SVPullToRefresh: d5161ebc833a38b465364412e5e307ca80bbb190
   TPKeyboardAvoiding: 0797ad5f2366e2435e605202b01f3b7cff5d82cd
   TSMessages: 76809620fd0e599012f3aea30febb0e9513feb74
+  TTTAttributedLabel: 7c4592f9a806badb8b48dc634cb9800447c51594
   XCDYouTubeKit: 0c6f5b28d27b0646989b7c42edd165997ec52299
 
 COCOAPODS: 0.35.0

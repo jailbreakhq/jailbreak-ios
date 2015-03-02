@@ -18,6 +18,7 @@ Development
 - [**DateTools**](https://github.com/MatthewYork/DateTools)
 - [**SAMRateLimit**](https://github.com/soffes/SAMRateLimit)
 - [**TSMessages**](https://github.com/Shayanzadeh/TSMessages)
+- [**TTTAttributedLabel**](https://github.com/TTTAttributedLabel/TTTAttributedLabel)
 
 ###Installing Dependencies
 

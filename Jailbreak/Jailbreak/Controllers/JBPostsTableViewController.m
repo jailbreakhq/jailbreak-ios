@@ -181,7 +181,7 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
         [weakSelf.tableView setEditing:NO animated:YES];
     }];
     
-    if (selectedPost.postType == JBPostTypeFacebook)
+    if (selectedPost.postType == JBPostTypeTwitter)
     {
         UITableViewRowAction *favouriteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Fave" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
             [self favoritePost:selectedPost];
@@ -199,7 +199,7 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
         
         actions = @[viewAction, favouriteAction, retweetAction];
     }
-    else if (selectedPost.postType == JBPostTypeTwitter)
+    else if (selectedPost.postType == JBPostTypeFacebook)
     {
         UITableViewRowAction *likeAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"Like" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
             [self likePost:selectedPost];
@@ -479,8 +479,6 @@ static NSString * const kCheckinCellIdentifier      = @"CheckinCell";
             [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
                 NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
                 NSString *errorMessage = response[@"error"][@"message"];
-                
-                NSLog(@"%@", response);
                 
                 if (errorMessage)
                 {

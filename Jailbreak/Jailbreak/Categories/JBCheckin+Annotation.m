@@ -18,7 +18,7 @@
 
 - (NSString *)subtitle
 {
-    return [self.createdTime timeAgoSinceNow];
+    return self.status;
 }
 
 - (CLLocationCoordinate2D)coordinate

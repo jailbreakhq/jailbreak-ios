@@ -136,7 +136,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     else if ([segue.identifier isEqualToString:@"showMap"])
     {
         JBTeamMapViewController *dvc = (JBTeamMapViewController *)segue.destinationViewController;
-        dvc.title = @"Map";
+        dvc.title = @"Checkins";
         dvc.team = self.team;
     }
 }

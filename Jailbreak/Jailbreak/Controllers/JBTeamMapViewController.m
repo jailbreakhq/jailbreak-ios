@@ -7,6 +7,7 @@
 //
 
 #import <MapKit/MapKit.h>
+#import <NSDate+DateTools.h>
 #import "JBTeamMapViewController.h"
 
 @interface JBTeamMapViewController () <MKMapViewDelegate>
@@ -38,6 +39,32 @@
 }
 
 #pragma mark - MKMapViewDelegate
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+    MKPinAnnotationView *result = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Pin"];
+    
+    if (!result)
+    {
+        result = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:@"Pin"];
+        result.pinColor = MKPinAnnotationColorRed;
+        result.enabled = YES;
+        result.canShowCallout = YES;
+        
+        UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        timeLabel.textAlignment = NSTextAlignmentCenter;
+        timeLabel.font = [UIFont fontWithName:@"AvenirNext-DemiBold" size:14.0];
+        timeLabel.backgroundColor = self.team.universityColor;
+        timeLabel.layer.cornerRadius = 20.0;
+        timeLabel.layer.masksToBounds = YES;
+        timeLabel.textColor = [UIColor whiteColor];
+        result.leftCalloutAccessoryView = timeLabel;
+    }
+    
+    [(UILabel *)result.leftCalloutAccessoryView setText:[[(JBCheckin *)annotation createdTime] shortTimeAgoSinceNow]];
+    
+    return result;
+}
 
 - (void)mapViewDidFinishRenderingMap:(MKMapView *)mapView fullyRendered:(BOOL)fullyRendered
 {

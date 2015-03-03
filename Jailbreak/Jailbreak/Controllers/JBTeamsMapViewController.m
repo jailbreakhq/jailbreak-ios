@@ -14,6 +14,7 @@
 #import "UIColor+JBAdditions.h"
 #import "JBCircularImageView.h"
 #import "JBTeamsMapViewController.h"
+#import "TTTOrdinalNumberFormatter.h"
 #import "UIImageView+WebCacheWithProgress.h"
 
 static NSString * const kSAMBlockName = @"Map";
@@ -57,27 +58,47 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0 * 10.0; // 10 minu
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
-    MKPinAnnotationView *result = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:@"Pin"];
-    
-    if (!result)
-    {
-        result = [[MKPinAnnotationView alloc] initWithAnnotation:self.mapView.annotations.firstObject reuseIdentifier:@"Pin"];
-        result.enabled = YES;
-        result.canShowCallout = YES;
-        JBCircularImageView *imageView = [[JBCircularImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        imageView.backgroundColor = [UIColor colorWithHexString:@"#D3D6DE"];
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
-        result.leftCalloutAccessoryView = imageView;
-    }
+    MKPinAnnotationView *result;
     
     if ([annotation isKindOfClass:[JBAnnotation class]])
     {
-        result.pinColor = MKPinAnnotationColorGreen;
-        [(UIImageView *)result.leftCalloutAccessoryView setImage:nil];
+        result = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:@"LocationXPin"];
+
+        if (!result)
+        {
+            result = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:@"LocationXPin"];
+            result.enabled = YES;
+            result.canShowCallout = YES;
+            result.pinColor = MKPinAnnotationColorGreen;
+        }
     }
     else
     {
-        result.pinColor = MKPinAnnotationColorRed;
+        result = (MKPinAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:@"TeamPin"];
+        
+        if (!result)
+        {
+            result = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:@"TeamPin"];
+            result.enabled = YES;
+            result.canShowCallout = YES;
+            result.pinColor = MKPinAnnotationColorRed;
+            
+            JBCircularImageView *avatarImageView = [[JBCircularImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+            avatarImageView.backgroundColor = [UIColor colorWithHexString:@"#D3D6DE"];
+            avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
+            result.leftCalloutAccessoryView = avatarImageView;
+            
+            UILabel *positionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+            positionLabel.font = [UIFont fontWithName:@"AvenirNext-DemiBold" size:14.0];
+            positionLabel.textAlignment = NSTextAlignmentCenter;
+            positionLabel.textColor = [UIColor whiteColor];
+            positionLabel.layer.cornerRadius = 20.0;
+            positionLabel.layer.masksToBounds = YES;
+            result.rightCalloutAccessoryView = positionLabel;
+        }
+        
+        [(UILabel *)result.rightCalloutAccessoryView setText:[[self ordinalFormatter] stringFromNumber:@([(JBTeam *)annotation position])]];
+        [(UILabel *)result.rightCalloutAccessoryView setBackgroundColor:[(JBTeam *)annotation universityColor]];
         [(UIImageView *)result.leftCalloutAccessoryView sd_setImageWithURL:[(JBTeam *)annotation avatarURL]];
     }
     
@@ -118,6 +139,19 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0 * 10.0; // 10 minu
                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                   [TSMessage displayMessageWithTitle:@"Failed To Get Teams" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
                                               }];
+}
+
+- (TTTOrdinalNumberFormatter *)ordinalFormatter
+{
+    static TTTOrdinalNumberFormatter *_ordinalFormatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _ordinalFormatter = [TTTOrdinalNumberFormatter new];
+        [_ordinalFormatter setLocale:[NSLocale currentLocale]];
+        [_ordinalFormatter setGrammaticalGender:TTTOrdinalNumberFormatterMaleGender];
+    });
+    
+    return _ordinalFormatter;
 }
 
 @end

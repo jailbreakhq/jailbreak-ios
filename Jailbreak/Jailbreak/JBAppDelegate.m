@@ -14,6 +14,8 @@
 #import <SDWebImage/SDImageCache.h>
 #import <XCDYouTubeVideoPlayerViewController.h>
 
+NSString * const kJBDonationDidSucceedNotification = @"JBDonationDidSucceedNotification";
+
 @interface JBAppDelegate ()
 
 @end
@@ -53,6 +55,8 @@
     TSMessageView *messageView = [TSMessage messageWithTitle:@"Thank you so much for donating and supporting Amnesty & SVP 😘" subtitle:nil type:TSMessageTypeSuccess];
     messageView.duration = 4.0;
     [messageView displayOrEnqueue];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kJBDonationDidSucceedNotification object:nil]];
     
     return YES;
 }

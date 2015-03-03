@@ -89,7 +89,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0 * 10.0; // 10 minu
             result.leftCalloutAccessoryView = avatarImageView;
             
             UILabel *positionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-            positionLabel.font = [UIFont fontWithName:@"AvenirNext-DemiBold" size:14.0];
+            positionLabel.font = [UIFont fontWithName:@"AvenirNext-DemiBold" size:13.0];
             positionLabel.textAlignment = NSTextAlignmentCenter;
             positionLabel.textColor = [UIColor whiteColor];
             positionLabel.layer.cornerRadius = 20.0;

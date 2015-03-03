@@ -261,7 +261,6 @@ static const NSUInteger kPostAPILimit = 50;
                                                 }
                                                 else
                                                 {
-                                                    NSLog(@"oops");
                                                     [self recursivelyGetEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString}
                                                                        numberOfNewPostsSoFar:totalCount
                                                                      untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];

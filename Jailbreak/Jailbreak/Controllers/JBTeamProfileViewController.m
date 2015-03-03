@@ -9,6 +9,7 @@
 #import "JBCheckin.h"
 #import "JBDonation.h"
 #import "JBAnnotation.h"
+#import "JBAppDelegate.h"
 #import "JBPostYouTube.h"
 #import "JBYouTubeView.h"
 #import <XCDYouTubeKit.h>
@@ -42,6 +43,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSURL *videoThumbnailURL;
+@property (nonatomic, strong) id observer;
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *donateButton;
@@ -124,6 +126,25 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                      animations:^{
                          self.donateButton.alpha = 1.0;
                      } completion:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    self.observer = [[NSNotificationCenter defaultCenter] addObserverForName:kJBDonationDidSucceedNotification
+                                                                      object:nil
+                                                                       queue:[NSOperationQueue mainQueue]
+                                                                  usingBlock:^(NSNotification *note) {
+                                                                      [self handleDonationDidSucceed];
+                                                                  }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self.observer];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -270,7 +291,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                 return [(JBTeamAboutTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kAboutCellIdentifier] heightForBodyLabelWithText:self.team.about];
             case kYouTubeCellRow:
                 if ([JTSHardwareInfo hardwareFamily] == JTSHardwareFamily_iPad)
-                    return 310.0;
+                    return 432.0;
                 else
                     return 210.0;
             default:
@@ -314,35 +335,39 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 
 #pragma mark - JBDonatePopoverViewControllerDelegate
 
-- (void)donatePopoverViewControllerDidSuccessfullyCharge
+- (void)handleDonationDidSucceed
 {
     __weak typeof(self) weakSelf = self;
     
     // Refresh team data to update raised amount and donations
     [[JBAPIManager manager] getTeamWithId:self.team.ID
                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                      
+                                      NSMutableArray *checkins = weakSelf.team.checkins;
                                       weakSelf.team = [[JBTeam alloc] initWithJSON:responseObject];
-                                      [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                                      weakSelf.team.checkins = checkins;
                                       
                                       JBTeamsTableViewController *vc = [self getPreviousViewController];
                                       vc.teams[weakSelf.teamSectionIndex] = weakSelf.team;
                                       [vc.tableView reloadData];
+                                      
+                                      [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(20)}
+                                                                                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                                        
+                                                                                        NSMutableArray *temp = [NSMutableArray new];
+                                                                                        for (NSDictionary *donation in responseObject)
+                                                                                        {
+                                                                                            [temp addObject:[[JBDonation alloc] initWithJSON:donation]];
+                                                                                        }
+                                                                                        weakSelf.team.numberOfDonations = [operation.response.allHeaderFields[@"x-total-count"] integerValue];
+                                                                                        weakSelf.team.donations = temp;
+                                                                                        
+                                                                                        [weakSelf.tableView reloadData];
+                                                                                        
+                                                                                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                        [weakSelf.tableView reloadData];
+                                                                                    }];
                                   } failure:nil];
-    
-    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(15)}
-                                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                      
-                                                      NSMutableArray *temp = [NSMutableArray new];
-                                                      for (NSDictionary *donation in responseObject)
-                                                      {
-                                                          [temp addObject:[[JBDonation alloc] initWithJSON:donation]];
-                                                      }
-                                                      weakSelf.team.numberOfDonations = [operation.response.allHeaderFields[@"x-total-count"] integerValue];
-                                                      weakSelf.team.donations = temp;
-                                                      
-                                                      [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
-                                                      
-                                                  } failure:nil];
 }
 
 #pragma mark - Helper Methods
@@ -381,30 +406,6 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 {
     __weak typeof(self) weakSelf = self;
     
-    [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(20)}
-                                                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                      NSMutableArray *temp = [NSMutableArray new];
-                                                      for (NSDictionary *donation in responseObject)
-                                                      {
-                                                          [temp addObject:[[JBDonation alloc] initWithJSON:donation]];
-                                                      }
-                                                      self.team.donations = temp;
-                                                      self.team.numberOfDonations = [operation.response.allHeaderFields[@"x-total-count"] integerValue];
-                                                      
-                                                      [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
-                                                  }
-                                                  failure:nil];
-    
-    [[JBAPIManager manager] getCheckinsForTeamWithId:self.team.ID
-                                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                 NSMutableArray *temp = [NSMutableArray new];
-                                                 for (NSDictionary *dict in responseObject)
-                                                 {
-                                                     [temp addObject:[[JBCheckin alloc] initWithJSON:dict]];
-                                                 }
-                                                 self.team.checkins = temp;
-                                             } failure:nil];
-    
     [[JBAPIManager manager] getTeamWithId:self.team.ID
                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                       weakSelf.team = [[JBTeam alloc] initWithJSON:responseObject];
@@ -412,7 +413,37 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                       JBTeamsTableViewController *vc = [weakSelf getPreviousViewController];
                                       vc.teams[weakSelf.teamSectionIndex] = weakSelf.team;
                                       [vc.tableView reloadData];
-                                      [self.refreshControl endRefreshing];
+                                      
+                                      [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(20)}
+                                                                                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                                        NSMutableArray *temp = [NSMutableArray new];
+                                                                                        for (NSDictionary *donation in responseObject)
+                                                                                        {
+                                                                                            [temp addObject:[[JBDonation alloc] initWithJSON:donation]];
+                                                                                        }
+                                                                                        self.team.donations = temp;
+                                                                                        self.team.numberOfDonations = [operation.response.allHeaderFields[@"x-total-count"] integerValue];
+                                                                                        
+                                                                                        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                                                                        [self.refreshControl endRefreshing];
+                                                                                    }
+                                                                                    failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                        [self.refreshControl endRefreshing];
+                                                                                    }];
+                                      
+                                      [[JBAPIManager manager] getCheckinsForTeamWithId:self.team.ID
+                                                                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                                   NSMutableArray *temp = [NSMutableArray new];
+                                                                                   for (NSDictionary *dict in responseObject)
+                                                                                   {
+                                                                                       [temp addObject:[[JBCheckin alloc] initWithJSON:dict]];
+                                                                                   }
+                                                                                   self.team.checkins = temp;
+                                                                                   [self.refreshControl endRefreshing];
+                                                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                   [self.refreshControl endRefreshing];
+                                                                               }];
+                                      
                                   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                       [TSMessage displayMessageWithTitle:@"Failed To Refresh Profile" subtitle:@"" type:TSMessageTypeWarning];
                                       [self.refreshControl endRefreshing];

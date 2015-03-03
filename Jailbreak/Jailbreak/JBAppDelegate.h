@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString * const kJBDonationDidSucceedNotification;
+
 @interface JBAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

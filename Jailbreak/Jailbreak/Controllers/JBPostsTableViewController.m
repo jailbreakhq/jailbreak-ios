@@ -464,19 +464,35 @@ static NSString * const kYouTubeCellIdentifier      = @"YouTubeCell";
             request.account = facebookAccount;
             
             [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
-                NSString *errorMessage = response[@"error"][@"message"];
                 
-                if (errorMessage)
+                if (responseData)
                 {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
-                    });
+                    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
+                    NSString *errorMessage = response[@"error"][@"message"];
+                    
+                    if (errorMessage)
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
+                        });
+                    }
+                    else if (error)
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedDescription type:TSMessageTypeError];
+                        });
+                    }
+                    else
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
+                        });
+                    }
                 }
                 else
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
+                        [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedDescription type:TSMessageTypeError];
                     });
                 }
             }];

@@ -158,9 +158,9 @@
         case UCD:
             return [UIColor colorWithHexString:@"#388085"];
         case UCC:
-            return [UIColor colorWithHexString:@"#2980B9"];
-        case NUIM:
             return [UIColor colorWithHexString:@"#34495E"];
+        case NUIM:
+            return [UIColor colorWithHexString:@"#2980B9"];
         case NUIG:
             return [UIColor colorWithHexString:@"#E67E22"];
         case NCI:

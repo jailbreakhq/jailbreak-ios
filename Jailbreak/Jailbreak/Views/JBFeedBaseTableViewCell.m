@@ -13,8 +13,24 @@
 
 @implementation JBFeedBaseTableViewCell
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    NSTimer *timer = [[NSTimer alloc] initWithFireDate:[NSDate date]
+                                              interval:1.0
+                                                target:self
+                                              selector:@selector(updateTimeAgoLabel)
+                                              userInfo:nil
+                                               repeats:YES];
+    
+    // To update while scrolling the table view
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+}
+
 - (void)configureCellWithPost:(JBPost *)post
 {
+    self.post = post;
     self.timeLabel.text = post.createdTime ? [post.createdTime shortTimeAgoSinceNow] : @"";
 
     switch (post.postType)
@@ -93,6 +109,11 @@
                 break;
         }
     }
+}
+
+- (void)updateTimeAgoLabel
+{
+    self.timeLabel.text = self.post.createdTime ? [self.post.createdTime shortTimeAgoSinceNow] : @"";
 }
 
 @end

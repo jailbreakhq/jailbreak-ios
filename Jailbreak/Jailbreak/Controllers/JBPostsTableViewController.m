@@ -57,36 +57,6 @@ static NSString * const kYouTubeCellIdentifier      = @"YouTubeCell";
     return _posts;
 }
 
-#pragma mark - Lifecycle
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    // Just to be extra safe!
-    if (!self.timer)
-    {
-        NSTimer *timer = [[NSTimer alloc] initWithFireDate:[NSDate date]
-                                                  interval:2.0
-                                                    target:self
-                                                  selector:@selector(updateCellTimeAgoLabel:)
-                                                  userInfo:nil
-                                                   repeats:YES];
-        self.timer = timer;
-        
-        // To update while scrolling the table view
-        [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-    }
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    
-    [self.timer invalidate];
-    self.timer = nil;
-}
-
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -259,7 +229,7 @@ static NSString * const kYouTubeCellIdentifier      = @"YouTubeCell";
         NSString *text = post.twitter.tweetBodyPlain ?: post.facebook.facebookPostBody;
         
         width -= (65 + 10);
-        height = 10 + 22 + 2 + 10 + ceilf((width/30.0)*17.0) + 10;
+        height = 10 + 22 + 2 + 10 + ceilf((width/16.0)*9.0) + 10;
         height += [self heightForLabelWithText:text maxHeight:CGFLOAT_MAX width:width font:font];
     }
     else if ([cellIdentifier isEqualToString:kInstagramCellIdentifier])
@@ -291,7 +261,7 @@ static NSString * const kYouTubeCellIdentifier      = @"YouTubeCell";
         NSString *text = post.youtube.youTubeDescription;
         
         width -= (65 + 10);
-        height = 10 + 22 + 2 + 10 + ceilf((width/30.0)*17.0) + 10;
+        height = 10 + 22 + 2 + 10 + ceilf((width/16.0)*9.0) + 10;
         height += [self heightForLabelWithText:text maxHeight:CGFLOAT_MAX width:width font:font];
     }
     

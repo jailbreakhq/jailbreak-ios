@@ -17,6 +17,8 @@
 @property (nonatomic, weak) IBOutlet UILabel *bodyLabel;
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 
+@property (nonatomic, weak) JBPost *post;
+
 - (void)configureCellWithPost:(JBPost *)post;
 
 @end

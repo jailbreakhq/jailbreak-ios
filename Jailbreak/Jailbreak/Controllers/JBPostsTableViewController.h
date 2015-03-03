@@ -13,6 +13,5 @@
 
 @property (nonatomic, strong) NSMutableArray *posts;
 @property (nonatomic, strong) JBService *service;
-@property (nonatomic, strong) NSTimer *timer;
 
 @end

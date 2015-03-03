@@ -1035,10 +1035,10 @@
                                             </constraints>
                                         </imageView>
                                         <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jct-Yl-hsc">
-                                            <rect key="frame" x="65" y="65" width="225" height="128"/>
+                                            <rect key="frame" x="65" y="65" width="228" height="128"/>
                                             <color key="backgroundColor" red="0.82793557640000004" green="0.83891397710000004" blue="0.86943817140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" secondItem="jct-Yl-hsc" secondAttribute="height" multiplier="30:17" id="zrX-O8-5ty"/>
+                                                <constraint firstAttribute="width" secondItem="jct-Yl-hsc" secondAttribute="height" multiplier="16:9" id="zrX-O8-5ty"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -1390,7 +1390,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ePN-hO-Imd" customClass="JBCircularImageView">
-                                            <rect key="frame" x="309" y="10" width="45" height="45"/>
+                                            <rect key="frame" x="307" y="10" width="45" height="45"/>
                                             <color key="backgroundColor" red="0.82793557640000004" green="0.83891397710000004" blue="0.86943817140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="45" id="913-Uu-O1N"/>
@@ -1398,7 +1398,7 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="41" placeholderIntrinsicHeight="20" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a2M-h3-6II" userLabel="Title">
-                                            <rect key="frame" x="364" y="10" width="156" height="22"/>
+                                            <rect key="frame" x="362" y="10" width="158" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="IS5-r6-VWD"/>
                                             </constraints>
@@ -1413,7 +1413,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" placeholderIntrinsicWidth="38" placeholderIntrinsicHeight="21" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FlU-DJ-iri" userLabel="Body">
-                                            <rect key="frame" x="364" y="34" width="226" height="21"/>
+                                            <rect key="frame" x="362" y="34" width="228" height="21"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -1425,9 +1425,9 @@
                                             </constraints>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeM-l0-ol4" customClass="JBYouTubeView">
-                                            <rect key="frame" x="364" y="65" width="226" height="128"/>
+                                            <rect key="frame" x="362" y="65" width="228" height="128"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" secondItem="zeM-l0-ol4" secondAttribute="height" multiplier="30:17" id="gcP-7x-7qj"/>
+                                                <constraint firstAttribute="width" secondItem="zeM-l0-ol4" secondAttribute="height" multiplier="16:9" id="gcP-7x-7qj"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -1683,10 +1683,10 @@
                                             </constraints>
                                         </imageView>
                                         <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zxu-6B-kg9">
-                                            <rect key="frame" x="65" y="65" width="225" height="128"/>
+                                            <rect key="frame" x="65" y="65" width="228" height="128"/>
                                             <color key="backgroundColor" red="0.82793557640000004" green="0.83891397710000004" blue="0.86943817140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" secondItem="zxu-6B-kg9" secondAttribute="height" multiplier="30:17" id="fcB-Es-DaI"/>
+                                                <constraint firstAttribute="width" secondItem="zxu-6B-kg9" secondAttribute="height" multiplier="16:9" id="fcB-Es-DaI"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -2075,7 +2075,7 @@
                                         <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QQ9-9z-H4L" customClass="JBYouTubeView">
                                             <rect key="frame" x="364" y="65" width="226" height="128"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" secondItem="QQ9-9z-H4L" secondAttribute="height" multiplier="30:17" id="NCt-oQ-hld"/>
+                                                <constraint firstAttribute="width" secondItem="QQ9-9z-H4L" secondAttribute="height" multiplier="16:9" id="NCt-oQ-hld"/>
                                             </constraints>
                                         </view>
                                     </subviews>

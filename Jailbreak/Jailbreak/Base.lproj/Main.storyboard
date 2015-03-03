@@ -58,6 +58,40 @@
             </objects>
             <point key="canvasLocation" x="1638" y="-480"/>
         </scene>
+        <!--Team Map View Controller-->
+        <scene sceneID="JYj-O7-n6H">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="UDf-FA-xJI" customClass="JBTeamMapViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="66c-id-bX2"/>
+                        <viewControllerLayoutGuide type="bottom" id="ibF-8Z-aob"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oIx-xj-1wA">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bNG-sQ-YKl">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bNG-sQ-YKl" firstAttribute="top" secondItem="oIx-xj-1wA" secondAttribute="top" id="2Nu-hS-pe4"/>
+                            <constraint firstItem="bNG-sQ-YKl" firstAttribute="leading" secondItem="oIx-xj-1wA" secondAttribute="leading" id="CiY-Mf-WUE"/>
+                            <constraint firstItem="ibF-8Z-aob" firstAttribute="top" secondItem="bNG-sQ-YKl" secondAttribute="bottom" id="SL8-yR-84I"/>
+                            <constraint firstAttribute="trailing" secondItem="bNG-sQ-YKl" secondAttribute="trailing" id="dsT-Be-BPL"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="600"/>
+                    <connections>
+                        <outlet property="mapView" destination="bNG-sQ-YKl" id="diR-Nk-Mbo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MZm-42-c5f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3147" y="-820"/>
+        </scene>
         <!--Teams-->
         <scene sceneID="fWE-u2-UrP">
             <objects>
@@ -224,7 +258,7 @@
                                     <outlet property="checkinLabel" destination="flq-c7-rsU" id="kXX-e1-KdO"/>
                                     <outlet property="collegeLabel" destination="c7l-ue-4ut" id="OxQ-wO-k6a"/>
                                     <outlet property="distanceToXLabel" destination="oV2-wr-DTp" id="PW4-nz-c5F"/>
-                                    <outlet property="donateButton" destination="qTU-Wu-hFP" id="eaw-CD-dGh"/>
+                                    <outlet property="donateButton" destination="qTU-Wu-hFP" id="E5l-Cf-Tut"/>
                                     <outlet property="namesLabel" destination="oh0-cJ-cTp" id="q5t-3Z-h2G"/>
                                     <outlet property="placeholderLabel" destination="MfH-sB-rT1" id="nEe-jB-wVV"/>
                                     <outlet property="raisedLabel" destination="KtL-hf-ixz" id="Oyp-SN-Rgd"/>
@@ -797,11 +831,12 @@
                         <outlet property="donateButton" destination="1Rk-fs-xqe" id="xAB-FN-dZ5"/>
                         <outlet property="tableView" destination="4dV-f5-zMb" id="TOK-dW-H5m"/>
                         <segue destination="GNL-aS-zT5" kind="show" identifier="showFeed" id="7iD-hw-SQ9"/>
+                        <segue destination="UDf-FA-xJI" kind="show" identifier="showMap" id="rHC-CU-T0q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ejq-ob-IIN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2452" y="382"/>
+            <point key="canvasLocation" x="2444" y="382"/>
         </scene>
         <!--Feed Table View Controller-->
         <scene sceneID="usR-ob-M0y">
@@ -1278,6 +1313,7 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pp7-bH-tp5" customClass="JBCircularImageView">
                                             <rect key="frame" x="10" y="10" width="45" height="45"/>
+                                            <color key="backgroundColor" red="0.82793557640000004" green="0.83891397710000004" blue="0.86943817140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="45" id="cgS-cp-goF"/>
                                                 <constraint firstAttribute="width" constant="45" id="s08-xM-3eb"/>
@@ -1925,6 +1961,7 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="m7o-E7-HTe" customClass="JBCircularImageView">
                                             <rect key="frame" x="10" y="10" width="45" height="45"/>
+                                            <color key="backgroundColor" red="0.82793557640000004" green="0.83891397710000004" blue="0.86943817140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="45" id="oxv-ku-2WG"/>
                                                 <constraint firstAttribute="height" constant="45" id="ryg-NH-yT3"/>

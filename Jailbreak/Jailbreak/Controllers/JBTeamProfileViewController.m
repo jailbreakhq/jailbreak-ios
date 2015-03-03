@@ -14,8 +14,8 @@
 #import <XCDYouTubeKit.h>
 #import <JTSHardwareInfo.h>
 #import "JBMapTableViewCell.h"
-#import "JBMapViewController.h"
 #import <JTSImageViewController.h>
+#import "JBTeamMapViewController.h"
 #import "JBTeamVideoTableViewCell.h"
 #import "JBTeamAboutTableViewCell.h"
 #import "NSDictionary+JBAdditions.h"
@@ -39,8 +39,6 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 
 @interface JBTeamProfileViewController () <JBTeamSummaryTableViewCellDelegate, JBYouTubeViewDelegate>
 
-@property (nonatomic, strong) NSMutableArray *donations; // of type JBDonation
-@property (nonatomic, strong) NSMutableArray *checkins;
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSURL *videoThumbnailURL;
@@ -51,20 +49,6 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 @end
 
 @implementation JBTeamProfileViewController
-
-#pragma mark - Accessors
-
-- (NSMutableArray *)donations
-{
-    if (!_donations) _donations = [NSMutableArray new];
-    return _donations;
-}
-
-- (NSMutableArray *)checkins
-{
-    if (!_checkins) _checkins = [NSMutableArray new];
-    return _checkins;
-}
 
 #pragma mark - Lifecycle
 
@@ -105,11 +89,13 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     
     [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(20)}
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                      NSMutableArray *temp = [NSMutableArray new];
                                                       for (NSDictionary *donation in responseObject)
                                                       {
-                                                          [self.donations addObject:[[JBDonation alloc] initWithJSON:donation]];
+                                                          [temp addObject:[[JBDonation alloc] initWithJSON:donation]];
                                                       }
                                                       self.team.numberOfDonations = [operation.response.allHeaderFields[@"x-total-count"] integerValue];
+                                                      self.team.donations = temp;
                                                       
                                                       [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
                                                   }
@@ -117,10 +103,12 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     
     [[JBAPIManager manager] getCheckinsForTeamWithId:self.team.ID
                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                 NSMutableArray *temp = [NSMutableArray new];
                                                  for (NSDictionary *dict in responseObject)
                                                  {
-                                                     [self.checkins addObject:[[JBCheckin alloc] initWithJSON:dict]];
+                                                     [temp addObject:[[JBCheckin alloc] initWithJSON:dict]];
                                                  }
+                                                 self.team.checkins = temp;
                                              } failure:nil];
     
     // Lower space for header and footer
@@ -145,6 +133,12 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
         JBTeamPostsTableViewController *dvc = (JBTeamPostsTableViewController *)segue.destinationViewController;
         dvc.team = self.team;
     }
+    else if ([segue.identifier isEqualToString:@"showMap"])
+    {
+        JBTeamMapViewController *dvc = (JBTeamMapViewController *)segue.destinationViewController;
+        dvc.title = @"Map";
+        dvc.team = self.team;
+    }
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
@@ -167,7 +161,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
             return self.team.videoID ? 5 : 4; // don't show video if none
             break;
         case 1:
-            return self.donations.count + 1 + (self.donations.count < self.team.numberOfDonations ? 1 : 0); // for "Donation" title cell and footer count cell
+            return self.team.donations.count + 1 + (self.team.donations.count < self.team.numberOfDonations ? 1 : 0); // for "Donation" title cell and footer count cell
         default:
             return 0;
             break;
@@ -224,17 +218,17 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
             donationCell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0];
             donationCell.detailTextLabel.text = @"";
         }
-        else if (indexPath.row == self.donations.count + 1)
+        else if (indexPath.row == self.team.donations.count + 1)
         {
-            donationCell.textLabel.text = [NSString stringWithFormat:@"and %@ more donations...", @(self.team.numberOfDonations - self.donations.count)];
+            donationCell.textLabel.text = [NSString stringWithFormat:@"and %@ more donations...", @(self.team.numberOfDonations - self.team.donations.count)];
             donationCell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Italic" size:14.0];
             donationCell.detailTextLabel.text = @"";
         }
         else
         {
-            donationCell.textLabel.text = [self.donations[indexPath.row - 1] name];
+            donationCell.textLabel.text = [self.team.donations[indexPath.row - 1] name];
             donationCell.textLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:15.0];
-            donationCell.detailTextLabel.text = [[self priceFormatter] stringFromNumber:@([self.donations[indexPath.row - 1] amount] / 100.0)];
+            donationCell.detailTextLabel.text = [[self priceFormatter] stringFromNumber:@([self.team.donations[indexPath.row - 1] amount] / 100.0)];
             donationCell.detailTextLabel.font = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0];
             donationCell.detailTextLabel.textColor = self.team.universityColor;
         }
@@ -253,11 +247,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 {
     if (indexPath.section == 0 && indexPath.row == kMapCellRow)
     {
-        JBMapViewController *dvc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"JBMapViewController"];
-        dvc.title = @"Map";
-        dvc.annotations = self.checkins;
-        
-        [self.navigationController pushViewController:dvc animated:YES];
+        [self performSegueWithIdentifier:@"showMap" sender:nil];
     }
 }
 
@@ -342,13 +332,13 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     [[JBAPIManager manager] getAllDonationsWithParameters:@{@"filters": [@{@"teamId": @(self.team.ID)} jsonString], @"limit": @(15)}
                                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                       
-                                                      [weakSelf.donations removeAllObjects];
-                                                      
+                                                      NSMutableArray *temp = [NSMutableArray new];
                                                       for (NSDictionary *donation in responseObject)
                                                       {
-                                                          [weakSelf.donations addObject:[[JBDonation alloc] initWithJSON:donation]];
+                                                          [temp addObject:[[JBDonation alloc] initWithJSON:donation]];
                                                       }
-                                                      self.team.numberOfDonations = [operation.response.allHeaderFields[@"x-total-count"] integerValue];
+                                                      weakSelf.team.numberOfDonations = [operation.response.allHeaderFields[@"x-total-count"] integerValue];
+                                                      weakSelf.team.donations = temp;
                                                       
                                                       [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
                                                       
@@ -398,7 +388,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                                       {
                                                           [temp addObject:[[JBDonation alloc] initWithJSON:donation]];
                                                       }
-                                                      self.donations = temp;
+                                                      self.team.donations = temp;
                                                       self.team.numberOfDonations = [operation.response.allHeaderFields[@"x-total-count"] integerValue];
                                                       
                                                       [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -412,7 +402,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                                                  {
                                                      [temp addObject:[[JBCheckin alloc] initWithJSON:dict]];
                                                  }
-                                                 self.checkins = temp;
+                                                 self.team.checkins = temp;
                                              } failure:nil];
     
     [[JBAPIManager manager] getTeamWithId:self.team.ID

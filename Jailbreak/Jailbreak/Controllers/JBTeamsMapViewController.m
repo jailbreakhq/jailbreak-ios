@@ -11,6 +11,7 @@
 #import "JBAnnotation.h"
 #import <SAMRateLimit.h>
 #import "JBTeam+Annotation.h"
+#import "UIColor+JBAdditions.h"
 #import "JBCircularImageView.h"
 #import "JBTeamsMapViewController.h"
 #import "UIImageView+WebCacheWithProgress.h"
@@ -64,6 +65,7 @@ static const NSTimeInterval kIntervalBetweenRefreshing = 60.0 * 10.0; // 10 minu
         result.enabled = YES;
         result.canShowCallout = YES;
         JBCircularImageView *imageView = [[JBCircularImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        imageView.backgroundColor = [UIColor colorWithHexString:@"#D3D6DE"];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         result.leftCalloutAccessoryView = imageView;
     }

@@ -489,7 +489,7 @@ static NSString * const kYouTubeCellIdentifier      = @"YouTubeCell";
     [self getFacebookAccountWithCompletionHandler:^(ACAccount *facebookAccount) {
         if (facebookAccount)
         {
-            NSURL *likeURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/v2.2/%@/likes", @(1405577633076859)]];
+            NSURL *likeURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/v2.2/%@/likes", post.facebook.facebookPostId]];
             SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodPOST URL:likeURL parameters:@{}];
             request.account = facebookAccount;
             

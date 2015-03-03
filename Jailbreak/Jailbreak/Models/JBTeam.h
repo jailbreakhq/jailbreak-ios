@@ -9,6 +9,7 @@
 @class JBCheckin;
 
 #import "JBCheckin.h"
+#import "JBDonation.h"
 #import "JBChallenge.h"
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
@@ -52,6 +53,8 @@ typedef NS_ENUM(NSUInteger, University)
 @property (nonatomic, assign) NSUInteger position;
 @property (nonatomic, strong) JBCheckin *lastCheckin;
 @property (nonatomic, assign) NSInteger numberOfDonations;
+@property (nonatomic, strong) NSMutableArray *checkins;
+@property (nonatomic, strong) NSMutableArray *donations;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
 

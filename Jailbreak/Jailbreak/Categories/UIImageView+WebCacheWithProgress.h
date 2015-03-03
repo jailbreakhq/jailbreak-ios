@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
+#import <RTSpinKitView.h>
 #import "CERoundProgressView.h"
 #import <UIImageView+WebCache.h>
 
 @interface UIImageView (WebCacheWithProgress)
 
 @property (nonatomic, strong) CERoundProgressView *roundProgressView;
-@property (nonatomic, strong) UIProgressView *progressView;
+@property (nonatomic, strong) RTSpinKitView *progressView;
 @property (nonatomic, strong) UIColor *progressColor;
 @property (nonatomic, strong) NSNumber *progressWidth;
 

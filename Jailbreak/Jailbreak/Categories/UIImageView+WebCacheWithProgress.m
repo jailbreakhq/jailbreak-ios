@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
+#import "UIColor+JBAdditions.h"
+#import "JBCircularImageView.h"
 #import "UIImageView+WebCacheWithProgress.h"
 
 static char kRoundProgressViewKey;
@@ -17,7 +19,7 @@ static char kProgressWidth;
 
 - (void)addProgressView;
 - (void)removeProgressView;
-- (BOOL)isSquare;
+- (BOOL)isCircular;
 
 @end
 
@@ -38,12 +40,12 @@ static char kProgressWidth;
     objc_setAssociatedObject(self, &kRoundProgressViewKey, roundProgressView, OBJC_ASSOCIATION_RETAIN);
 }
 
-- (UIProgressView *)progressView
+- (RTSpinKitView *)progressView
 {
-    return (UIProgressView *)objc_getAssociatedObject(self, &kProgressViewKey);
+    return (RTSpinKitView *)objc_getAssociatedObject(self, &kProgressViewKey);
 }
 
-- (void)setProgressView:(UIProgressView *)progressView
+- (void)setProgressView:(RTSpinKitView *)progressView
 {
     objc_setAssociatedObject(self, &kProgressViewKey, progressView, OBJC_ASSOCIATION_RETAIN);
 }
@@ -71,9 +73,9 @@ static char kProgressWidth;
 - (void)addProgressView
 {
     UIColor *trackColor = [UIColor colorWithWhite:0.85 alpha:1.0];
-    UIColor *tintColor = self.progressColor ?: [UIColor orangeColor];
+    UIColor *tintColor = self.progressColor ?: [UIColor colorWithHexString:@"#B41C21"];
     
-    if ([self isSquare])
+    if ([self isCircular])
     {
         trackColor = [UIColor clearColor];
         
@@ -95,14 +97,21 @@ static char kProgressWidth;
     {
         if (!self.progressView)
         {
-            self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - 20.0, self.frame.size.height)];
-            self.progressView.transform = CGAffineTransformMakeScale(1.0f, 2.0f);
+            self.progressView = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave color:tintColor];
+            self.progressView.hidesWhenStopped = YES;
             self.progressView.center = CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0);
-            self.progressView.progressTintColor = tintColor;
-            self.progressView.trackTintColor = trackColor;
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self.progressView startAnimating];
                 [self addSubview:self.progressView];
+            });
+        }
+        else
+        {
+            self.progressView.color = tintColor;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.progressView startAnimating];
             });
         }
     }
@@ -110,7 +119,7 @@ static char kProgressWidth;
 
 - (void)removeProgressView
 {
-    if ([self isSquare])
+    if ([self isCircular])
     {
         if (self.roundProgressView)
         {
@@ -122,22 +131,23 @@ static char kProgressWidth;
     {
         if (self.progressView)
         {
-            [self.progressView removeFromSuperview];
-            self.progressView = nil;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.progressView stopAnimating];
+            });
         }
     }
 }
 
-- (BOOL)isSquare
+- (BOOL)isCircular
 {
-    return self.frame.size.width == self.frame.size.height;
+    return [self isKindOfClass:[JBCircularImageView class]];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     
-    if ([self isSquare])
+    if ([self isCircular])
     {
         if (self.roundProgressView)
         {
@@ -213,14 +223,9 @@ static char kProgressWidth;
                         if (progressBlock) progressBlock(receivedSize, expectedSize);
                         
                         dispatch_async(dispatch_get_main_queue(), ^(void) {
-                            if ([self isSquare])
+                            if ([self isCircular])
                             {
                                 [weakSelf.roundProgressView setProgress:((CGFloat)receivedSize / (CGFloat)expectedSize)
-                                                          animated:YES];
-                            }
-                            else
-                            {
-                                [weakSelf.progressView setProgress:((CGFloat)receivedSize / (CGFloat)expectedSize)
                                                           animated:YES];
                             }
                         });

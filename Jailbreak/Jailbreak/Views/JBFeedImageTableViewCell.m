@@ -72,6 +72,11 @@
 {
     [super configureCellWithPost:post];
     
+    if (post.limitedTeam)
+    {
+        self.thumbnailImageView.progressColor = post.limitedTeam.universityColor;
+    }
+    
     switch (post.postType)
     {
         case JBPostTypeUndefined:
@@ -93,11 +98,6 @@
         case JBPostTypeVine:
             [self.thumbnailImageView sd_setImageWithProgressAndURL:post.vine.thumbnailURL];
             break;
-    }
-    
-    if (post.limitedTeam)
-    {
-        self.thumbnailImageView.progressColor = post.limitedTeam.universityColor;
     }
 }
 

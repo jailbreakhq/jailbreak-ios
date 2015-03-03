@@ -49,6 +49,8 @@
         self.position = [aDecoder decodeIntegerForKey:@"position"];
         self.lastCheckin = [aDecoder decodeObjectForKey:@"lastCheckin"];
         self.numberOfDonations = [aDecoder decodeIntegerForKey:@"numberOfDonations"];
+        self.checkins = [aDecoder decodeObjectForKey:@"checkins"];
+        self.donations = [aDecoder decodeObjectForKey:@"donations"];
     }
     
     return self;
@@ -80,6 +82,8 @@
     [aCoder encodeInteger:self.position forKey:@"position"];
     [aCoder encodeObject:self.lastCheckin forKey:@"lastCheckin"];
     [aCoder encodeInteger:self.numberOfDonations forKey:@"numberOfDonations"];
+    [aCoder encodeObject:self.checkins forKey:@"checkins"];
+    [aCoder encodeObject:self.donations forKey:@"donations"];
 }
 
 #pragma mark - NSObject

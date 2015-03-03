@@ -29,9 +29,9 @@
 #import "JBFeedCheckinTableViewCell.h"
 #import <UIScrollView+SVInfiniteScrolling.h>
 
-static NSString * const kSAMBlockName               = @"Refreshing";
-static NSString * const kPostsArchiveKey            = @"Posts-JBFeedTableViewController";
-static NSString * const kPreservedIndexPathKey      = @"IndexPath-JBFeedTableViewController";
+static NSString * const kSAMBlockName           = @"Refreshing";
+static NSString * const kPostsArchiveKey        = @"Posts-JBFeedTableViewController";
+static NSString * const kPreservedIndexPathKey  = @"IndexPath-JBFeedTableViewController";
 
 static const NSTimeInterval kIntervalBetweenRefreshing = 60.0 * 10.0; // 10 minutes
 static const NSUInteger kNumberOfPostsToFetchWhenRefreshing = 100;
@@ -164,6 +164,11 @@ static const NSUInteger kPostAPILimit = 50;
     
     [self.timer invalidate];
     self.timer = nil;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
 }
 
 #pragma mark - JBFeedImageTableViewCellDelegate

@@ -9,11 +9,13 @@
 #import "JBPost.h"
 #import "JBYouTubeView.h"
 #import "JBFeedBaseTableViewCell.h"
+#import <XCDYouTubeVideoPlayerViewController.h>
 
 @interface JBFeedYouTubeTableViewCell : JBFeedBaseTableViewCell
 
 @property (nonatomic, weak) IBOutlet JBYouTubeView *youTubeView;
 
 @property (nonatomic, weak) JBPost *post;
+@property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
 
 @end

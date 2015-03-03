@@ -15,7 +15,6 @@
 @property (nonatomic, strong) NSString *youTubeDescription;
 @property (nonatomic, strong) NSURL *videoURL;
 @property (nonatomic, strong) NSString *videoId;
-@property (nonatomic, strong) NSString *html;
 @property (nonatomic, strong) NSString *authorUsername;
 @property (nonatomic, strong) NSURL *authorURL;
 @property (nonatomic, assign) NSUInteger teamId; // optional
@@ -25,5 +24,6 @@
 @property (nonatomic, strong) NSURL *thumbnailURL;
 
 - (instancetype)initWithJSON:(NSDictionary *)json;
++ (void)getThumbnailURLForYouTubeVideoWithId:(NSString *)videoId completionHandler:(void (^)(NSURL *thumbnailURL))completionHandler;
 
 @end

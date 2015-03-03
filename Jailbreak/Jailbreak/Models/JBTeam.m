@@ -44,6 +44,7 @@
         self.challenges = [aDecoder decodeObjectForKey:@"challenges"];
         self.featured = [aDecoder decodeBoolForKey:@"featured"];
         self.videoID = [aDecoder decodeObjectForKey:@"videoID"];
+        self.videoThumbnailURL = [aDecoder decodeObjectForKey:@"videoThumbnailURL"];
         self.universityColor = [aDecoder decodeObjectForKey:@"universityColor"];
         self.position = [aDecoder decodeIntegerForKey:@"position"];
         self.lastCheckin = [aDecoder decodeObjectForKey:@"lastCheckin"];
@@ -74,6 +75,7 @@
     [aCoder encodeObject:self.challenges forKey:@"challenges"];
     [aCoder encodeBool:self.featured forKey:@"featured"];
     [aCoder encodeObject:self.videoID forKey:@"videoID"];
+    [aCoder encodeObject:self.videoThumbnailURL forKey:@"videoThumbnailURL"];
     [aCoder encodeObject:self.universityColor forKey:@"universityColor"];
     [aCoder encodeInteger:self.position forKey:@"position"];
     [aCoder encodeObject:self.lastCheckin forKey:@"lastCheckin"];

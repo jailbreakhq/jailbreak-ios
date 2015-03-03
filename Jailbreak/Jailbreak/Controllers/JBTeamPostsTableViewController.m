@@ -64,6 +64,11 @@ static const NSUInteger kPostAPILimit = 50;
      }];
 }
 
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
+}
+
 #pragma mark - JBFeedImageTableViewCellDelegate
 
 - (void)feedImageTableViewCell:(JBFeedBaseTableViewCell *)cell didTapOnThumbnailImageView:(UIImageView *)imageView

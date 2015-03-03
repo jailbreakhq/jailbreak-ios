@@ -9,7 +9,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="mhg-3J-LZz">
             <objects>
-                <tabBarController id="bcb-vA-MAe" sceneMemberID="viewController">
+                <tabBarController id="bcb-vA-MAe" customClass="JBTabBarController" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="Ssp-EK-RdI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>

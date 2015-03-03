@@ -69,6 +69,7 @@
 		E4B54A521A9D795400AB9481 /* JBPostInstagram.m in Sources */ = {isa = PBXBuildFile; fileRef = E4B54A511A9D795400AB9481 /* JBPostInstagram.m */; };
 		E4BE1EA51AA4381100FC9702 /* JBPostYouTube.m in Sources */ = {isa = PBXBuildFile; fileRef = E4BE1EA41AA4381100FC9702 /* JBPostYouTube.m */; };
 		E4BE1EA81AA4485100FC9702 /* JBFeedYouTubeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4BE1EA71AA4485100FC9702 /* JBFeedYouTubeTableViewCell.m */; };
+		E4BE1EAB1AA55AEE00FC9702 /* JBTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4BE1EAA1AA55AEE00FC9702 /* JBTabBarController.m */; };
 		E4DFCCA11A9C0CDD00E8D9B9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DFCCA01A9C0CDD00E8D9B9 /* Social.framework */; };
 		E4DFCCA31A9C1AE200E8D9B9 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DFCCA21A9C1AE200E8D9B9 /* Accounts.framework */; };
 		E4E6C1D11A94E41600D138EA /* JBTeamStatsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6C1D01A94E41600D138EA /* JBTeamStatsTableViewCell.m */; };
@@ -207,6 +208,8 @@
 		E4BE1EA41AA4381100FC9702 /* JBPostYouTube.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPostYouTube.m; sourceTree = "<group>"; };
 		E4BE1EA61AA4485100FC9702 /* JBFeedYouTubeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBFeedYouTubeTableViewCell.h; sourceTree = "<group>"; };
 		E4BE1EA71AA4485100FC9702 /* JBFeedYouTubeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBFeedYouTubeTableViewCell.m; sourceTree = "<group>"; };
+		E4BE1EA91AA55AEE00FC9702 /* JBTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTabBarController.h; sourceTree = "<group>"; };
+		E4BE1EAA1AA55AEE00FC9702 /* JBTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTabBarController.m; sourceTree = "<group>"; };
 		E4DFCCA01A9C0CDD00E8D9B9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		E4DFCCA21A9C1AE200E8D9B9 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		E4E6C1CF1A94E41600D138EA /* JBTeamStatsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamStatsTableViewCell.h; sourceTree = "<group>"; };
@@ -351,6 +354,8 @@
 				E4E6C1D61A9570F600D138EA /* JBMapViewController.m */,
 				E47E944C1AA27C490040D417 /* JBPostsTableViewController.h */,
 				E47E944D1AA27C490040D417 /* JBPostsTableViewController.m */,
+				E4BE1EA91AA55AEE00FC9702 /* JBTabBarController.h */,
+				E4BE1EAA1AA55AEE00FC9702 /* JBTabBarController.m */,
 				E47E944F1AA27F840040D417 /* JBTeamPostsTableViewController.h */,
 				E47E94501AA27F840040D417 /* JBTeamPostsTableViewController.m */,
 				E4E6C1D21A952CC600D138EA /* JBTeamProfileViewController.h */,
@@ -624,6 +629,7 @@
 				E41448C31A768EAF002EB3AB /* JBAppDelegate.m in Sources */,
 				E4F45FBC1A8F98DE003A4997 /* NSDictionary+JBAdditions.m in Sources */,
 				E46A92761A79CC2D002EF3A3 /* JBDonation.m in Sources */,
+				E4BE1EAB1AA55AEE00FC9702 /* JBTabBarController.m in Sources */,
 				E41448F01A76DE04002EB3AB /* JBBaseViewController.m in Sources */,
 				E4E6C1D41A952CC600D138EA /* JBTeamProfileViewController.m in Sources */,
 				E41448C01A768EAF002EB3AB /* main.m in Sources */,

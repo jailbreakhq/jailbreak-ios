@@ -30,6 +30,7 @@
         self.twitter = [aDecoder decodeObjectForKey:@"twitter"];
         self.facebook = [aDecoder decodeObjectForKey:@"facebook"];
         self.instagram = [aDecoder decodeObjectForKey:@"instagram"];
+        self.youtube = [aDecoder decodeObjectForKey:@"youtube"];
     }
     
     return self;
@@ -49,6 +50,7 @@
     [aCoder encodeObject:self.twitter forKey:@"twitter"];
     [aCoder encodeObject:self.facebook forKey:@"facebook"];
     [aCoder encodeObject:self.instagram forKey:@"instagram"];
+    [aCoder encodeObject:self.youtube forKey:@"youtube"];
 }
 
 #pragma mark - Initialiser

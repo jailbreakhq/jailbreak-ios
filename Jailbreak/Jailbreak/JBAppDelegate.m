@@ -59,15 +59,19 @@
 
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
-    if ([self.window.rootViewController.presentedViewController isKindOfClass:[XCDYouTubeVideoPlayerViewController class]])
+    if ([window isKindOfClass:[TSWindowContainer class]])
     {
-        XCDYouTubeVideoPlayerViewController *videoPlayerViewController = (XCDYouTubeVideoPlayerViewController *)self.window.rootViewController.presentedViewController;
-        if (videoPlayerViewController.isPresented)
+        return UIInterfaceOrientationMaskPortrait;
+    }
+    else
+    {
+        if ([self.window.rootViewController.presentedViewController isKindOfClass:[XCDYouTubeVideoPlayerViewController class]])
         {
             return UIInterfaceOrientationMaskAllButUpsideDown;
         }
+        
+        return UIInterfaceOrientationMaskPortrait;
     }
-    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end

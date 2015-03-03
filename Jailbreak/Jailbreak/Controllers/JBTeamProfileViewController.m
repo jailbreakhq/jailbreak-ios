@@ -9,6 +9,7 @@
 #import "JBCheckin.h"
 #import "JBDonation.h"
 #import "JBAnnotation.h"
+#import "JBPostYouTube.h"
 #import "JBYouTubeView.h"
 #import <XCDYouTubeKit.h>
 #import <JTSHardwareInfo.h>
@@ -42,8 +43,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
 @property (nonatomic, strong) NSMutableArray *checkins;
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (nonatomic, strong) NSURL *youTubeThumbnailURL;
-@property (nonatomic, strong) id observer;
+@property (nonatomic, strong) NSURL *videoThumbnailURL;
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *donateButton;
@@ -75,6 +75,28 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     if (self.navigationController)
     {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Feed" style:UIBarButtonItemStylePlain target:self action:@selector(didTapFeedBarButton:)];
+    }
+    
+    // Get YouTube video thumbnail
+    if (self.team.videoID)
+    {
+        self.videoPlayerViewController = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:self.team.videoID];
+        
+        if (!self.team.videoThumbnailURL)
+        {
+            [JBPostYouTube getThumbnailURLForYouTubeVideoWithId:self.team.videoID completionHandler:^(NSURL *thumbnailURL) {
+                self.team.videoThumbnailURL = thumbnailURL;
+                self.videoThumbnailURL = self.team.videoThumbnailURL;
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    JBTeamVideoTableViewCell *cell = (JBTeamVideoTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:kYouTubeCellRow inSection:0]];
+                    if (cell)
+                    {
+                        [cell.youTubeView.thumbnailImageView sd_setImageWithURL:self.team.videoThumbnailURL];
+                    }
+                });
+            }];
+        }
     }
     
     self.refreshControl = [UIRefreshControl new];
@@ -116,48 +138,6 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                      } completion:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    if (self.team.videoID)
-    {
-        self.videoPlayerViewController = [[XCDYouTubeVideoPlayerViewController alloc] initWithVideoIdentifier:self.team.videoID];
-
-        void (^notificationBlock)(NSNotification *note) = ^void(NSNotification *note)
-        {
-            XCDYouTubeVideo *video = (XCDYouTubeVideo *)note.userInfo[XCDYouTubeVideoUserInfoKey];
-            self.youTubeThumbnailURL = video.largeThumbnailURL ?: video.mediumThumbnailURL ?: video.smallThumbnailURL;
-            [[SDWebImageManager sharedManager] downloadImageWithURL:self.youTubeThumbnailURL
-                                                            options:nil
-                                                           progress:nil
-                                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                                                              JBTeamVideoTableViewCell *cell = (JBTeamVideoTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:kYouTubeCellRow inSection:0]];
-                                                              if (cell)
-                                                              {
-                                                                  [cell.youTubeView.thumbnailImageView sd_setImageWithURL:self.youTubeThumbnailURL];
-                                                              }
-                                                          }];
-        };
-        
-        self.observer = [[NSNotificationCenter defaultCenter] addObserverForName:XCDYouTubeVideoPlayerViewControllerDidReceiveVideoNotification
-                                                                          object:nil
-                                                                           queue:[NSOperationQueue mainQueue]
-                                                                      usingBlock:notificationBlock];
-    }
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    
-    if (self.team.videoID)
-    {
-        self.videoPlayerViewController = nil;
-        [[NSNotificationCenter defaultCenter] removeObserver:self.observer];
-    }
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"showFeed"])
@@ -165,6 +145,11 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
         JBTeamPostsTableViewController *dvc = (JBTeamPostsTableViewController *)segue.destinationViewController;
         dvc.team = self.team;
     }
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationPortrait;
 }
 
 #pragma mark - UITableViewDataSource
@@ -219,7 +204,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
                 cell = [tableView dequeueReusableCellWithIdentifier:kYouTubeCellIdentifier forIndexPath:indexPath];
                 JBTeamVideoTableViewCell *cellCasted = (JBTeamVideoTableViewCell *)cell;
                 cellCasted.youTubeView.delegate = self;
-                [cellCasted.youTubeView.thumbnailImageView sd_setImageWithURL:self.youTubeThumbnailURL];
+                [cellCasted.youTubeView.thumbnailImageView sd_setImageWithURL:self.team.videoThumbnailURL];
                 break;
             }
             default:
@@ -433,6 +418,7 @@ static NSString * const kDonationCellIdentifier = @"DonationCell";
     [[JBAPIManager manager] getTeamWithId:self.team.ID
                                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                       weakSelf.team = [[JBTeam alloc] initWithJSON:responseObject];
+                                      weakSelf.team.videoThumbnailURL = weakSelf.videoThumbnailURL;
                                       JBTeamsTableViewController *vc = [weakSelf getPreviousViewController];
                                       vc.teams[weakSelf.teamSectionIndex] = weakSelf.team;
                                       [vc.tableView reloadData];

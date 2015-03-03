@@ -6,23 +6,15 @@
 //  Copyright (c) 2015 Jailbreak HQ. All rights reserved.
 //
 
-#import <XCDYouTubeVideo.h>
+#import "JBPostYouTube.h"
 #import "JBFeedYouTubeTableViewCell.h"
 #import "UIImageView+WebCacheWithProgress.h"
-#import <XCDYouTubeVideoPlayerViewController.h>
 
-@interface JBFeedYouTubeTableViewCell ()
-
-@property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
+@interface JBFeedYouTubeTableViewCell () <JBYouTubeViewDelegate>
 
 @end
 
 @implementation JBFeedYouTubeTableViewCell
-
-- (void)awakeFromNib
-{
-    [self setup];
-}
 
 - (XCDYouTubeVideoPlayerViewController *)videoPlayerViewController
 {
@@ -39,32 +31,28 @@
     [super configureCellWithPost:post];
     
     self.post = post;
+    self.youTubeView.delegate = self;
     self.videoPlayerViewController.videoIdentifier = self.post.youtube.videoId;
-    [self.youTubeView.thumbnailImageView sd_setImageWithURL:self.post.youtube.thumbnailURL];
+    
+    if (self.post.youtube.thumbnailURL)
+    {
+        [self.youTubeView.thumbnailImageView sd_setImageWithURL:self.post.youtube.thumbnailURL];
+    }
+    else
+    {
+        [JBPostYouTube getThumbnailURLForYouTubeVideoWithId:self.post.youtube.videoId completionHandler:^(NSURL *thumbnailURL) {
+            self.post.youtube.thumbnailURL = thumbnailURL;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.youTubeView.thumbnailImageView sd_setImageWithURL:self.post.youtube.thumbnailURL];
+            });
+        }];
+    }
 }
 
-- (void)setup
+- (void)didTapPlayButton
 {
-    void (^notificationBlock)(NSNotification *note) = ^void(NSNotification *note)
-    {
-        NSLog(@"!!");
-        if (!self.post.youtube.thumbnailURL)
-        {
-            XCDYouTubeVideo *video = (XCDYouTubeVideo *)note.userInfo[XCDYouTubeVideoUserInfoKey];
-            self.post.youtube.thumbnailURL = video.largeThumbnailURL ?: video.mediumThumbnailURL ?: video.smallThumbnailURL;
-            [[SDWebImageManager sharedManager] downloadImageWithURL:self.post.youtube.thumbnailURL
-                                                            options:nil
-                                                           progress:nil
-                                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                                                              [self.youTubeView.thumbnailImageView sd_setImageWithURL:self.post.youtube.thumbnailURL];
-                                                          }];
-        };
-    };
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:XCDYouTubeVideoPlayerViewControllerDidReceiveVideoNotification
-                                                      object:nil
-                                                       queue:[NSOperationQueue mainQueue]
-                                                  usingBlock:notificationBlock];
+    [self.window.rootViewController presentMoviePlayerViewControllerAnimated:self.videoPlayerViewController];
 }
 
 @end

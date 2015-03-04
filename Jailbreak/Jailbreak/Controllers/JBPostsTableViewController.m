@@ -7,6 +7,7 @@
 //
 
 #import "JBPost.h"
+#import <FacebookSDK.h>
 #import "JBAnnotation.h"
 #import <Social/Social.h>
 #import <TSMessageView.h>
@@ -22,7 +23,7 @@
 #import "JBFeedDonateTableViewCell.h"
 #import "JBFeedCheckinTableViewCell.h"
 #import "JBPostsTableViewController.h"
-
+#import "JBFacebookLoginViewController.h"
 
 static NSString * const kTextCellIdentifier         = @"TextCell";
 static NSString * const kInstagramCellIdentifier    = @"InstagramCell";
@@ -456,115 +457,33 @@ static NSString * const kYouTubeCellIdentifier      = @"YouTubeCell";
 
 - (void)likePost:(JBPost *)post
 {
-    [self getFacebookAccountWithCompletionHandler:^(ACAccount *facebookAccount) {
-        if (facebookAccount)
-        {
-            NSURL *likeURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/v2.2/%@/likes", post.facebook.facebookPostId]];
-            SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodPOST URL:likeURL parameters:@{}];
-            request.account = facebookAccount;
-            
-            [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
-                
-                if (responseData)
-                {
-                    NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
-                    NSString *errorMessage = response[@"error"][@"message"];
-                    
-                    if (errorMessage)
-                    {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [TSMessage displayMessageWithTitle:@"Oops" subtitle:errorMessage type:TSMessageTypeError];
-                        });
-                    }
-                    else if (error)
-                    {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedDescription type:TSMessageTypeError];
-                        });
-                    }
-                    else
-                    {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
-                        });
-                    }
-                }
-                else
-                {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedDescription type:TSMessageTypeError];
-                    });
-                }
-            }];
-        }
-    }];
-}
-
-- (void)getFacebookAccountWithCompletionHandler:(void (^)(ACAccount *facebookAccount))completionHandler
-{
-    if (self.facebookAccount)
+    
+    if ([FBSession openActiveSessionWithAllowLoginUI:NO])
     {
-        completionHandler(self.facebookAccount);
+        [FBRequestConnection startWithGraphPath:[NSString stringWithFormat:@"/%@/likes", post.facebook.facebookPostId]
+                                     parameters:nil
+                                     HTTPMethod:@"POST"
+                              completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                  if (!error)
+                                  {
+                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                          [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
+                                      });
+                                  }
+                                  else
+                                  {
+                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                          [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedFailureReason type:TSMessageTypeError];
+                                      });
+                                  }
+                              }];
     }
     else
     {
-        ACAccountType *accountType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
-        NSDictionary *readOptions = @{ACFacebookAppIdKey: @"893612184039371", ACFacebookPermissionsKey: @[@"email"]};
-        
-        [self.accountStore requestAccessToAccountsWithType:accountType options:readOptions completion:^(BOOL granted, NSError *error) {
-            if (granted)
-            {
-                NSDictionary *writeOptions = @{ACFacebookAppIdKey: @"893612184039371", ACFacebookPermissionsKey: @[@"publish_actions"], ACFacebookAudienceKey: ACFacebookAudienceEveryone};
-                [self.accountStore requestAccessToAccountsWithType:accountType options:writeOptions completion:^(BOOL granted, NSError *error) {
-                    if (granted)
-                    {
-                        self.facebookAccount = [[self.accountStore accountsWithAccountType:accountType] firstObject];
-                        
-                        if (self.facebookAccount)
-                        {
-                            completionHandler(self.facebookAccount);
-                        }
-                        else
-                        {
-                            completionHandler(nil);
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [TSMessage displayMessageWithTitle:@"No Facebook Account Found" subtitle:@"Please go into settings and log into Facebook" type:TSMessageTypeWarning];
-                            });
-                        }
-                    }
-                    else
-                    {
-                        if (error.code == ACErrorAccountNotFound)
-                        {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [TSMessage displayMessageWithTitle:@"No Facebook Account Found" subtitle:@"Please go into settings and log into Facebook" type:TSMessageTypeWarning];
-                            });
-                        }
-                        else
-                        {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [TSMessage displayMessageWithTitle:@"Facebook Read Access Not Granted" subtitle:error.localizedDescription type:TSMessageTypeError];
-                            });
-                        }
-                    }
-                }];
-            }
-            else
-            {
-                if (error.code == ACErrorAccountNotFound)
-                {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [TSMessage displayMessageWithTitle:@"No Facebook Account Found" subtitle:@"Please go into settings and log into Facebook" type:TSMessageTypeWarning];
-                    });
-                }
-                else
-                {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [TSMessage displayMessageWithTitle:@"Facebook Read Access Not Granted" subtitle:error.localizedDescription type:TSMessageTypeError];
-                    });
-                }
-            }
-        }];
+        // Present login view controller
+        JBFacebookLoginViewController *loginViewController = (JBFacebookLoginViewController *)[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"JBFacebookLoginViewController"];
+        loginViewController.post = post;
+        [self presentViewController:loginViewController animated:YES completion:nil];
     }
 }
 
@@ -613,21 +532,6 @@ static NSString * const kYouTubeCellIdentifier      = @"YouTubeCell";
                 [TSMessage displayMessageWithTitle:@"No Twitter App Installed" subtitle:@"Please install a Twitter app to open tweets in" type:TSMessageTypeWarning];
             }
             break;
-        }
-    }
-}
-
-- (void)updateCellTimeAgoLabel:(NSTimer *)timer
-{
-    NSArray *indexPathsForVisibleRows = [self.tableView indexPathsForVisibleRows];
-    NSArray *visibleCells = [self.tableView visibleCells];
-    
-    for (int i = 0; i < visibleCells.count; i++)
-    {
-        NSLog(@"%@ %@", @(i), @(visibleCells.count));
-        if ([visibleCells[i] respondsToSelector:@selector(timeLabel)])
-        {
-            [visibleCells[i] timeLabel].text = [[self.posts[[indexPathsForVisibleRows[i] row]] createdTime] shortTimeAgoSinceNow];
         }
     }
 }

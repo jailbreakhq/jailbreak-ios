@@ -19,6 +19,7 @@ Development
 - [**SAMRateLimit**](https://github.com/soffes/SAMRateLimit)
 - [**TSMessages**](https://github.com/Shayanzadeh/TSMessages)
 - [**TTTAttributedLabel**](https://github.com/TTTAttributedLabel/TTTAttributedLabel)
+- [**Facebook iOS SDK**](https://github.com/facebook/facebook-ios-sdk)
 
 ###Installing Dependencies
 

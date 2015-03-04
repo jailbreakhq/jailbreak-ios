@@ -8,6 +8,7 @@
 
 
 #import <TSMessage.h>
+#import <FacebookSDK.h>
 #import <TSMessageView.h>
 #import "JBAppDelegate.h"
 #import "UIColor+JBAdditions.h"
@@ -52,11 +53,18 @@ NSString * const kJBDonationDidSucceedNotification = @"JBDonationDidSucceedNotif
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    TSMessageView *messageView = [TSMessage messageWithTitle:@"Thank you so much for donating and supporting Amnesty & SVP 😘" subtitle:nil type:TSMessageTypeSuccess];
-    messageView.duration = 4.0;
-    [messageView displayOrEnqueue];
-    
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kJBDonationDidSucceedNotification object:nil]];
+    if ([url.absoluteString isEqualToString:@"jailbreak://"])
+    {
+        TSMessageView *messageView = [TSMessage messageWithTitle:@"Thank you so much for donating and supporting Amnesty & SVP 😘" subtitle:nil type:TSMessageTypeSuccess];
+        messageView.duration = 4.0;
+        [messageView displayOrEnqueue];
+        
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kJBDonationDidSucceedNotification object:nil]];
+    }
+    else
+    {
+        return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    }
     
     return YES;
 }

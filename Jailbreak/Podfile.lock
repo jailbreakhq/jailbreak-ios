@@ -20,8 +20,11 @@ PODS:
   - AFNetworking/UIKit (2.5.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - Bolts (1.1.4)
   - BSKeyboardControls (2.2)
   - DateTools (1.5.0)
+  - Facebook-iOS-SDK (3.23.0):
+    - Bolts (~> 1.0)
   - JTSHardwareInfo (0.0.1)
   - JTSImageViewController (1.4)
   - SAMRateLimit (0.2.0)
@@ -39,6 +42,7 @@ DEPENDENCIES:
   - AFNetworking
   - BSKeyboardControls
   - DateTools
+  - Facebook-iOS-SDK
   - JTSHardwareInfo
   - JTSImageViewController
   - SAMRateLimit
@@ -62,8 +66,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
+  Bolts: dd9fb8433d67f5acc3b6b4d1379bbc5513d716c1
   BSKeyboardControls: c9aa1bdbb5ecd454aa3d0b2279f79c5dc4b6c6ad
   DateTools: 7df78f0c4719eb28cfd2d58a90fafd036e73156c
+  Facebook-iOS-SDK: 3d65f685348b789e46a9aacf92bfa85b60b63755
   JTSHardwareInfo: 4dcdb13d5d877e4a8b7bfdad7860fb6043347792
   JTSImageViewController: 9fe6402194b7679f0e28d0c1002d6164301fc34a
   SAMRateLimit: f47a9961333e2d44fe189ef2233cee48012905ee

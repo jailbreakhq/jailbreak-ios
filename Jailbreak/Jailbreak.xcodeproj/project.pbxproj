@@ -71,6 +71,7 @@
 		E4BE1EA81AA4485100FC9702 /* JBFeedYouTubeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4BE1EA71AA4485100FC9702 /* JBFeedYouTubeTableViewCell.m */; };
 		E4BE1EAB1AA55AEE00FC9702 /* JBTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4BE1EAA1AA55AEE00FC9702 /* JBTabBarController.m */; };
 		E4BE1EAE1AA5793900FC9702 /* JBTeamMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4BE1EAD1AA5793900FC9702 /* JBTeamMapViewController.m */; };
+		E4BE1EB41AA6B66600FC9702 /* JBFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4BE1EB31AA6B66600FC9702 /* JBFacebookLoginViewController.m */; };
 		E4DFCCA11A9C0CDD00E8D9B9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DFCCA01A9C0CDD00E8D9B9 /* Social.framework */; };
 		E4DFCCA31A9C1AE200E8D9B9 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DFCCA21A9C1AE200E8D9B9 /* Accounts.framework */; };
 		E4E6C1D11A94E41600D138EA /* JBTeamStatsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E6C1D01A94E41600D138EA /* JBTeamStatsTableViewCell.m */; };
@@ -213,6 +214,8 @@
 		E4BE1EAA1AA55AEE00FC9702 /* JBTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTabBarController.m; sourceTree = "<group>"; };
 		E4BE1EAC1AA5793900FC9702 /* JBTeamMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamMapViewController.h; sourceTree = "<group>"; };
 		E4BE1EAD1AA5793900FC9702 /* JBTeamMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBTeamMapViewController.m; sourceTree = "<group>"; };
+		E4BE1EB21AA6B66600FC9702 /* JBFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBFacebookLoginViewController.h; sourceTree = "<group>"; };
+		E4BE1EB31AA6B66600FC9702 /* JBFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBFacebookLoginViewController.m; sourceTree = "<group>"; };
 		E4DFCCA01A9C0CDD00E8D9B9 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		E4DFCCA21A9C1AE200E8D9B9 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		E4E6C1CF1A94E41600D138EA /* JBTeamStatsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBTeamStatsTableViewCell.h; sourceTree = "<group>"; };
@@ -349,6 +352,8 @@
 				E41448F51A76E0DA002EB3AB /* JBBaseTableViewController.m */,
 				E41448EE1A76DE04002EB3AB /* JBBaseViewController.h */,
 				E41448EF1A76DE04002EB3AB /* JBBaseViewController.m */,
+				E4BE1EB21AA6B66600FC9702 /* JBFacebookLoginViewController.h */,
+				E4BE1EB31AA6B66600FC9702 /* JBFacebookLoginViewController.m */,
 				E41448F71A76E787002EB3AB /* JBFeedTableViewController.h */,
 				E41448F81A76E787002EB3AB /* JBFeedTableViewController.m */,
 				E46510ED1AA053C500CF9CF7 /* JBIntroViewController.h */,
@@ -669,6 +674,7 @@
 				E4B54A461A9CE0D500AB9481 /* JBPostFacebook.m in Sources */,
 				E45E01151A8004300034CA28 /* JBCircularImageView.m in Sources */,
 				E40A2AF81A7BC780001C5AF1 /* JBService.m in Sources */,
+				E4BE1EB41AA6B66600FC9702 /* JBFacebookLoginViewController.m in Sources */,
 				E477F05F1A9E07A700BF8BE7 /* JBFeedVineTableViewCell.m in Sources */,
 				E45E01211A802E0D0034CA28 /* CERoundProgressLayer.m in Sources */,
 				E4B54A401A9CDBDF00AB9481 /* JBPostLink.m in Sources */,

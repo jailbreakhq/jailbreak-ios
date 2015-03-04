@@ -322,9 +322,11 @@ static const NSUInteger kPostAPILimit = 50;
                                                         }
                                                     }
                                                     [self.tableView reloadData];
+                                                    [self.refreshControl endRefreshing];
                                                     [self stopLoadingIndicator];
                                                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                     [TSMessage displayMessageWithTitle:@"Failed to Fetch Posts" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+                                                    [self.refreshControl endRefreshing];
                                                     [self stopLoadingIndicator];
                                                 }];
     }

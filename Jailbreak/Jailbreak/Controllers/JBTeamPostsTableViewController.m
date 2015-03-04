@@ -116,7 +116,7 @@ static const NSUInteger kPostAPILimit = 50;
                                                 totalCount = newCount + soFarCount;
                                                 
                                                 NSUInteger latestPostId = [self.posts.firstObject postId];
-                                                NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+kPostAPILimit), @"afterId": @(latestPostId)} jsonString];
+                                                NSString *filtersJSONString = [@{@"teamId": @(self.team.ID), @"beforeId": @(latestPostId+1+kPostAPILimit), @"afterId": @(latestPostId)} jsonString];
                                                 
                                                 NSUInteger indexPathRow = totalCount;
                                                 indexPathRow += topRowIndexPath.row ?: -1;
@@ -178,12 +178,13 @@ static const NSUInteger kPostAPILimit = 50;
     if (self.posts.count)
     {
         NSUInteger latestPostId = [self.posts.firstObject postId];
-        NSString *filtersJSONString = [@{@"beforeId": @(latestPostId+1+kPostAPILimit), @"afterId": @(latestPostId)} jsonString];
+        NSString *filtersJSONString = [@{@"teamId": @(self.team.ID), @"beforeId": @(latestPostId+1+kPostAPILimit), @"afterId": @(latestPostId)} jsonString];
         [self recursivelyGetEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString} numberOfNewPostsSoFar:0 untilCountIsGreaterThan:kNumberOfPostsToFetchWhenRefreshing];
     }
     else
     {
-        [[JBAPIManager manager] getEventsWithParameters:@{@"limit": @(kPostAPILimit)}
+        NSString *filtersJSONString = [@{@"teamId": @(self.team.ID)} jsonString];
+        [[JBAPIManager manager] getEventsWithParameters:@{@"limit": @(kPostAPILimit), @"filters": filtersJSONString}
                                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                     for (NSDictionary *event in responseObject)
                                                     {
@@ -193,9 +194,11 @@ static const NSUInteger kPostAPILimit = 50;
                                                         }
                                                     }
                                                     [self.tableView reloadData];
+                                                    [self.refreshControl endRefreshing];
                                                     [self stopLoadingIndicator];
                                                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                     [TSMessage displayMessageWithTitle:@"Failed to Fetch Posts" subtitle:operation.responseObject[@"message"] type:TSMessageTypeError];
+                                                    [self.refreshControl endRefreshing];
                                                     [self stopLoadingIndicator];
                                                 }];
     }

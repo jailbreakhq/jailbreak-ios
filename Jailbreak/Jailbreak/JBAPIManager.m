@@ -9,7 +9,7 @@
 #import "JBAPIManager.h"
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
-#define BASE_URL @"https://qa.jbapi.net"
+#define BASE_URL @"https://jbapi.net"
 
 #define SuccessBlockWithJSONOperation                           \
     ^(AFHTTPRequestOperation *operation, id responseObject) {   \

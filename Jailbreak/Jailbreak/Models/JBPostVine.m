@@ -7,6 +7,7 @@
 //
 
 #import "JBPostVine.h"
+#import "JBAPIManager.h"
 
 @implementation JBPostVine
 
@@ -65,21 +66,26 @@
         self.teamId = [json[@"teamId"] unsignedIntegerValue];
         self.authorPhotoURL = [NSURL URLWithString:json[@"authorPhotoUrl"]];
         self.createdTime = [NSDate dateWithTimeIntervalSince1970:[json[@"time"] unsignedIntegerValue]];
+        self.remoteVideoURL = [NSURL URLWithString:json[@"videoUrl"]];
         
         if (json[@"team"])
         {
             self.limitedTeam = [[JBTeam alloc] initWithJSON:json[@"team"]];
         }
         
-        NSString *urlString = json[@"thumbnailUrl"];
-        NSRange range = [urlString rangeOfString:@".jpg"];
-        
-        if (range.location != NSNotFound)
+        if (!self.remoteVideoURL && !self.authorPhotoURL)
         {
-            range.length = range.location;
-            range.location = 0;
-            urlString = [urlString substringWithRange:range];
-            self.remoteVideoURL = [NSURL URLWithString:urlString];
+            NSString *vinePostId = self.vineURL.absoluteString;
+            vinePostId =  [vinePostId componentsSeparatedByString:@"/"].lastObject;
+            
+            [[JBAPIManager manager] GET:[NSString stringWithFormat:@"https://api.vineapp.com/timelines/posts/s/%@", vinePostId]
+                             parameters:nil
+                                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                    NSString *remoteVideoURLString = [responseObject[@"data"][@"records"] firstObject][@"videoUrl"];
+                                    NSString *authorPhotoURLString = [responseObject[@"data"][@"records"] firstObject][@"avatarUrl"];
+                                    self.remoteVideoURL = [NSURL URLWithString:remoteVideoURLString];
+                                    self.authorPhotoURL = [NSURL URLWithString:authorPhotoURLString];
+                                } failure:nil];
         }
     }
     

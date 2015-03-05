@@ -24,9 +24,9 @@
 {
     [super viewDidLoad];
     
+    self.loginView.readPermissions = @[@"public_profile"];
     self.loginView.publishPermissions = @[@"publish_actions"];
     self.loginView.defaultAudience = FBSessionDefaultAudienceEveryone;
-    self.loginView.loginBehavior = FBSessionLoginBehaviorUseSystemAccountIfPresent;
     self.loginView.delegate = self;
 }
 
@@ -35,26 +35,45 @@
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
 {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        [TSMessage displayMessageWithTitle:@"Success" subtitle:@"You can now Like posts right inside the app 🙏" type:TSMessageTypeSuccess];
-        
-        [FBRequestConnection startWithGraphPath:[NSString stringWithFormat:@"/%@/likes", self.post.facebook.facebookPostId]
-                                     parameters:nil
-                                     HTTPMethod:@"POST"
-                              completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                                  if (!error)
-                                  {
-                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                          [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
-                                      });
-                                  }
-                                  else
-                                  {
-                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                          [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedFailureReason type:TSMessageTypeError];
-                                      });
-                                  }
-                              }];
+        if ([self facebookSessionHasRequiredPermissions:@[@"publish_actions", @"public_profile"]])
+        {
+            [TSMessage displayMessageWithTitle:@"Success" subtitle:@"You can now Like posts right inside the app 🙏" type:TSMessageTypeSuccess];
+            
+            [FBRequestConnection startWithGraphPath:[NSString stringWithFormat:@"/%@/likes", self.post.facebook.facebookPostId]
+                                         parameters:nil
+                                         HTTPMethod:@"POST"
+                                  completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                      if (!error)
+                                      {
+                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                              [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
+                                          });
+                                      }
+                                      else
+                                      {
+                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                              [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedFailureReason type:TSMessageTypeError];
+                                          });
+                                      }
+                                  }];
+        }
+        else
+        {
+            [TSMessage displayMessageWithTitle:@"Publish Permission Not Granted" subtitle:@"We need this permission to like posts. Try again and grant access this time." type:TSMessageTypeError];
+        }
     }];
+}
+
+- (BOOL)facebookSessionHasRequiredPermissions:(NSArray *)requiredPermissions
+{
+    NSArray *permissions = [FBSession activeSession].permissions;
+    
+    for (NSString *permission in requiredPermissions)
+    {
+        if (![permissions containsObject:permission]) return NO;
+    }
+    
+    return YES;
 }
 
 - (IBAction)cancelButtonPressed:(UIButton *)sender

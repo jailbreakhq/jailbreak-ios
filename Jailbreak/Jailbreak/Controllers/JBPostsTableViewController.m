@@ -457,26 +457,64 @@ static NSString * const kYouTubeCellIdentifier      = @"YouTubeCell";
 
 - (void)likePost:(JBPost *)post
 {
-    
     if ([FBSession openActiveSessionWithAllowLoginUI:NO])
     {
-        [FBRequestConnection startWithGraphPath:[NSString stringWithFormat:@"/%@/likes", post.facebook.facebookPostId]
-                                     parameters:nil
-                                     HTTPMethod:@"POST"
-                              completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                                  if (!error)
-                                  {
-                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                          [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
-                                      });
-                                  }
-                                  else
-                                  {
-                                      dispatch_async(dispatch_get_main_queue(), ^{
-                                          [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedFailureReason type:TSMessageTypeError];
-                                      });
-                                  }
-                              }];
+        if ([self facebookSessionHasRequiredPermissions:@[@"publish_actions", @"public_profile"]])
+        {
+            [FBRequestConnection startWithGraphPath:[NSString stringWithFormat:@"/%@/likes", post.facebook.facebookPostId]
+                                         parameters:nil
+                                         HTTPMethod:@"POST"
+                                  completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                      if (!error)
+                                      {
+                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                              [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
+                                          });
+                                      }
+                                      else
+                                      {
+                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                              [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedFailureReason type:TSMessageTypeError];
+                                          });
+                                      }
+                                  }];
+        }
+        else
+        {
+            // Get Publish Permission
+            [[FBSession activeSession] requestNewPublishPermissions:@[@"publish_actions"]
+                                                    defaultAudience:FBSessionDefaultAudienceEveryone
+                                                  completionHandler:^(FBSession *session, NSError *error) {
+                                                      if (session.state == FBSessionStateOpenTokenExtended)
+                                                      {
+                                                          [FBRequestConnection startWithGraphPath:[NSString stringWithFormat:@"/%@/likes", post.facebook.facebookPostId]
+                                                                                       parameters:nil
+                                                                                       HTTPMethod:@"POST"
+                                                                                completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                                                                    if (!error)
+                                                                                    {
+                                                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                            [TSMessage displayMessageWithTitle:@"Facebook Post Liked 👍" subtitle:nil type:TSMessageTypeSuccess];
+                                                                                        });
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        NSLog(@"%@", [result description]);
+                                                                                        
+                                                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                            [TSMessage displayMessageWithTitle:@"Oops" subtitle:error.localizedFailureReason type:TSMessageTypeError];
+                                                                                        });
+                                                                                    }
+                                                                                }];
+                                                      }
+                                                      else
+                                                      {
+                                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                                              [TSMessage displayMessageWithTitle:@"Publish Permission Not Granted" subtitle:@"We need this permission to like posts. Try again and grant access this time." type:TSMessageTypeError];
+                                                          });
+                                                      }
+                                                  }];
+        }
     }
     else
     {
@@ -485,6 +523,18 @@ static NSString * const kYouTubeCellIdentifier      = @"YouTubeCell";
         loginViewController.post = post;
         [self presentViewController:loginViewController animated:YES completion:nil];
     }
+}
+
+- (BOOL)facebookSessionHasRequiredPermissions:(NSArray *)requiredPermissions
+{
+    NSArray *permissions = [FBSession activeSession].permissions;
+    
+    for (NSString *permission in requiredPermissions)
+    {
+        if (![permissions containsObject:permission]) return NO;
+    }
+    
+    return YES;
 }
 
 #pragma mark - Helper Methods

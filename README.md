@@ -1,27 +1,24 @@
 Jailbreak iOS App
 ================
 
-Development
-------------------
+## Screenshot
+<table>
+  <tbody>
+    <tr>
+      <td><img src="./screenshots/1@2x.png"></td>
+      <td><img src="./screenshots/2@2x.png"></td>
+    </tr>
+    <tr>
+      <td><img src="./screenshots/3@2x.png"></td>
+      <td><img src="./screenshots/4@2x.png"></td>
+    </tr>
+    <tr>
+      <td><img src="./screenshots/5@2x.png"></td>
+    </tr>
+  </tbody>
+</table>
 
-###3rd Party Frameworks
-
-- [**AFNetworking**](http://github.com/AFNetworking/AFNetworking)
-- [**SDWebImage**](https://github.com/rs/SDWebImage)
-- [**SVPullToRefresh**](https://github.com/samvermette/SVPullToRefresh)
-- [**JTSImageViewController**](https://github.com/jaredsinclair/JTSImageViewController)
-- [**XCDYouTubeKit**](https://github.com/0xced/XCDYouTubeKit)
-- [**BSKeyboardControls**](https://github.com/simonbs/BSKeyboardControls)
-- [**SpinKit**](https://github.com/raymondjavaxx/SpinKit-ObjC)
-- [**TPKeyboardAvoiding**](https://github.com/michaeltyson/TPKeyboardAvoiding)
-- [**JTSHardwareInfo**](https://github.com/jaredsinclair/JTSHardwareInfo)
-- [**DateTools**](https://github.com/MatthewYork/DateTools)
-- [**SAMRateLimit**](https://github.com/soffes/SAMRateLimit)
-- [**TSMessages**](https://github.com/Shayanzadeh/TSMessages)
-- [**TTTAttributedLabel**](https://github.com/TTTAttributedLabel/TTTAttributedLabel)
-- [**Facebook iOS SDK**](https://github.com/facebook/facebook-ios-sdk)
-
-###Installing Dependencies
+## Installing Dependencies
 
 [**CocoaPods**](http://cocoapods.org/) will handle all the work for us.  
 First install it by typing into terminal:
@@ -41,5 +38,5 @@ Update existing frameworks by running:
 ```bash
 pod update
 ```
-  
+
 ***NOTE: You MUST open .xcworkspace instead of .xcodeproj from now on.***

@@ -1,7 +1,7 @@
 Jailbreak iOS App
 ================
 
-## Screenshot
+## Screenshots
 <table>
   <tbody>
     <tr>
